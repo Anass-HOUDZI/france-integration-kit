@@ -10,11 +10,21 @@ export function useUserProfile() {
   const [availableProfiles, setAvailableProfiles] = useState<UserProfile[]>([]);
   const [diagnostic, setDiagnostic] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [favoriteTools, setFavoriteTools] = useState<string[]>([]);
 
   useEffect(() => {
     loadProfiles();
     loadDiagnostic();
   }, []);
+
+  useEffect(() => {
+    if (currentProfile) {
+      const favs = storage.getToolData<string[]>('favorite_tools', []);
+      setFavoriteTools(favs || []);
+    } else {
+      setFavoriteTools([]);
+    }
+  }, [currentProfile]);
 
   const loadProfiles = () => {
     setLoading(true);
@@ -105,6 +115,14 @@ export function useUserProfile() {
     return storage.getToolData<T>(toolId, defaultValue);
   };
 
+  const toggleFavoriteTool = (toolId: string) => {
+    const newFavorites = favoriteTools.includes(toolId)
+      ? favoriteTools.filter(id => id !== toolId)
+      : [...favoriteTools, toolId];
+    setFavoriteTools(newFavorites);
+    saveToolData('favorite_tools', newFavorites);
+  };
+
   return {
     currentProfile,
     availableProfiles,
@@ -118,6 +136,8 @@ export function useUserProfile() {
     deleteProfile,
     saveToolData,
     getToolData,
+    favoriteTools,
+    toggleFavoriteTool,
     hasProfile: !!currentProfile
   };
 }

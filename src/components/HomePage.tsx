@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
 import { 
   FileText, CheckSquare, Calculator, Calendar, PiggyBank, Globe,
-  Users, MapPin, TrendingUp, BookOpen, Award, Heart, PhoneCall, GraduationCap, Clock, Search,
-  ClipboardEdit, Receipt, FileSignature, Truck, TrendingDown, Shield, Mail, LayoutGrid, Baby, Lightbulb, PartyPopper, MessageSquare, Siren, Gavel
+  Users, MapPin, TrendingUp, BookOpen, Award, Heart, PhoneCall, GraduationCap, Clock,
+  ClipboardEdit, Receipt, FileSignature, Truck, TrendingDown, Shield, Mail, LayoutGrid, Baby, Lightbulb, PartyPopper, MessageSquare, Siren, Gavel, Star
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import SidebarNav from "./SidebarNav";
 import ProgressBar from "./ProgressBar";
 import UserMenu from "./UserMenu";
-import { toast } from "@/hooks/use-toast";
 import { SidebarProvider } from "@/components/ui/sidebar";
-
-// Toutes les icônes Lucide sont intégrées via SidebarNav, on utilise les couleurs là-bas.
+import { useUserProfile } from '@/hooks/useUserProfile';
 
 interface HomePageProps {
   onStartJourney: () => void;
@@ -98,13 +95,16 @@ const categories = [
 ];
 
 const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const { favoriteTools, toggleFavoriteTool, hasProfile } = useUserProfile();
 
   const filteredTools = allTools.filter(tool => {
+    if (selectedCategory === 'favorites') {
+      if (!hasProfile) return false;
+      return favoriteTools.includes(tool.id);
+    }
     const matchesCategory = selectedCategory === 'all' || tool.category === selectedCategory;
-    const matchesSearch = tool.title.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
+    return matchesCategory;
   });
 
   const activeToolsCount = allTools.filter(t => t.status === 'active').length;
@@ -121,16 +121,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
         <div className="flex-1 w-full max-w-full mx-auto px-2 sm:px-6 md:px-10 flex flex-col relative">
 
           {/* Sticky Top Area */}
-          <section className="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm flex flex-col md:flex-row items-center gap-2 pt-3 pb-1 shadow-sm">
-            <div className="flex flex-1 items-center gap-2 w-full">
-              <Search className="text-violet-400 h-5 w-5 absolute ml-4 pointer-events-none" />
-              <Input
-                placeholder="Rechercher un outil..."
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-                className="pl-10 py-2 w-full rounded-2xl bg-white/60 dark:bg-slate-800 border-slate-200 dark:border-slate-700 shadow-sm focus:outline-none max-w-xs"
-              />
-            </div>
+          <section className="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm flex flex-col md:flex-row items-center justify-end gap-2 pt-3 pb-1 shadow-sm">
             <div className="flex items-center gap-3">
               <UserMenu />
               <Button 
@@ -183,7 +174,22 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
                       <div className={`rounded-xl shadow-inner bg-gradient-to-br from-violet-50 to-sky-100 dark:from-gray-800 dark:to-violet-900/30 p-3 flex items-center`}>
                         <tool.icon className="h-8 w-8 text-violet-500 group-hover:scale-110 transition" />
                       </div>
-                      <CardTitle className="text-base font-bold flex-1 pt-1">{tool.title}</CardTitle>
+                      <div className="flex-1 pt-1">
+                        <CardTitle className="text-base font-bold flex-1">{tool.title}</CardTitle>
+                      </div>
+                      {hasProfile && tool.status === 'active' && (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 shrink-0 rounded-full"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleFavoriteTool(tool.id);
+                          }}
+                        >
+                          <Star className={`h-5 w-5 transition-all ${favoriteTools.includes(tool.id) ? 'text-amber-400 fill-amber-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-amber-400'}`} />
+                        </Button>
+                      )}
                     </CardHeader>
                     <CardContent className="px-4 pt-0 pb-2">
                       <div className="flex justify-end">

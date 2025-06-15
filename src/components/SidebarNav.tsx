@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sidebar";
 import {
   FileText, Home, Briefcase, Heart,
-  GraduationCap, Globe, Settings
+  GraduationCap, Globe, Settings, Star, LayoutGrid
 } from "lucide-react";
 
 interface SidebarNavProps {
@@ -21,6 +21,8 @@ interface SidebarNavProps {
 }
 
 const categories = [
+  { id: "all", label: "Tous les outils", icon: LayoutGrid, color: "text-gray-500" },
+  { id: "favorites", label: "Favoris", icon: Star, color: "text-amber-500" },
   { id: "admin", label: "Démarches", icon: FileText, color: "text-blue-500" },
   { id: "logement", label: "Logement", icon: Home, color: "text-green-500" },
   { id: "emploi", label: "Emploi", icon: Briefcase, color: "text-purple-500" },
