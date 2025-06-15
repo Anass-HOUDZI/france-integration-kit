@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,9 +9,10 @@ import SalaryCalculator from '@/components/tools/SalaryCalculator';
 interface EmploiModuleProps {
   userProfile: any;
   diagnostic: any;
+  onBack: () => void;
 }
 
-const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic }) => {
+const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, onBack }) => {
   const [activeTab, setActiveTab] = useState('overview');
 
   const tools = [
@@ -109,6 +109,13 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic }) 
     <div>
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
+          <Button 
+            variant="ghost" 
+            onClick={onBack}
+            className="text-purple-600 hover:bg-purple-50"
+          >
+            ← Retour
+          </Button>
           <Briefcase className="h-8 w-8 text-purple-600" />
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Emploi & Formation</h1>

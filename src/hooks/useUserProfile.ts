@@ -8,10 +8,12 @@ import { storage, type UserProfile } from '@/services/storage';
 export function useUserProfile() {
   const [currentProfile, setCurrentProfile] = useState<UserProfile | null>(null);
   const [availableProfiles, setAvailableProfiles] = useState<UserProfile[]>([]);
+  const [diagnostic, setDiagnostic] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadProfiles();
+    loadDiagnostic();
   }, []);
 
   const loadProfiles = () => {
@@ -26,6 +28,15 @@ export function useUserProfile() {
       console.error('Error loading profiles:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadDiagnostic = () => {
+    try {
+      const savedDiagnostic = storage.get('current_diagnostic');
+      setDiagnostic(savedDiagnostic);
+    } catch (error) {
+      console.error('Error loading diagnostic:', error);
     }
   };
 
@@ -44,6 +55,10 @@ export function useUserProfile() {
     return profile;
   };
 
+  const saveProfile = (profileData: any) => {
+    return createProfile(profileData);
+  };
+
   const updateProfile = (updates: Partial<UserProfile>) => {
     if (!currentProfile) return null;
 
@@ -60,6 +75,11 @@ export function useUserProfile() {
     return updatedProfile;
   };
 
+  const saveDiagnostic = (diagnosticData: any) => {
+    storage.set('current_diagnostic', diagnosticData);
+    setDiagnostic(diagnosticData);
+  };
+
   const switchProfile = (profileId: string) => {
     const profile = availableProfiles.find(p => p.id === profileId);
     if (profile) {
@@ -69,13 +89,9 @@ export function useUserProfile() {
   };
 
   const deleteProfile = (profileId: string) => {
-    // Supprimer les données du profil
     storage.remove(`user_profile`);
-    
-    // Recharger la liste
     loadProfiles();
     
-    // Si c'était le profil actuel, le déconnecter
     if (currentProfile?.id === profileId) {
       setCurrentProfile(null);
     }
@@ -92,8 +108,11 @@ export function useUserProfile() {
   return {
     currentProfile,
     availableProfiles,
+    diagnostic,
     loading,
     createProfile,
+    saveProfile,
+    saveDiagnostic,
     updateProfile,
     switchProfile,
     deleteProfile,

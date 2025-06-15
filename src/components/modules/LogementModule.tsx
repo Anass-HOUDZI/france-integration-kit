@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,9 +10,10 @@ import RentalDossier from '@/components/tools/RentalDossier';
 interface LogementModuleProps {
   userProfile: any;
   diagnostic: any;
+  onBack: () => void;
 }
 
-const LogementModule: React.FC<LogementModuleProps> = ({ userProfile, diagnostic }) => {
+const LogementModule: React.FC<LogementModuleProps> = ({ userProfile, diagnostic, onBack }) => {
   const [activeTab, setActiveTab] = useState('overview');
 
   const tools = [
@@ -101,6 +101,13 @@ const LogementModule: React.FC<LogementModuleProps> = ({ userProfile, diagnostic
     <div>
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
+          <Button 
+            variant="ghost" 
+            onClick={onBack}
+            className="text-green-600 hover:bg-green-50"
+          >
+            ← Retour
+          </Button>
           <Home className="h-8 w-8 text-green-600" />
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Logement & Vie Quotidienne</h1>
