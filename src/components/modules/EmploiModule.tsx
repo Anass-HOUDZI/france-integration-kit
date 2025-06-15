@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,6 +5,9 @@ import { Badge } from '@/components/ui/badge';
 import { Briefcase, FileText, Calculator, Users, GraduationCap, Clock, AlertCircle } from 'lucide-react';
 import CVTranslatorTool from '@/components/tools/CVTranslatorTool';
 import SalaryCalculatorTool from '@/components/tools/SalaryCalculatorTool';
+import MotivationLetterTool from '@/components/tools/MotivationLetterTool';
+import InterviewAssistantTool from '@/components/tools/InterviewAssistantTool';
+import DiplomaEquivalenceTool from '@/components/tools/DiplomaEquivalenceTool';
 
 interface EmploiModuleProps {
   userProfile: any;
@@ -44,7 +46,8 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
       icon: FileText,
       color: 'bg-green-500',
       category: 'Candidature',
-      status: 'coming_soon'
+      status: 'active',
+      component: MotivationLetterTool
     },
     {
       id: 'diploma_equivalence',
@@ -53,16 +56,8 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
       icon: GraduationCap,
       color: 'bg-purple-500',
       category: 'Diplômes',
-      status: 'coming_soon'
-    },
-    {
-      id: 'unemployment_simulator',
-      title: 'Simulateur Droits Pôle Emploi',
-      description: 'Calculez vos droits aux allocations',
-      icon: Calculator,
-      color: 'bg-orange-500',
-      category: 'Droits',
-      status: 'coming_soon'
+      status: 'active',
+      component: DiplomaEquivalenceTool
     },
     {
       id: 'interview_assistant',
@@ -71,6 +66,16 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
       icon: Users,
       color: 'bg-indigo-500',
       category: 'Entretien',
+      status: 'active',
+      component: InterviewAssistantTool
+    },
+    {
+      id: 'unemployment_simulator',
+      title: 'Simulateur Droits Pôle Emploi',
+      description: 'Calculez vos droits aux allocations',
+      icon: Calculator,
+      color: 'bg-orange-500',
+      category: 'Droits',
       status: 'coming_soon'
     }
   ];
