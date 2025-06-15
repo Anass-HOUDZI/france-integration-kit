@@ -7,7 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { FileText, Download, Copy, Eye } from 'lucide-react';
+import { FileText, Download, Copy, Mail } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface LetterGeneratorProps {
   userProfile: any;
@@ -15,114 +16,140 @@ interface LetterGeneratorProps {
 }
 
 const LetterGenerator: React.FC<LetterGeneratorProps> = ({ userProfile, diagnostic }) => {
-  const [letterType, setLetterType] = useState('');
+  const [selectedTemplate, setSelectedTemplate] = useState('');
   const [formData, setFormData] = useState({
-    senderName: '',
+    senderName: userProfile?.name || '',
     senderAddress: '',
     recipientName: '',
     recipientAddress: '',
     subject: '',
     content: '',
-    date: new Date().toLocaleDateString('fr-FR')
+    customRequest: ''
   });
   const [generatedLetter, setGeneratedLetter] = useState('');
+  const { toast } = useToast();
 
-  const letterTypes = [
-    { value: 'prefecture', label: 'Lettre à la Préfecture', category: 'Administrative' },
-    { value: 'mairie', label: 'Lettre à la Mairie', category: 'Administrative' },
-    { value: 'caf', label: 'Lettre à la CAF', category: 'Social' },
-    { value: 'assurance_maladie', label: 'Lettre Assurance Maladie', category: 'Santé' },
-    { value: 'pole_emploi', label: 'Lettre Pôle Emploi', category: 'Emploi' },
-    { value: 'logement_social', label: 'Demande Logement Social', category: 'Logement' },
-    { value: 'recours', label: 'Lettre de Recours', category: 'Juridique' },
-    { value: 'motivation', label: 'Lettre de Motivation', category: 'Emploi' }
+  const letterTemplates = [
+    {
+      id: 'prefecture_appointment',
+      title: 'Demande de rendez-vous en préfecture',
+      category: 'Préfecture',
+      description: 'Pour demander un rendez-vous administratif'
+    },
+    {
+      id: 'caf_housing_aid',
+      title: 'Demande d\'aide au logement CAF',
+      category: 'CAF',
+      description: 'Pour une demande d\'APL ou ALS'
+    },
+    {
+      id: 'pole_emploi_registration',
+      title: 'Inscription Pôle Emploi',
+      category: 'Pôle Emploi',
+      description: 'Pour s\'inscrire comme demandeur d\'emploi'
+    },
+    {
+      id: 'bank_account_opening',
+      title: 'Ouverture de compte bancaire',
+      category: 'Banque',
+      description: 'Pour ouvrir un compte en banque'
+    },
+    {
+      id: 'school_enrollment',
+      title: 'Inscription scolaire',
+      category: 'Éducation',
+      description: 'Pour inscrire un enfant à l\'école'
+    }
   ];
 
-  const templates = {
-    prefecture: {
-      subject: 'Demande de rendez-vous pour renouvellement de titre de séjour',
-      content: `Madame, Monsieur,
-
-Je me permets de vous écrire pour solliciter un rendez-vous en vue du renouvellement de mon titre de séjour.
-
-Actuellement titulaire d'un [TYPE DE TITRE], arrivant à échéance le [DATE], je souhaiterais convenir d'un rendez-vous dans les meilleurs délais pour effectuer les démarches nécessaires au renouvellement.
-
-Je reste à votre disposition pour tout complément d'information et vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations respectueuses.`
-    },
-    caf: {
-      subject: 'Demande d\'ouverture de droits aux prestations familiales',
-      content: `Madame, Monsieur,
-
-Par la présente, je sollicite l'ouverture de mes droits aux prestations familiales suite à mon installation en France.
-
-Vous trouverez ci-joint les pièces justificatives nécessaires à l'étude de mon dossier.
-
-Je vous remercie par avance de l'attention que vous porterez à ma demande et vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.`
-    }
-  };
-
   const generateLetter = () => {
-    const template = templates[letterType as keyof typeof templates];
-    if (!template) return;
+    const template = letterTemplates.find(t => t.id === selectedTemplate);
+    if (!template) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez sélectionner un modèle de lettre",
+        variant: "destructive"
+      });
+      return;
+    }
 
-    const letter = `${formData.senderName}
-${formData.senderAddress}
+    const today = new Date().toLocaleDateString('fr-FR');
+    
+    let letterContent = '';
+    
+    // En-tête
+    letterContent += `${formData.senderName}\n`;
+    letterContent += `${formData.senderAddress}\n\n`;
+    letterContent += `${formData.recipientName}\n`;
+    letterContent += `${formData.recipientAddress}\n\n`;
+    letterContent += `${today}\n\n`;
+    letterContent += `Objet : ${formData.subject || template.title}\n\n`;
+    letterContent += `Madame, Monsieur,\n\n`;
 
-${formData.recipientName}
-${formData.recipientAddress}
+    // Corps selon le template
+    switch (selectedTemplate) {
+      case 'prefecture_appointment':
+        letterContent += `Je sollicite par la présente un rendez-vous en préfecture pour ${formData.customRequest || 'mes démarches administratives'}.\n\n`;
+        letterContent += `En tant que ${userProfile?.title || 'résidant'}, je souhaite régulariser ma situation administrative.\n\n`;
+        break;
+        
+      case 'caf_housing_aid':
+        letterContent += `Je vous adresse par la présente ma demande d'aide au logement.\n\n`;
+        letterContent += `Ma situation : ${formData.customRequest || 'locataire recherchant une aide financière'}\n\n`;
+        break;
+        
+      default:
+        letterContent += `${formData.content || 'Je vous écris concernant ma demande administrative.'}\n\n`;
+    }
 
-Le ${formData.date}
+    letterContent += `Je vous prie de bien vouloir examiner ma demande et reste à votre disposition pour tout complément d'information.\n\n`;
+    letterContent += `Je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.\n\n`;
+    letterContent += `${formData.senderName}`;
 
-Objet : ${formData.subject || template.subject}
-
-${formData.content || template.content}
-
-${formData.senderName}`;
-
-    setGeneratedLetter(letter);
+    setGeneratedLetter(letterContent);
+    
+    toast({
+      title: "Lettre générée",
+      description: "Votre lettre a été générée avec succès"
+    });
   };
 
-  const handleCopyLetter = () => {
+  const copyToClipboard = () => {
     navigator.clipboard.writeText(generatedLetter);
-  };
-
-  const handleDownloadLetter = () => {
-    const element = document.createElement('a');
-    const file = new Blob([generatedLetter], { type: 'text/plain' });
-    element.href = URL.createObjectURL(file);
-    element.download = `lettre_${letterType}_${Date.now()}.txt`;
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    toast({
+      title: "Copié",
+      description: "La lettre a été copiée dans le presse-papiers"
+    });
   };
 
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="h-5 w-5" />
-            Générateur de Lettres Officielles
-          </CardTitle>
-          <CardDescription>
-            Créez des lettres administratives conformes aux standards français
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="letterType">Type de lettre</Label>
-              <Select value={letterType} onValueChange={setLetterType}>
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Formulaire */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <FileText className="h-5 w-5" />
+              Générateur de Lettres
+            </CardTitle>
+            <CardDescription>
+              Créez des lettres administratives conformes aux standards français
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="template">Modèle de lettre</Label>
+              <Select value={selectedTemplate} onValueChange={setSelectedTemplate}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionnez le type de lettre" />
+                  <SelectValue placeholder="Sélectionnez un modèle" />
                 </SelectTrigger>
                 <SelectContent>
-                  {letterTypes.map((type) => (
-                    <SelectItem key={type.value} value={type.value}>
-                      <div className="flex items-center gap-2">
-                        {type.label}
+                  {letterTemplates.map(template => (
+                    <SelectItem key={template.id} value={template.id}>
+                      <div>
+                        <div className="font-medium">{template.title}</div>
                         <Badge variant="outline" className="text-xs">
-                          {type.category}
+                          {template.category}
                         </Badge>
                       </div>
                     </SelectItem>
@@ -131,125 +158,90 @@ ${formData.senderName}`;
               </Select>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="date">Date</Label>
-              <Input
-                id="date"
-                type="date"
-                value={new Date().toISOString().split('T')[0]}
-                onChange={(e) => setFormData(prev => ({
-                  ...prev,
-                  date: new Date(e.target.value).toLocaleDateString('fr-FR')
-                }))}
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <h3 className="font-semibold text-gray-900">Expéditeur</h3>
-              <div className="space-y-2">
-                <Label htmlFor="senderName">Nom complet</Label>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="senderName">Votre nom</Label>
                 <Input
                   id="senderName"
-                  placeholder="Votre nom complet"
                   value={formData.senderName}
-                  onChange={(e) => setFormData(prev => ({ ...prev, senderName: e.target.value }))}
+                  onChange={(e) => setFormData({...formData, senderName: e.target.value})}
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="senderAddress">Adresse complète</Label>
-                <Textarea
-                  id="senderAddress"
-                  placeholder="Votre adresse complète"
-                  rows={3}
-                  value={formData.senderAddress}
-                  onChange={(e) => setFormData(prev => ({ ...prev, senderAddress: e.target.value }))}
-                />
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="font-semibold text-gray-900">Destinataire</h3>
-              <div className="space-y-2">
-                <Label htmlFor="recipientName">Nom/Service</Label>
+              <div>
+                <Label htmlFor="recipientName">Destinataire</Label>
                 <Input
                   id="recipientName"
-                  placeholder="Nom du destinataire ou service"
                   value={formData.recipientName}
-                  onChange={(e) => setFormData(prev => ({ ...prev, recipientName: e.target.value }))}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="recipientAddress">Adresse</Label>
-                <Textarea
-                  id="recipientAddress"
-                  placeholder="Adresse du destinataire"
-                  rows={3}
-                  value={formData.recipientAddress}
-                  onChange={(e) => setFormData(prev => ({ ...prev, recipientAddress: e.target.value }))}
+                  onChange={(e) => setFormData({...formData, recipientName: e.target.value})}
+                  placeholder="Préfecture de..."
                 />
               </div>
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="subject">Objet de la lettre</Label>
-            <Input
-              id="subject"
-              placeholder="Objet de votre lettre"
-              value={formData.subject}
-              onChange={(e) => setFormData(prev => ({ ...prev, subject: e.target.value }))}
-            />
-          </div>
+            <div>
+              <Label htmlFor="senderAddress">Votre adresse</Label>
+              <Textarea
+                id="senderAddress"
+                value={formData.senderAddress}
+                onChange={(e) => setFormData({...formData, senderAddress: e.target.value})}
+                rows={2}
+              />
+            </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="content">Contenu de la lettre</Label>
-            <Textarea
-              id="content"
-              placeholder="Corps de votre lettre"
-              rows={6}
-              value={formData.content}
-              onChange={(e) => setFormData(prev => ({ ...prev, content: e.target.value }))}
-            />
-          </div>
+            <div>
+              <Label htmlFor="recipientAddress">Adresse du destinataire</Label>
+              <Textarea
+                id="recipientAddress"
+                value={formData.recipientAddress}
+                onChange={(e) => setFormData({...formData, recipientAddress: e.target.value})}
+                rows={2}
+              />
+            </div>
 
-          <div className="flex gap-2">
-            <Button onClick={generateLetter} disabled={!letterType} className="bg-blue-600 hover:bg-blue-700">
-              <Eye className="mr-2 h-4 w-4" />
+            <div>
+              <Label htmlFor="customRequest">Demande spécifique</Label>
+              <Input
+                id="customRequest"
+                value={formData.customRequest}
+                onChange={(e) => setFormData({...formData, customRequest: e.target.value})}
+                placeholder="Précisez votre demande..."
+              />
+            </div>
+
+            <Button onClick={generateLetter} className="w-full">
               Générer la lettre
             </Button>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
 
-      {generatedLetter && (
+        {/* Aperçu */}
         <Card>
           <CardHeader>
-            <CardTitle>Votre lettre générée</CardTitle>
-            <CardDescription>
-              Vérifiez le contenu avant utilisation
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="bg-gray-50 p-4 rounded-lg mb-4">
-              <pre className="whitespace-pre-line text-sm font-mono">
-                {generatedLetter}
-              </pre>
-            </div>
+            <CardTitle>Aperçu de la lettre</CardTitle>
             <div className="flex gap-2">
-              <Button onClick={handleCopyLetter} variant="outline">
+              <Button variant="outline" size="sm" onClick={copyToClipboard} disabled={!generatedLetter}>
                 <Copy className="mr-2 h-4 w-4" />
                 Copier
               </Button>
-              <Button onClick={handleDownloadLetter} variant="outline">
+              <Button variant="outline" size="sm" disabled={!generatedLetter}>
                 <Download className="mr-2 h-4 w-4" />
-                Télécharger
+                PDF
               </Button>
             </div>
+          </CardHeader>
+          <CardContent>
+            {generatedLetter ? (
+              <div className="bg-white border rounded p-4 min-h-96 text-sm whitespace-pre-line font-mono">
+                {generatedLetter}
+              </div>
+            ) : (
+              <div className="bg-gray-50 border rounded p-4 min-h-96 flex items-center justify-center text-gray-500">
+                Sélectionnez un modèle et remplissez le formulaire pour générer votre lettre
+              </div>
+            )}
           </CardContent>
         </Card>
-      )}
+      </div>
     </div>
   );
 };

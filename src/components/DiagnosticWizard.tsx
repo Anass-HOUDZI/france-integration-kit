@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, ArrowRight, ArrowLeft, MapPin, Clock, AlertCircle } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { CheckCircle, ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface DiagnosticWizardProps {
   userProfile: any;
@@ -17,82 +17,47 @@ const DiagnosticWizard: React.FC<DiagnosticWizardProps> = ({
   onDiagnosticComplete, 
   onBack 
 }) => {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, any>>({});
 
   const questions = [
     {
-      id: 'situation_administrative',
-      title: 'Quelle est votre situation administrative ?',
-      type: 'single',
+      id: 'situation',
+      title: 'Quelle est votre situation actuelle en France ?',
+      type: 'radio',
       options: [
-        { value: 'tourist', label: 'Touriste (moins de 3 mois)' },
-        { value: 'student_visa', label: 'Visa étudiant' },
-        { value: 'work_visa', label: 'Visa de travail' },
-        { value: 'family_reunification', label: 'Regroupement familial' },
-        { value: 'asylum_seeker', label: 'Demandeur d\'asile' },
-        { value: 'eu_citizen', label: 'Citoyen européen' },
-        { value: 'refugee', label: 'Réfugié' },
-        { value: 'other', label: 'Autre situation' }
+        { value: 'new_arrival', label: 'Je viens d\'arriver (moins de 3 mois)' },
+        { value: 'settling', label: 'Je suis en cours d\'installation (3-12 mois)' },
+        { value: 'established', label: 'Je suis installé depuis plus d\'un an' }
       ]
     },
     {
-      id: 'duration_stay',
-      title: 'Combien de temps prévoyez-vous de rester en France ?',
-      type: 'single',
+      id: 'priority',
+      title: 'Quelle est votre priorité immédiate ?',
+      type: 'radio',
       options: [
-        { value: 'temporary', label: 'Temporaire (moins d\'1 an)' },
-        { value: 'medium', label: '1 à 3 ans' },
-        { value: 'long', label: '3 à 10 ans' },
-        { value: 'permanent', label: 'Installation permanente' },
-        { value: 'unsure', label: 'Je ne sais pas encore' }
-      ]
-    },
-    {
-      id: 'region',
-      title: 'Dans quelle région de France êtes-vous ou souhaitez-vous vous installer ?',
-      type: 'single',
-      options: [
-        { value: 'ile_de_france', label: 'Île-de-France (Paris et région parisienne)' },
-        { value: 'provence', label: 'Provence-Alpes-Côte d\'Azur' },
-        { value: 'rhone_alpes', label: 'Auvergne-Rhône-Alpes' },
-        { value: 'occitanie', label: 'Occitanie' },
-        { value: 'nouvelle_aquitaine', label: 'Nouvelle-Aquitaine' },
-        { value: 'grand_est', label: 'Grand Est' },
-        { value: 'hauts_de_france', label: 'Hauts-de-France' },
-        { value: 'normandie', label: 'Normandie' },
-        { value: 'bretagne', label: 'Bretagne' },
-        { value: 'other', label: 'Autre région' }
-      ]
-    },
-    {
-      id: 'urgent_needs',
-      title: 'Quels sont vos besoins les plus urgents ?',
-      type: 'multiple',
-      options: [
+        { value: 'admin', label: 'Régulariser ma situation administrative' },
         { value: 'housing', label: 'Trouver un logement' },
-        { value: 'papers', label: 'Régulariser ma situation administrative' },
-        { value: 'job', label: 'Trouver un emploi' },
-        { value: 'healthcare', label: 'Accéder aux soins de santé' },
-        { value: 'education', label: 'Inscrire mes enfants à l\'école' },
-        { value: 'language', label: 'Apprendre le français' },
-        { value: 'bank', label: 'Ouvrir un compte bancaire' },
-        { value: 'transport', label: 'Me déplacer (transports)' }
+        { value: 'work', label: 'Trouver du travail' },
+        { value: 'health', label: 'Accéder aux soins de santé' },
+        { value: 'education', label: 'Scolariser mes enfants' }
       ]
     },
     {
-      id: 'french_level',
-      title: 'Quel est votre niveau de français ?',
-      type: 'single',
+      id: 'difficulties',
+      title: 'Quelles sont vos principales difficultés ?',
+      type: 'checkbox',
       options: [
-        { value: 'none', label: 'Débutant (A1 ou moins)' },
-        { value: 'basic', label: 'Élémentaire (A2)' },
-        { value: 'intermediate', label: 'Intermédiaire (B1-B2)' },
-        { value: 'advanced', label: 'Avancé (C1-C2)' },
-        { value: 'native', label: 'Langue maternelle' }
+        { value: 'language', label: 'Barrière de la langue' },
+        { value: 'paperwork', label: 'Complexité administrative' },
+        { value: 'costs', label: 'Coûts des démarches' },
+        { value: 'time', label: 'Manque de temps' },
+        { value: 'information', label: 'Manque d\'information' }
       ]
     }
   ];
+
+  const progress = ((currentStep + 1) / questions.length) * 100;
 
   const handleAnswer = (questionId: string, value: any) => {
     setAnswers(prev => ({
@@ -102,174 +67,165 @@ const DiagnosticWizard: React.FC<DiagnosticWizardProps> = ({
   };
 
   const handleNext = () => {
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(prev => prev + 1);
+    if (currentStep < questions.length - 1) {
+      setCurrentStep(currentStep + 1);
     } else {
-      // Generate diagnostic
-      const diagnostic = generateDiagnostic();
+      // Générer le diagnostic
+      const diagnostic = {
+        profile: userProfile,
+        answers,
+        recommendations: generateRecommendations(userProfile, answers),
+        completed: Date.now()
+      };
       onDiagnosticComplete(diagnostic);
     }
   };
 
   const handlePrevious = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(prev => prev - 1);
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
     } else {
       onBack();
     }
   };
 
-  const generateDiagnostic = () => {
-    const urgentNeeds = answers.urgent_needs || [];
-    const situation = answers.situation_administrative;
-    const duration = answers.duration_stay;
+  const generateRecommendations = (profile: any, answers: any) => {
+    const recommendations = [];
     
-    // Generate priority tools based on answers
-    const priorities = [];
-    
-    if (urgentNeeds.includes('papers') || ['asylum_seeker', 'work_visa', 'student_visa'].includes(situation)) {
-      priorities.push({
+    // Recommandations basées sur le profil
+    if (profile?.id === 'etudiant') {
+      recommendations.push({
         module: 'admin',
-        title: 'Démarches Administratives',
-        urgency: 'high',
-        tools: ['Générateur de lettres', 'Calculateur de frais', 'Planning rendez-vous']
+        priority: 'high',
+        reason: 'Régularisation du statut étudiant'
       });
     }
     
-    if (urgentNeeds.includes('housing')) {
-      priorities.push({
-        module: 'logement',
-        title: 'Logement',
-        urgency: urgentNeeds.includes('housing') ? 'high' : 'medium',
-        tools: ['Calculateur budget', 'Générateur dossier locatif', 'Comparateur quartiers']
-      });
-    }
-    
-    if (urgentNeeds.includes('job') || userProfile?.id === 'travailleur') {
-      priorities.push({
+    if (profile?.id === 'travailleur') {
+      recommendations.push({
         module: 'emploi',
-        title: 'Emploi & Formation',
-        urgency: urgentNeeds.includes('job') ? 'high' : 'medium',
-        tools: ['Traducteur CV', 'Lettres de motivation', 'Calculateur salaire']
+        priority: 'high',
+        reason: 'Recherche d\'emploi et équivalences'
       });
     }
-
-    return {
-      userProfile,
-      answers,
-      priorities,
-      createdAt: new Date(),
-      completionPercentage: 0
-    };
+    
+    // Recommandations basées sur les réponses
+    if (answers.priority === 'housing') {
+      recommendations.push({
+        module: 'logement',
+        priority: 'high',
+        reason: 'Recherche de logement prioritaire'
+      });
+    }
+    
+    return recommendations;
   };
 
-  const currentQ = questions[currentQuestion];
-  const progress = ((currentQuestion + 1) / questions.length) * 100;
-  const currentAnswer = answers[currentQ.id];
-  const canContinue = currentAnswer && (
-    currentQ.type === 'single' ? currentAnswer : currentAnswer.length > 0
-  );
+  const currentQuestion = questions[currentStep];
+  const canProceed = currentQuestion && answers[currentQuestion.id];
 
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-4 mb-4">
           <Button 
             variant="ghost" 
             onClick={handlePrevious}
             className="text-blue-600 hover:bg-blue-50"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Précédent
+            {currentStep === 0 ? 'Retour' : 'Précédent'}
           </Button>
-          <Badge variant="outline">
-            Question {currentQuestion + 1} / {questions.length}
-          </Badge>
+          <div className="flex-1">
+            <h2 className="text-2xl font-bold text-gray-900">
+              Diagnostic personnalisé
+            </h2>
+            <p className="text-gray-600">
+              Étape {currentStep + 1} sur {questions.length}
+            </p>
+          </div>
         </div>
         
-        <Progress value={progress} className="h-2 mb-4" />
-        
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            Diagnostic personnalisé
-          </h2>
-          <p className="text-gray-600">
-            Quelques questions pour vous proposer les meilleurs outils
-          </p>
-        </div>
+        <Progress value={progress} className="w-full" />
       </div>
 
-      <Card className="mb-8">
+      <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <AlertCircle className="h-5 w-5 text-blue-600" />
-            {currentQ.title}
+          <CardTitle className="text-xl">
+            {currentQuestion.title}
           </CardTitle>
-          {currentQ.type === 'multiple' && (
-            <CardDescription>
-              Vous pouvez sélectionner plusieurs réponses
-            </CardDescription>
-          )}
+          <CardDescription>
+            Sélectionnez la réponse qui correspond le mieux à votre situation
+          </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-3">
-          {currentQ.options.map((option) => {
-            const isSelected = currentQ.type === 'single' 
-              ? currentAnswer === option.value
-              : currentAnswer?.includes(option.value);
-              
-            return (
-              <Card 
-                key={option.value}
-                className={`cursor-pointer transition-all duration-200 ${
-                  isSelected 
-                    ? 'ring-2 ring-blue-500 bg-blue-50' 
-                    : 'hover:bg-gray-50'
-                }`}
-                onClick={() => {
-                  if (currentQ.type === 'single') {
-                    handleAnswer(currentQ.id, option.value);
-                  } else {
-                    const current = currentAnswer || [];
-                    const updated = current.includes(option.value)
-                      ? current.filter((v: string) => v !== option.value)
-                      : [...current, option.value];
-                    handleAnswer(currentQ.id, updated);
-                  }
-                }}
-              >
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                      isSelected 
-                        ? 'bg-blue-600 border-blue-600' 
-                        : 'border-gray-300'
-                    }`}>
-                      {isSelected && <CheckCircle className="h-3 w-3 text-white" />}
-                    </div>
-                    <span className={`font-medium ${
-                      isSelected ? 'text-blue-900' : 'text-gray-700'
-                    }`}>
-                      {option.label}
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+        <CardContent className="space-y-4">
+          {currentQuestion.type === 'radio' && (
+            <div className="space-y-3">
+              {currentQuestion.options.map((option) => (
+                <div key={option.value} className="flex items-center space-x-3">
+                  <input
+                    type="radio"
+                    id={option.value}
+                    name={currentQuestion.id}
+                    value={option.value}
+                    checked={answers[currentQuestion.id] === option.value}
+                    onChange={(e) => handleAnswer(currentQuestion.id, e.target.value)}
+                    className="w-4 h-4 text-blue-600"
+                  />
+                  <label htmlFor={option.value} className="text-gray-700 cursor-pointer">
+                    {option.label}
+                  </label>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {currentQuestion.type === 'checkbox' && (
+            <div className="space-y-3">
+              {currentQuestion.options.map((option) => (
+                <div key={option.value} className="flex items-center space-x-3">
+                  <input
+                    type="checkbox"
+                    id={option.value}
+                    checked={(answers[currentQuestion.id] || []).includes(option.value)}
+                    onChange={(e) => {
+                      const currentValues = answers[currentQuestion.id] || [];
+                      const newValues = e.target.checked
+                        ? [...currentValues, option.value]
+                        : currentValues.filter((v: string) => v !== option.value);
+                      handleAnswer(currentQuestion.id, newValues);
+                    }}
+                    className="w-4 h-4 text-blue-600"
+                  />
+                  <label htmlFor={option.value} className="text-gray-700 cursor-pointer">
+                    {option.label}
+                  </label>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="pt-6 flex justify-end">
+            <Button 
+              onClick={handleNext}
+              disabled={!canProceed}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              {currentStep === questions.length - 1 ? (
+                <>
+                  Terminer le diagnostic
+                  <CheckCircle className="ml-2 h-4 w-4" />
+                </>
+              ) : (
+                <>
+                  Suivant
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </>
+              )}
+            </Button>
+          </div>
         </CardContent>
       </Card>
-
-      <div className="text-center">
-        <Button 
-          size="lg"
-          onClick={handleNext}
-          disabled={!canContinue}
-          className="bg-blue-600 hover:bg-blue-700 px-8 py-3"
-        >
-          {currentQuestion === questions.length - 1 ? 'Terminer le diagnostic' : 'Question suivante'}
-          <ArrowRight className="ml-2 h-5 w-5" />
-        </Button>
-      </div>
     </div>
   );
 };

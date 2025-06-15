@@ -1,10 +1,9 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Briefcase, FileText, Calculator, GraduationCap, Users, AlertCircle, Clock, Target } from 'lucide-react';
-import CVTranslator from '@/components/tools/CVTranslator';
-import SalaryCalculator from '@/components/tools/SalaryCalculator';
+import { Briefcase, FileText, Calculator, Users, GraduationCap, Clock, AlertCircle } from 'lucide-react';
 
 interface EmploiModuleProps {
   userProfile: any;
@@ -18,92 +17,61 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
   const tools = [
     {
       id: 'cv_translator',
-      title: 'Traducteur CV Français',
+      title: 'Traducteur de CV Français',
       description: 'Adaptez votre CV aux standards français',
       icon: FileText,
-      color: 'bg-purple-500',
-      category: 'Documents',
-      status: 'active',
-      component: CVTranslator
-    },
-    {
-      id: 'salary_calculator',
-      title: 'Calculateur Salaire Net',
-      description: 'Calculez votre salaire net selon les charges françaises',
-      icon: Calculator,
-      color: 'bg-green-500',
-      category: 'Finance',
-      status: 'active',
-      component: SalaryCalculator
-    },
-    {
-      id: 'cover_letter',
-      title: 'Générateur Lettres de Motivation',
-      description: 'Créez des lettres de motivation personnalisées',
-      icon: FileText,
       color: 'bg-blue-500',
-      category: 'Documents',
+      category: 'CV',
+      status: 'active',
+      component: null
+    },
+    {
+      id: 'motivation_letter',
+      title: 'Générateur Lettres de Motivation',
+      description: 'Créez des lettres de motivation percutantes',
+      icon: FileText,
+      color: 'bg-green-500',
+      category: 'Candidature',
       status: 'coming_soon'
     },
     {
       id: 'diploma_equivalence',
-      title: 'Guide Équivalence Diplômes',
-      description: 'Trouvez l\'équivalence de vos diplômes étrangers',
+      title: 'Équivalence Diplômes Étrangers',
+      description: 'Trouvez les équivalences de vos diplômes',
       icon: GraduationCap,
+      color: 'bg-purple-500',
+      category: 'Diplômes',
+      status: 'coming_soon'
+    },
+    {
+      id: 'unemployment_simulator',
+      title: 'Simulateur Droits Pôle Emploi',
+      description: 'Calculez vos droits aux allocations',
+      icon: Calculator,
       color: 'bg-orange-500',
-      category: 'Formation',
+      category: 'Droits',
       status: 'coming_soon'
     },
     {
-      id: 'job_search',
-      title: 'Assistant Recherche d\'Emploi',
-      description: 'Stratégies et conseils pour votre recherche',
-      icon: Target,
-      color: 'bg-indigo-500',
-      category: 'Recherche',
-      status: 'coming_soon'
-    },
-    {
-      id: 'network_builder',
-      title: 'Constructeur de Réseau',
-      description: 'Développez votre réseau professionnel en France',
+      id: 'interview_assistant',
+      title: 'Assistant Entretien d\'Embauche',
+      description: 'Préparez vos entretiens efficacement',
       icon: Users,
-      color: 'bg-teal-500',
-      category: 'Réseau',
+      color: 'bg-indigo-500',
+      category: 'Entretien',
       status: 'coming_soon'
+    },
+    {
+      id: 'salary_calculator',
+      title: 'Calculateur Salaire Net',
+      description: 'Convertissez brut en net et comprenez votre fiche de paie',
+      icon: Calculator,
+      color: 'bg-teal-500',
+      category: 'Salaire',
+      status: 'active',
+      component: null
     }
   ];
-
-  const categories = [
-    { id: 'all', label: 'Tous les outils', count: tools.length },
-    { id: 'Documents', label: 'Documents', count: tools.filter(t => t.category === 'Documents').length },
-    { id: 'Finance', label: 'Finance', count: tools.filter(t => t.category === 'Finance').length },
-    { id: 'Formation', label: 'Formation', count: tools.filter(t => t.category === 'Formation').length }
-  ];
-
-  const activeTool = tools.find(t => t.id === activeTab);
-
-  if (activeTool && activeTool.component && activeTool.status === 'active') {
-    const ToolComponent = activeTool.component;
-    return (
-      <div>
-        <div className="flex items-center gap-4 mb-6">
-          <Button 
-            variant="ghost" 
-            onClick={() => setActiveTab('overview')}
-            className="text-purple-600 hover:bg-purple-50"
-          >
-            ← Retour aux outils
-          </Button>
-          <div className="flex items-center gap-2">
-            <activeTool.icon className="h-6 w-6 text-purple-600" />
-            <h2 className="text-2xl font-bold text-gray-900">{activeTool.title}</h2>
-          </div>
-        </div>
-        <ToolComponent userProfile={userProfile} diagnostic={diagnostic} />
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -119,7 +87,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
           <Briefcase className="h-8 w-8 text-purple-600" />
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Emploi & Formation</h1>
-            <p className="text-gray-600">8 outils pour votre carrière professionnelle en France</p>
+            <p className="text-gray-600">8 outils pour votre carrière en France</p>
           </div>
         </div>
 
@@ -128,11 +96,11 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-2">
                 <AlertCircle className="h-5 w-5 text-purple-600" />
-                <span className="font-medium text-purple-900">Stratégie recommandée</span>
+                <span className="font-medium text-purple-900">Recommandations personnalisées</span>
               </div>
               <p className="text-purple-800 text-sm">
-                Pour maximiser vos chances sur le marché français, commencez par adapter votre CV 
-                aux standards locaux puis estimez vos revenus potentiels.
+                En tant que <strong>{userProfile?.title}</strong>, nous recommandons de commencer par 
+                l'adaptation de votre CV puis la simulation de vos droits.
               </p>
             </CardContent>
           </Card>
@@ -148,7 +116,6 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
                 ? 'hover:shadow-lg cursor-pointer' 
                 : 'opacity-75'
             }`}
-            onClick={() => tool.status === 'active' && setActiveTab(tool.id)}
           >
             <CardHeader className="pb-4">
               <div className="flex items-center justify-between">
