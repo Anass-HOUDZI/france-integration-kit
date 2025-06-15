@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import PwaUpdater from "./components/PwaUpdater";
 
 const queryClient = new QueryClient();
 
@@ -15,7 +16,8 @@ const App = () => (
     <ThemeProvider defaultTheme="system" storageKey="integration-france-theme">
       <TooltipProvider>
         <Toaster />
-        <Sonner />
+        <Sonner richColors position="top-right" />
+        <PwaUpdater />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />

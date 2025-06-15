@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -12,7 +11,9 @@ import {
   Heart,
   GraduationCap,
   Globe,
-  Settings
+  Settings,
+  Wifi,
+  WifiOff
 } from 'lucide-react';
 import HomePage from '@/components/HomePage';
 import ProfileSelector from '@/components/ProfileSelector';
@@ -28,6 +29,7 @@ import { LanguageSelector } from '@/components/LanguageSelector';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useI18n } from '@/hooks/useI18n';
 import { useUserProfile } from '@/hooks/useUserProfile';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import Footer from '@/components/Footer';
 
 type View = 
@@ -47,6 +49,7 @@ const Index = () => {
   const [currentView, setCurrentView] = useState<View>('home');
   const { t } = useI18n();
   const { currentProfile, hasProfile, diagnostic, saveProfile, saveDiagnostic } = useUserProfile();
+  const isOnline = useOnlineStatus();
 
   const modules = [
     {
@@ -146,7 +149,12 @@ const Index = () => {
               </Badge>
             )}
           </div>
-          <div className="flex items-center gap-2 w-full justify-end sm:w-auto">
+          <div className="flex items-center gap-4 w-full justify-end sm:w-auto">
+            {isOnline ? (
+                <Wifi className="h-5 w-5 text-green-500" />
+              ) : (
+                <WifiOff className="h-5 w-5 text-red-500" />
+            )}
             <LanguageSelector />
             <ThemeToggle />
             {hasProfile && (
