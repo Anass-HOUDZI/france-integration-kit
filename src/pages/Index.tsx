@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,12 +19,14 @@ import DiagnosticWizard from '@/components/DiagnosticWizard';
 import AdminModule from '@/components/modules/AdminModule';
 import LogementModule from '@/components/modules/LogementModule';
 import EmploiModule from '@/components/modules/EmploiModule';
+import SanteModule from '@/components/modules/SanteModule';
+import EducationModule from '@/components/modules/EducationModule';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useI18n } from '@/hooks/useI18n';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
-type View = 'home' | 'profile' | 'diagnostic' | 'modules' | 'admin' | 'logement' | 'emploi';
+type View = 'home' | 'profile' | 'diagnostic' | 'modules' | 'admin' | 'logement' | 'emploi' | 'sante' | 'education';
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<View>('home');
@@ -67,7 +68,7 @@ const Index = () => {
       icon: Heart,
       color: 'bg-red-500',
       tools: 6,
-      component: null
+      component: SanteModule
     },
     {
       id: 'education',
@@ -76,7 +77,7 @@ const Index = () => {
       icon: GraduationCap,
       color: 'bg-yellow-500',
       tools: 6,
-      component: null
+      component: EducationModule
     },
     {
       id: 'culture',
@@ -193,6 +194,24 @@ const Index = () => {
       case 'emploi':
         return (
           <EmploiModule 
+            userProfile={currentProfile}
+            diagnostic={diagnostic}
+            onBack={() => setCurrentView('modules')}
+          />
+        );
+      
+      case 'sante':
+        return (
+          <SanteModule 
+            userProfile={currentProfile}
+            diagnostic={diagnostic}
+            onBack={() => setCurrentView('modules')}
+          />
+        );
+      
+      case 'education':
+        return (
+          <EducationModule 
             userProfile={currentProfile}
             diagnostic={diagnostic}
             onBack={() => setCurrentView('modules')}
