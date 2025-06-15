@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { FileText, Calculator, Calendar, CheckSquare, Search, Clock, AlertCircle } from 'lucide-react';
+import { FileText, Calculator, Calendar, CheckSquare, Search, Clock, AlertCircle, ClipboardEdit } from 'lucide-react';
 import LetterGenerator from '@/components/tools/LetterGenerator';
 import FeeCalculator from '@/components/tools/FeeCalculator';
 import AppointmentPlanner from '@/components/tools/AppointmentPlanner';
@@ -65,7 +64,7 @@ const AdminModule: React.FC<AdminModuleProps> = ({ userProfile, diagnostic, onBa
       id: 'form_assistant',
       title: 'Assistant Formulaires CERFA',
       description: 'Aide au remplissage des formulaires officiels',
-      icon: FileText,
+      icon: ClipboardEdit,
       color: 'bg-indigo-500',
       category: 'Formulaires',
       status: 'active',

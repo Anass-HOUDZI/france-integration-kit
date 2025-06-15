@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { 
   FileText, CheckSquare, Calculator, Calendar, PiggyBank, Globe,
-  Users, MapPin, TrendingUp, Building, BookOpen, Award, Heart, PhoneCall, GraduationCap, Clock, Search
+  Users, MapPin, TrendingUp, BookOpen, Award, Heart, PhoneCall, GraduationCap, Clock, Search,
+  ClipboardEdit, Receipt, FileSignature, Truck, TrendingDown, Shield, Mail, LayoutGrid, Baby, Lightbulb, PartyPopper, MessageSquare, Siren, Gavel
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -27,12 +27,12 @@ const allTools = [
   { id: 'document_checker', title: 'Vérificateur de Documents', category: 'admin', icon: CheckSquare, status: 'active' },
   { id: 'fee_calculator', title: 'Calculateur de Frais', category: 'admin', icon: Calculator, status: 'active' },
   { id: 'appointment_planner', title: 'Planificateur RDV', category: 'admin', icon: Calendar, status: 'active' },
-  { id: 'form_assistant', title: 'Assistant Formulaires CERFA', category: 'admin', icon: FileText, status: 'coming_soon' },
+  { id: 'form_assistant', title: 'Assistant Formulaires CERFA', category: 'admin', icon: ClipboardEdit, status: 'coming_soon' },
   { id: 'delay_simulator', title: 'Simulateur de Délais', category: 'admin', icon: Clock, status: 'coming_soon' },
-  { id: 'receipt_generator', title: 'Générateur de Récépissés', category: 'admin', icon: FileText, status: 'coming_soon' },
+  { id: 'receipt_generator', title: 'Générateur de Récépissés', category: 'admin', icon: Receipt, status: 'coming_soon' },
   { id: 'tax_assistant', title: 'Assistant Déclarations Fiscales', category: 'admin', icon: Calculator, status: 'coming_soon' },
   { id: 'apl_calculator', title: 'Calculateur APL/CAF', category: 'admin', icon: PiggyBank, status: 'coming_soon' },
-  { id: 'attestation_generator', title: 'Générateur Attestations', category: 'admin', icon: FileText, status: 'coming_soon' },
+  { id: 'attestation_generator', title: 'Générateur Attestations', category: 'admin', icon: FileSignature, status: 'coming_soon' },
   { id: 'admin_translator', title: 'Traducteur Termes Administratifs', category: 'admin', icon: Globe, status: 'coming_soon' },
   { id: 'profile_guide', title: 'Guide Démarches par Profil', category: 'admin', icon: Users, status: 'coming_soon' },
   
@@ -41,25 +41,25 @@ const allTools = [
   { id: 'rental_dossier', title: 'Générateur Dossier Locatif', category: 'logement', icon: FileText, status: 'active' },
   { id: 'state_of_play', title: 'Assistant État des Lieux', category: 'logement', icon: CheckSquare, status: 'active' },
   { id: 'neighborhood_comparator', title: 'Comparateur de Quartiers', category: 'logement', icon: MapPin, status: 'coming_soon' },
-  { id: 'moving_calculator', title: 'Calculateur Frais Déménagement', category: 'logement', icon: Calculator, status: 'coming_soon' },
-  { id: 'rent_negotiator', title: 'Guide Négociation Loyer', category: 'logement', icon: TrendingUp, status: 'coming_soon' },
+  { id: 'moving_calculator', title: 'Calculateur Frais Déménagement', category: 'logement', icon: Truck, status: 'coming_soon' },
+  { id: 'rent_negotiator', title: 'Guide Négociation Loyer', category: 'logement', icon: TrendingDown, status: 'coming_soon' },
   { id: 'moving_planner', title: 'Planificateur Emménagement', category: 'logement', icon: Calendar, status: 'coming_soon' },
-  { id: 'insurance_assistant', title: 'Assistant Assurance Habitation', category: 'logement', icon: Building, status: 'coming_soon' },
+  { id: 'insurance_assistant', title: 'Assistant Assurance Habitation', category: 'logement', icon: Shield, status: 'coming_soon' },
   
   // Emploi & Formation (8 outils)
   { id: 'cv_translator', title: 'Traducteur de CV Français', category: 'emploi', icon: FileText, status: 'active' },
   { id: 'salary_calculator', title: 'Calculateur Salaire Net', category: 'emploi', icon: Calculator, status: 'active' },
-  { id: 'motivation_letter', title: 'Générateur Lettres de Motivation', category: 'emploi', icon: FileText, status: 'active' },
+  { id: 'motivation_letter', title: 'Générateur Lettres de Motivation', category: 'emploi', icon: Mail, status: 'active' },
   { id: 'diploma_equivalence', title: 'Équivalence Diplômes Étrangers', category: 'emploi', icon: GraduationCap, status: 'active' },
   { id: 'interview_assistant', title: 'Assistant Entretien d\'Embauche', category: 'emploi', icon: Users, status: 'active' },
   { id: 'unemployment_simulator', title: 'Simulateur Droits Pôle Emploi', category: 'emploi', icon: Calculator, status: 'coming_soon' },
   { id: 'training_guide', title: 'Guide Formation Professionnelle', category: 'emploi', icon: BookOpen, status: 'coming_soon' },
-  { id: 'portfolio_creator', title: 'Créateur Portfolio Professionnel', category: 'emploi', icon: Award, status: 'coming_soon' },
+  { id: 'portfolio_creator', title: 'Créateur Portfolio Professionnel', category: 'emploi', icon: LayoutGrid, status: 'coming_soon' },
   
   // Santé & Social (6 outils)
   { id: 'social_security_guide', title: 'Guide Sécurité Sociale', category: 'sante', icon: Heart, status: 'coming_soon' },
   { id: 'health_calculator', title: 'Calculateur Remboursements Santé', category: 'sante', icon: Calculator, status: 'coming_soon' },
-  { id: 'mutual_assistant', title: 'Assistant Mutuelle', category: 'sante', icon: Building, status: 'coming_soon' },
+  { id: 'mutual_assistant', title: 'Assistant Mutuelle', category: 'sante', icon: Shield, status: 'coming_soon' },
   { id: 'medical_translator', title: 'Traducteur Médical', category: 'sante', icon: Globe, status: 'coming_soon' },
   { id: 'social_services', title: 'Localisateur Services Sociaux', category: 'sante', icon: MapPin, status: 'coming_soon' },
   { id: 'emergency_guide', title: 'Guide Urgences Médicales', category: 'sante', icon: PhoneCall, status: 'coming_soon' },
@@ -67,24 +67,24 @@ const allTools = [
   // Éducation & Famille (6 outils)
   { id: 'school_enrollment', title: 'Guide Inscription Scolaire', category: 'education', icon: GraduationCap, status: 'coming_soon' },
   { id: 'family_allowances', title: 'Calculateur Allocations Familiales', category: 'education', icon: Calculator, status: 'coming_soon' },
-  { id: 'childcare_assistant', title: 'Assistant Garde d\'Enfants', category: 'education', icon: Users, status: 'coming_soon' },
+  { id: 'childcare_assistant', title: 'Assistant Garde d\'Enfants', category: 'education', icon: Baby, status: 'coming_soon' },
   { id: 'higher_education', title: 'Guide Études Supérieures', category: 'education', icon: GraduationCap, status: 'coming_soon' },
   { id: 'report_translator', title: 'Traducteur Bulletins Scolaires', category: 'education', icon: Globe, status: 'coming_soon' },
-  { id: 'education_costs', title: 'Calculateur Frais Scolarité', category: 'education', icon: Calculator, status: 'coming_soon' },
+  { id: 'education_costs', title: 'Calculateur Frais Scolarité', category: 'education', icon: PiggyBank, status: 'coming_soon' },
   
   // Intégration Culturelle (5 outils)
-  { id: 'culture_quiz', title: 'Quiz Culture Française', category: 'culture', icon: Globe, status: 'coming_soon' },
+  { id: 'culture_quiz', title: 'Quiz Culture Française', category: 'culture', icon: Lightbulb, status: 'coming_soon' },
   { id: 'french_assistant', title: 'Assistant Apprentissage Français', category: 'culture', icon: BookOpen, status: 'coming_soon' },
-  { id: 'traditions_guide', title: 'Guide Fêtes et Traditions', category: 'culture', icon: Heart, status: 'coming_soon' },
+  { id: 'traditions_guide', title: 'Guide Fêtes et Traditions', category: 'culture', icon: PartyPopper, status: 'coming_soon' },
   { id: 'naturalization_test', title: 'Simulateur Test Naturalisation', category: 'culture', icon: Award, status: 'coming_soon' },
-  { id: 'expressions_translator', title: 'Traducteur Expressions Françaises', category: 'culture', icon: Globe, status: 'coming_soon' },
+  { id: 'expressions_translator', title: 'Traducteur Expressions Françaises', category: 'culture', icon: MessageSquare, status: 'coming_soon' },
   
   // Outils Transversaux (5 outils)
   { id: 'universal_converter', title: 'Convertisseur Universel', category: 'transversal', icon: Calculator, status: 'coming_soon' },
-  { id: 'emergency_assistant', title: 'Assistant Urgences', category: 'transversal', icon: PhoneCall, status: 'coming_soon' },
+  { id: 'emergency_assistant', title: 'Assistant Urgences', category: 'transversal', icon: Siren, status: 'coming_soon' },
   { id: 'planning_generator', title: 'Générateur Planning', category: 'transversal', icon: Calendar, status: 'coming_soon' },
   { id: 'budget_assistant', title: 'Assistant Budget Familial', category: 'transversal', icon: PiggyBank, status: 'coming_soon' },
-  { id: 'rights_guide', title: 'Guide Droits et Recours', category: 'transversal', icon: FileText, status: 'coming_soon' }
+  { id: 'rights_guide', title: 'Guide Droits et Recours', category: 'transversal', icon: Gavel, status: 'coming_soon' }
 ];
 
 const categories = [

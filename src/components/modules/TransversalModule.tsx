@@ -1,9 +1,8 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, FileText, Calendar, PiggyBank, Calculator, PhoneCall } from "lucide-react";
+import { ArrowLeft, FileText, Calendar, PiggyBank, Calculator, Siren, Gavel } from "lucide-react";
 import UniversalConverterTool from "@/components/tools/UniversalConverterTool";
 import EmergencyAssistantTool from "@/components/tools/EmergencyAssistantTool";
 import PlanningGeneratorTool from "@/components/tools/PlanningGeneratorTool";
@@ -28,7 +27,7 @@ const tools = [
     id: "emergency_assistant",
     title: "Assistant Urgences",
     description: "Numéros utiles et procédures",
-    icon: PhoneCall,
+    icon: Siren,
     component: EmergencyAssistantTool,
   },
   {
@@ -49,7 +48,7 @@ const tools = [
     id: "rights_guide",
     title: "Guide Droits et Recours",
     description: "Informations juridiques",
-    icon: FileText,
+    icon: Gavel,
     component: RightsGuideTool,
   }
 ];

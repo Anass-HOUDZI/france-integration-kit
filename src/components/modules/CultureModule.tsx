@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Globe, BookOpen, Heart, Award } from "lucide-react";
+import { ArrowLeft, BookOpen, Heart, Award, Lightbulb, PartyPopper, MessageSquare } from "lucide-react";
 import CultureQuizTool from "@/components/tools/CultureQuizTool";
 import FrenchLearningAssistantTool from "@/components/tools/FrenchLearningAssistantTool";
 import TraditionsGuideTool from "@/components/tools/TraditionsGuideTool";
@@ -21,7 +21,7 @@ const tools = [
     id: "culture_quiz",
     title: "Quiz Culture Française",
     description: "Testez vos connaissances civiques",
-    icon: Globe,
+    icon: Lightbulb,
     component: CultureQuizTool,
   },
   {
@@ -35,7 +35,7 @@ const tools = [
     id: "traditions_guide",
     title: "Guide Fêtes et Traditions",
     description: "Découvrez le calendrier culturel",
-    icon: Heart,
+    icon: PartyPopper,
     component: TraditionsGuideTool,
   },
   {
@@ -49,7 +49,7 @@ const tools = [
     id: "expressions_translator",
     title: "Traducteur Expressions Françaises",
     description: "Comprenez les idiomes français",
-    icon: Globe,
+    icon: MessageSquare,
     component: ExpressionsTranslatorTool,
   }
 ];

@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Briefcase, FileText, Calculator, Users, GraduationCap, Clock, AlertCircle, TrendingUp, FolderOpen } from 'lucide-react';
+import { Briefcase, FileText, Calculator, Users, GraduationCap, Clock, AlertCircle, TrendingUp, Mail, LayoutGrid } from 'lucide-react';
 import CVTranslatorTool from '@/components/tools/CVTranslatorTool';
 import SalaryCalculatorTool from '@/components/tools/SalaryCalculatorTool';
 import MotivationLetterTool from '@/components/tools/MotivationLetterTool';
@@ -45,7 +44,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
       id: 'motivation_letter',
       title: 'Générateur Lettres de Motivation',
       description: 'Créez des lettres de motivation percutantes',
-      icon: FileText,
+      icon: Mail,
       color: 'bg-green-500',
       category: 'Candidature',
       status: 'active',
@@ -94,7 +93,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
       id: 'portfolio_creator',
       title: 'Créateur Portfolio Professionnel',
       description: 'Mettez en valeur vos compétences',
-      icon: FolderOpen,
+      icon: LayoutGrid,
       color: 'bg-cyan-500',
       category: 'Portfolio',
       status: 'coming_soon'

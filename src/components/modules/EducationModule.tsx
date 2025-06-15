@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, GraduationCap, Calculator, Users, BookOpen, Globe, PiggyBank } from 'lucide-react';
+import { ArrowLeft, GraduationCap, Calculator, BookOpen, Globe, PiggyBank, Baby } from 'lucide-react';
 import SchoolEnrollmentTool from '@/components/tools/SchoolEnrollmentTool';
 import FamilyAllowancesTool from '@/components/tools/FamilyAllowancesTool';
 import ChildcareAssistantTool from '@/components/tools/ChildcareAssistantTool';
@@ -41,7 +40,7 @@ const EducationModule: React.FC<EducationModuleProps> = ({ userProfile, diagnost
       id: 'childcare_assistant',
       title: 'Assistant Garde d\'Enfants',
       description: 'Modes de garde et aides financières disponibles',
-      icon: Users,
+      icon: Baby,
       component: ChildcareAssistantTool,
       status: 'active'
     },
