@@ -8,6 +8,8 @@ import LetterGenerator from '@/components/tools/LetterGenerator';
 import FeeCalculator from '@/components/tools/FeeCalculator';
 import AppointmentPlanner from '@/components/tools/AppointmentPlanner';
 import DocumentCheckerTool from '@/components/tools/DocumentCheckerTool';
+import FormAssistantTool from '@/components/tools/FormAssistantTool';
+import DelaySimulatorTool from '@/components/tools/DelaySimulatorTool';
 
 interface AdminModuleProps {
   userProfile: any;
@@ -61,21 +63,23 @@ const AdminModule: React.FC<AdminModuleProps> = ({ userProfile, diagnostic, onBa
     },
     {
       id: 'form_assistant',
-      title: 'Assistant Formulaires',
-      description: 'Aide au remplissage CERFA',
+      title: 'Assistant Formulaires CERFA',
+      description: 'Aide au remplissage des formulaires officiels',
       icon: FileText,
       color: 'bg-indigo-500',
       category: 'Formulaires',
-      status: 'coming_soon'
+      status: 'active',
+      component: FormAssistantTool
     },
     {
       id: 'delay_simulator',
       title: 'Simulateur de Délais',
-      description: 'Estimez les temps de traitement',
+      description: 'Estimez les temps de traitement des démarches',
       icon: Clock,
       color: 'bg-teal-500',
       category: 'Information',
-      status: 'coming_soon'
+      status: 'active',
+      component: DelaySimulatorTool
     }
   ];
 

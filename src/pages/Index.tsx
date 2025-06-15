@@ -14,6 +14,7 @@ import {
   Globe,
   Settings
 } from 'lucide-react';
+import HomePage from '@/components/HomePage';
 import ProfileSelector from '@/components/ProfileSelector';
 import DiagnosticWizard from '@/components/DiagnosticWizard';
 import AdminModule from '@/components/modules/AdminModule';
@@ -113,7 +114,7 @@ const Index = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setCurrentView('home')}
+              onClick={() => setCurrentView(hasProfile ? 'modules' : 'home')}
               className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors"
             >
               🇫🇷 IntégrationFrance.org
@@ -144,17 +145,16 @@ const Index = () => {
   );
 
   const renderContent = () => {
-    // Si pas de profil, afficher la sélection
-    if (!hasProfile && currentView === 'home') {
-      return (
-        <ProfileSelector 
-          onProfileSelect={handleProfileComplete}
-          onBack={() => setCurrentView('home')}
-        />
-      );
-    }
-
     switch (currentView) {
+      case 'home':
+        if (!hasProfile) {
+          return (
+            <HomePage onStartJourney={() => setCurrentView('profile')} />
+          );
+        } else {
+          return renderModulesView();
+        }
+      
       case 'profile':
         return (
           <ProfileSelector 
@@ -200,81 +200,66 @@ const Index = () => {
         );
       
       case 'modules':
-      case 'home':
       default:
-        return (
-          <div className="container mx-auto px-4 py-8">
-            {!hasProfile ? (
-              <div className="text-center py-12">
-                <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                  Bienvenue sur IntégrationFrance.org
-                </h1>
-                <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-                  50 outils gratuits pour faciliter votre intégration en France
-                </p>
-                <Button size="lg" onClick={() => setCurrentView('profile')}>
-                  Commencer
-                </Button>
-              </div>
-            ) : (
-              <>
-                <div className="text-center mb-12">
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                    Bonjour {currentProfile.name} ! 👋
-                  </h1>
-                  <p className="text-lg text-gray-600 dark:text-gray-300">
-                    Sélectionnez un module pour accéder aux outils adaptés à vos besoins
-                  </p>
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                  {modules.map((module) => {
-                    const IconComponent = module.icon;
-                    return (
-                      <Card 
-                        key={module.id} 
-                        className="hover:shadow-lg transition-shadow cursor-pointer"
-                        onClick={() => module.component && setCurrentView(module.id as View)}
-                      >
-                        <CardHeader className="pb-4">
-                          <div className="flex items-center gap-3">
-                            <div className={`p-2 rounded-lg ${module.color} text-white`}>
-                              <IconComponent className="h-6 w-6" />
-                            </div>
-                            <div>
-                              <CardTitle className="text-lg">{module.title}</CardTitle>
-                              <Badge variant="secondary">{module.tools} outils</Badge>
-                            </div>
-                          </div>
-                        </CardHeader>
-                        <CardContent>
-                          <CardDescription className="text-base">
-                            {module.description}
-                          </CardDescription>
-                          {module.component ? (
-                            <Button className="w-full mt-4">
-                              Accéder aux outils
-                            </Button>
-                          ) : (
-                            <Badge variant="outline" className="mt-4">
-                              Bientôt disponible
-                            </Badge>
-                          )}
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
-                </div>
-              </>
-            )}
-          </div>
-        );
+        return renderModulesView();
     }
   };
 
+  const renderModulesView = () => (
+    <div className="container mx-auto px-4 py-8">
+      <div className="text-center mb-12">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          Bonjour {currentProfile?.name} ! 👋
+        </h1>
+        <p className="text-lg text-gray-600 dark:text-gray-300">
+          Sélectionnez un module pour accéder aux outils adaptés à vos besoins
+        </p>
+      </div>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        {modules.map((module) => {
+          const IconComponent = module.icon;
+          return (
+            <Card 
+              key={module.id} 
+              className="hover:shadow-lg transition-shadow cursor-pointer"
+              onClick={() => module.component && setCurrentView(module.id as View)}
+            >
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-lg ${module.color} text-white`}>
+                    <IconComponent className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-lg">{module.title}</CardTitle>
+                    <Badge variant="secondary">{module.tools} outils</Badge>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-base">
+                  {module.description}
+                </CardDescription>
+                {module.component ? (
+                  <Button className="w-full mt-4">
+                    Accéder aux outils
+                  </Button>
+                ) : (
+                  <Badge variant="outline" className="mt-4">
+                    Bientôt disponible
+                  </Badge>
+                )}
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {renderHeader()}
+      {(currentView !== 'home' || hasProfile) && renderHeader()}
       {renderContent()}
     </div>
   );
