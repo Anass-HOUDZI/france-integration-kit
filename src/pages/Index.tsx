@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -318,6 +319,8 @@ const Index = () => {
       <main className="flex-1">
         {renderContent()}
       </main>
+      {/* Notifications/Feedback Sonner */}
+      <div id="notifications" className="fixed top-4 right-4 z-50" />
       <Footer />
     </div>
   );
