@@ -9,6 +9,31 @@ import { Badge } from '@/components/ui/badge';
 import { Shield, Calculator, TrendingUp, AlertCircle, CheckSquare } from 'lucide-react';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
+interface MutualOffer {
+  id: string;
+  name: string;
+  price: number;
+  coverage: {
+    optique: string;
+    dentaire: string;
+    hospitalisation: string;
+    medecines_douces: string;
+    maternite: string;
+    psychologie: string;
+  };
+  target: string;
+  score?: number;
+}
+
+interface RecommendationAnalysis {
+  recommendedOffer: MutualOffer;
+  allOffers: MutualOffer[];
+  monthlyBudget: number;
+  yearlyBudget: number;
+  priorityNeeds: string[];
+  tips: string[];
+}
+
 interface MutualAssistantProps {
   userProfile: any;
   diagnostic: any;
@@ -20,7 +45,7 @@ const MutualAssistantTool: React.FC<MutualAssistantProps> = ({ userProfile }) =>
   const [budget, setBudget] = useState('');
   const [situation, setSituation] = useState('');
   const [priorityNeeds, setPriorityNeeds] = useState<string[]>([]);
-  const [recommendations, setRecommendations] = useState<any>(null);
+  const [recommendations, setRecommendations] = useState<RecommendationAnalysis | null>(null);
 
   const situations = [
     { id: 'celibataire', name: 'Célibataire' },
@@ -38,7 +63,7 @@ const MutualAssistantTool: React.FC<MutualAssistantProps> = ({ userProfile }) =>
     { id: 'psychologie', name: 'Psychologie', priority: 'medium' }
   ];
 
-  const mutuelleOffers = [
+  const mutuelleOffers: MutualOffer[] = [
     {
       id: 'eco',
       name: 'Formule Éco',
@@ -125,7 +150,7 @@ const MutualAssistantTool: React.FC<MutualAssistantProps> = ({ userProfile }) =>
     // Tri par score décroissant
     const sortedOffers = scores.sort((a, b) => b.score - a.score);
     
-    const analysis = {
+    const analysis: RecommendationAnalysis = {
       recommendedOffer: sortedOffers[0],
       allOffers: sortedOffers,
       monthlyBudget: userBudget,
@@ -339,7 +364,7 @@ const MutualAssistantTool: React.FC<MutualAssistantProps> = ({ userProfile }) =>
                           <div className="w-full bg-gray-200 rounded-full h-2">
                             <div 
                               className="bg-blue-600 h-2 rounded-full" 
-                              style={{ width: `${(offer.score / 100) * 100}%` }}
+                              style={{ width: `${(offer.score || 0 / 100) * 100}%` }}
                             />
                           </div>
                         </td>
@@ -361,7 +386,7 @@ const MutualAssistantTool: React.FC<MutualAssistantProps> = ({ userProfile }) =>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {recommendations.tips.map((tip: string, index: number) => (
+                {recommendations.tips.map((tip, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <CheckSquare className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
                     <span className="text-sm">{tip}</span>
