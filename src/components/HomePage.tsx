@@ -1,13 +1,13 @@
+
 import React, { useState } from 'react';
 import { 
   FileText, CheckSquare, Calculator, Calendar, PiggyBank, Globe,
-  Users, MapPin, TrendingUp, Building, BookOpen, Award, Heart, PhoneCall, GraduationCap
+  Users, MapPin, TrendingUp, Building, BookOpen, Award, Heart, PhoneCall, GraduationCap, Clock, Search
 } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Clock, Search } from 'lucide-react';
 import Footer from "./Footer";
 import SidebarNav from "./SidebarNav";
 import ProgressBar from "./ProgressBar";
@@ -112,7 +112,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-indigo-100 via-white to-cyan-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-500">
+      <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-violet-50 via-white to-sky-100 dark:from-gray-900 dark:via-slate-800 dark:to-slate-900 transition-colors duration-500">
         {/* Sidebar Navigation */}
         <div className="hidden md:block w-56 shrink-0">
           <SidebarNav selected={selectedCategory} onSelect={setSelectedCategory} />
@@ -122,14 +122,14 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
         <div className="flex-1 w-full max-w-full mx-auto px-2 sm:px-6 md:px-10 flex flex-col relative">
 
           {/* Sticky Top Area */}
-          <section className="sticky top-0 z-30 bg-gradient-to-tr from-white/70 to-indigo-50/60 dark:from-gray-900 dark:to-gray-900/70 backdrop-blur flex flex-col md:flex-row items-center gap-2 pt-3 pb-1 shadow">
+          <section className="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm flex flex-col md:flex-row items-center gap-2 pt-3 pb-1 shadow-sm">
             <div className="flex flex-1 items-center gap-2 w-full">
-              <Search className="text-indigo-400 h-5 w-5 absolute ml-4 pointer-events-none" />
+              <Search className="text-violet-400 h-5 w-5 absolute ml-4 pointer-events-none" />
               <Input
-                placeholder="Rechercher un outil, une catégorie..."
+                placeholder="Rechercher un outil..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="pl-10 py-2 w-full rounded-2xl bg-white/60 dark:bg-slate-800 border shadow-sm focus:outline-none max-w-xs"
+                className="pl-10 py-2 w-full rounded-2xl bg-white/60 dark:bg-slate-800 border-slate-200 dark:border-slate-700 shadow-sm focus:outline-none max-w-xs"
               />
             </div>
             <div className="flex items-center gap-3">
@@ -138,7 +138,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
                 variant="default"
                 size="sm"
                 onClick={onStartJourney}
-                className="bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 text-white font-bold px-4 py-2 rounded-full shadow hover:scale-105 transition-all"
+                className="bg-violet-500 hover:bg-violet-600 text-white font-bold px-4 py-2 rounded-full shadow-lg hover:shadow-violet-500/20 hover:scale-105 transition-all"
               >
                 Profiler mon parcours
               </Button>
@@ -150,19 +150,19 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
 
           {/* Hero */}
           <section className="pt-4 pb-4 text-center">
-            <span className="inline-block rounded-full bg-gradient-to-r from-indigo-400 to-fuchsia-500 text-white px-4 py-2 mb-4 shadow-sm font-medium text-base">
+            <span className="inline-block rounded-full bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-200 px-4 py-2 mb-4 shadow-sm font-medium text-base">
               🇫🇷 Plateforme #1 de l’intégration gratuite
             </span>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-3">
               IntégrationFrance.org
             </h1>
             <p className="text-md md:text-lg text-gray-700 dark:text-gray-200 mb-3">
-              <strong>+50 outils digitaux gratuits</strong> pour <b className="bg-fuchsia-100 dark:bg-fuchsia-900/30 rounded px-2 text-fuchsia-700 dark:text-fuchsia-200">réussir votre intégration</b> et démarches en France, <span className="underline">sans inscription</span>.
+              <strong>+50 outils digitaux gratuits</strong> pour <b className="bg-violet-100 dark:bg-violet-900/30 rounded px-2 py-1 text-violet-700 dark:text-violet-200">réussir votre intégration</b> et démarches en France, <span className="underline">sans inscription</span>.
             </p>
             <div className="flex flex-col xs:flex-row gap-3 xs:justify-center items-center mb-5">
-              <Badge variant="default" className="bg-green-100 text-green-700">{activeToolsCount} outils accessibles ✨</Badge>
-              <Badge variant="secondary" className="bg-fuchsia-100 text-fuchsia-700">{allTools.length - activeToolsCount} en dev</Badge>
-              <Badge variant="secondary" className="bg-emerald-100 text-emerald-700">100% gratuit</Badge>
+              <Badge variant="default" className="bg-teal-100 text-teal-800 dark:bg-teal-900/50 dark:text-teal-200 font-medium">{activeToolsCount} outils accessibles ✨</Badge>
+              <Badge variant="secondary" className="bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200 font-medium">{allTools.length - activeToolsCount} en dev</Badge>
+              <Badge variant="secondary" className="bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-200 font-medium">100% gratuit</Badge>
             </div>
           </section>
 
@@ -172,40 +172,45 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
               {filteredTools.map((tool) => (
                 <Card 
                   key={tool.id}
-                  className={`transition duration-200 border-0 rounded-2xl shadow-xl group hover:shadow-2xl hover:scale-105 cursor-pointer px-2 py-3 relative overflow-hidden ${
+                  className={`flex flex-col justify-between transition duration-300 border rounded-2xl shadow-lg group hover:shadow-xl hover:scale-[1.03] cursor-pointer relative overflow-hidden ${
                     tool.status === 'active' 
-                      ? 'hover:ring-2 hover:ring-indigo-200'
+                      ? 'hover:border-violet-300 dark:hover:border-violet-700'
                       : 'opacity-70'
-                  } bg-white/90 dark:bg-slate-800/90`}
+                  } bg-white/70 dark:bg-slate-800/60 backdrop-blur-sm`}
                   onClick={tool.status === 'active' ? onStartJourney : undefined}
                 >
-                  <CardHeader className="pb-1 flex items-center flex-row gap-3">
-                    <div className={`rounded-full shadow-inner bg-gradient-to-br from-white via-indigo-100 to-indigo-300 dark:from-gray-800 dark:to-fuchsia-900 p-3 flex items-center`}>
-                      {/* Icon: Lucide plus grande */}
-                      <tool.icon className="h-8 w-8 text-indigo-500 group-hover:scale-110 transition" />
-                    </div>
-                    <CardTitle className="text-base font-bold flex-1 truncate">{tool.title}</CardTitle>
-                    <Badge className={
-                      tool.status === 'active'
-                        ? "bg-green-400 text-white text-xs shadow-sm"
-                        : "bg-fuchsia-200 text-fuchsia-800 text-xs"
-                      }>
-                      {tool.status === 'active' ? "Actif" : "Bientôt"}
-                    </Badge>
-                  </CardHeader>
-                  <CardContent className="pt-0 pb-2">
+                  <div>
+                    <CardHeader className="p-4 pb-2 flex items-start flex-row gap-3">
+                      <div className={`rounded-xl shadow-inner bg-gradient-to-br from-violet-50 to-sky-100 dark:from-gray-800 dark:to-violet-900/30 p-3 flex items-center`}>
+                        <tool.icon className="h-8 w-8 text-violet-500 group-hover:scale-110 transition" />
+                      </div>
+                      <CardTitle className="text-base font-bold flex-1 pt-1">{tool.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="px-4 pt-0 pb-2">
+                      <div className="flex justify-end">
+                        <Badge className={`text-xs font-medium ${
+                          tool.status === 'active'
+                            ? "bg-teal-100 text-teal-800 dark:bg-teal-900/50 dark:text-teal-200"
+                            : "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200"
+                          }`}>
+                          {tool.status === 'active' ? "Actif" : "Bientôt"}
+                        </Badge>
+                      </div>
+                    </CardContent>
+                  </div>
+                  <CardContent className="p-4 pt-0">
                     {tool.status === 'active' ? (
                       <Button 
                         size="sm" 
-                        className="w-full font-medium bg-gradient-to-tr from-indigo-400 via-violet-400 to-fuchsia-400 text-white shadow  text-xs mt-2"
+                        className="w-full font-semibold bg-violet-500 hover:bg-violet-600 text-white shadow-lg hover:shadow-violet-500/30 text-xs"
                         onClick={onStartJourney}
                       >
-                        Utiliser
+                        Utiliser l'outil
                       </Button>
                     ) : (
-                      <Button variant="outline" size="sm" className="w-full text-xs opacity-80 mt-2" disabled>
+                      <Button variant="outline" size="sm" className="w-full text-xs opacity-80" disabled>
                         <Clock className="mr-1 h-3 w-3" />
-                        Bientôt
+                        Bientôt disponible
                       </Button>
                     )}
                   </CardContent>
