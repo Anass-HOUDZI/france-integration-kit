@@ -11,9 +11,7 @@ import {
   Heart,
   GraduationCap,
   Globe,
-  Settings,
-  Wifi,
-  WifiOff
+  Settings
 } from 'lucide-react';
 import HomePage from '@/components/HomePage';
 import ProfileSelector from '@/components/ProfileSelector';
@@ -31,6 +29,7 @@ import { useI18n } from '@/hooks/useI18n';
 import { useUserProfile } from '@/hooks/useUserProfile';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import Footer from '@/components/Footer';
+import OnlineStatusIndicator from '@/components/OnlineStatusIndicator';
 
 type View = 
   | 'home'
@@ -150,11 +149,6 @@ const Index = () => {
             )}
           </div>
           <div className="flex items-center gap-4 w-full justify-end sm:w-auto">
-            {isOnline ? (
-                <Wifi className="h-5 w-5 text-green-500" />
-              ) : (
-                <WifiOff className="h-5 w-5 text-red-500" />
-            )}
             <LanguageSelector />
             <ThemeToggle />
             {hasProfile && (
@@ -329,6 +323,7 @@ const Index = () => {
       </main>
       {/* Notifications/Feedback Sonner */}
       <div id="notifications" className="fixed top-4 right-4 z-50" />
+      <OnlineStatusIndicator />
       <Footer />
     </div>
   );

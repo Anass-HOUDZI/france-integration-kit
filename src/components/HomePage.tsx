@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import Footer from "./Footer";
 import SidebarNav from "./SidebarNav";
 import ProgressBar from "./ProgressBar";
 import UserMenu from "./UserMenu";
@@ -219,7 +218,6 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
             </div>
           </section>
 
-          <Footer />
         </div>
       </div>
     </SidebarProvider>
