@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,6 +25,7 @@ import {
   Building,
   PiggyBank
 } from 'lucide-react';
+import Footer from "./Footer";
 
 interface HomePageProps {
   onStartJourney: () => void;
@@ -285,6 +285,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
           </Button>
         </div>
       </section>
+      <Footer />
     </div>
   );
 };

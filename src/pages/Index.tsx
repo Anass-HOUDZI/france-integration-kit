@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,6 +27,7 @@ import { LanguageSelector } from '@/components/LanguageSelector';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useI18n } from '@/hooks/useI18n';
 import { useUserProfile } from '@/hooks/useUserProfile';
+import Footer from '@/components/Footer';
 
 type View = 
   | 'home'
@@ -313,12 +313,14 @@ const Index = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
       {(currentView !== 'home' || hasProfile) && renderHeader()}
-      {renderContent()}
+      <main className="flex-1">
+        {renderContent()}
+      </main>
+      <Footer />
     </div>
   );
 };
 
 export default Index;
-
