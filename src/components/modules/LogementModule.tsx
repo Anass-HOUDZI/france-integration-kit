@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Home, Calculator, FileText, MapPin, Users, AlertCircle, Clock, CheckSquare, TrendingDown, Shield } from 'lucide-react';
+import { Home, Calculator, FileText, MapPin, Users, AlertCircle, Clock, CheckSquare, TrendingDown, Shield, Calendar } from 'lucide-react';
 import BudgetCalculator from '@/components/tools/BudgetCalculator';
 import RentalDossier from '@/components/tools/RentalDossier';
 import StateOfPlayTool from '@/components/tools/StateOfPlayTool';

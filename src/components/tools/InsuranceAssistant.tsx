@@ -224,7 +224,7 @@ const InsuranceAssistant: React.FC<InsuranceAssistantProps> = ({ userProfile }) 
                 <Checkbox 
                   id="balcony" 
                   checked={hasBalcony}
-                  onCheckedChange={setHasBalcony}
+                  onCheckedChange={(checked) => setHasBalcony(checked === true)}
                 />
                 <Label htmlFor="balcony">Balcon/Terrasse</Label>
               </div>
@@ -233,7 +233,7 @@ const InsuranceAssistant: React.FC<InsuranceAssistantProps> = ({ userProfile }) 
                 <Checkbox 
                   id="garden" 
                   checked={hasGarden}
-                  onCheckedChange={setHasGarden}
+                  onCheckedChange={(checked) => setHasGarden(checked === true)}
                 />
                 <Label htmlFor="garden">Jardin</Label>
               </div>
@@ -242,7 +242,7 @@ const InsuranceAssistant: React.FC<InsuranceAssistantProps> = ({ userProfile }) 
                 <Checkbox 
                   id="cellar" 
                   checked={hasCellar}
-                  onCheckedChange={setHasCellar}
+                  onCheckedChange={(checked) => setHasCellar(checked === true)}
                 />
                 <Label htmlFor="cellar">Cave/Grenier</Label>
               </div>
@@ -251,7 +251,7 @@ const InsuranceAssistant: React.FC<InsuranceAssistantProps> = ({ userProfile }) 
                 <Checkbox 
                   id="expensive" 
                   checked={hasExpensiveItems}
-                  onCheckedChange={setHasExpensiveItems}
+                  onCheckedChange={(checked) => setHasExpensiveItems(checked === true)}
                 />
                 <Label htmlFor="expensive">Objets de valeur</Label>
               </div>
