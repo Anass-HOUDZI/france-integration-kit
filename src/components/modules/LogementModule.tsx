@@ -1,15 +1,16 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Home, Calculator, FileText, MapPin, Users, AlertCircle, Clock, CheckSquare, TrendingDown, Shield, Calendar } from 'lucide-react';
+import { Home, Calculator, FileText, MapPin, Users, AlertCircle, Clock, CheckSquare, TrendingDown, Shield, Calendar, Truck } from 'lucide-react';
 import BudgetCalculator from '@/components/tools/BudgetCalculator';
 import RentalDossier from '@/components/tools/RentalDossier';
 import StateOfPlayTool from '@/components/tools/StateOfPlayTool';
 import NeighborhoodComparator from '@/components/tools/NeighborhoodComparator';
 import RentNegotiator from '@/components/tools/RentNegotiator';
 import InsuranceAssistant from '@/components/tools/InsuranceAssistant';
+import MovingCalculatorTool from '@/components/tools/MovingCalculatorTool';
+import MovingPlannerTool from '@/components/tools/MovingPlannerTool';
 
 interface LogementModuleProps {
   userProfile: any;
@@ -85,10 +86,11 @@ const LogementModule: React.FC<LogementModuleProps> = ({ userProfile, diagnostic
       id: 'moving_calculator',
       title: 'Calculateur Frais Déménagement',
       description: 'Estimez le coût de votre déménagement',
-      icon: Calculator,
+      icon: Truck,
       color: 'bg-red-500',
       category: 'Déménagement',
-      status: 'coming_soon'
+      status: 'active',
+      component: MovingCalculatorTool
     },
     {
       id: 'moving_planner',
@@ -97,7 +99,8 @@ const LogementModule: React.FC<LogementModuleProps> = ({ userProfile, diagnostic
       icon: Calendar,
       color: 'bg-yellow-500',
       category: 'Planning',
-      status: 'coming_soon'
+      status: 'active',
+      component: MovingPlannerTool
     }
   ];
 

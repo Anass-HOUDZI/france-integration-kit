@@ -1,13 +1,15 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Briefcase, FileText, Calculator, Users, GraduationCap, Clock, AlertCircle } from 'lucide-react';
+import { Briefcase, FileText, Calculator, Users, GraduationCap, Clock, AlertCircle, TrendingUp, FolderOpen } from 'lucide-react';
 import CVTranslatorTool from '@/components/tools/CVTranslatorTool';
 import SalaryCalculatorTool from '@/components/tools/SalaryCalculatorTool';
 import MotivationLetterTool from '@/components/tools/MotivationLetterTool';
 import InterviewAssistantTool from '@/components/tools/InterviewAssistantTool';
 import DiplomaEquivalenceTool from '@/components/tools/DiplomaEquivalenceTool';
+import UnemploymentSimulatorTool from '@/components/tools/UnemploymentSimulatorTool';
 
 interface EmploiModuleProps {
   userProfile: any;
@@ -73,9 +75,28 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
       id: 'unemployment_simulator',
       title: 'Simulateur Droits Pôle Emploi',
       description: 'Calculez vos droits aux allocations',
-      icon: Calculator,
+      icon: TrendingUp,
       color: 'bg-orange-500',
       category: 'Droits',
+      status: 'active',
+      component: UnemploymentSimulatorTool
+    },
+    {
+      id: 'training_guide',
+      title: 'Guide Formation Professionnelle',
+      description: 'Naviguer dans le système de formation français',
+      icon: GraduationCap,
+      color: 'bg-pink-500',
+      category: 'Formation',
+      status: 'coming_soon'
+    },
+    {
+      id: 'portfolio_creator',
+      title: 'Créateur Portfolio Professionnel',
+      description: 'Mettez en valeur vos compétences',
+      icon: FolderOpen,
+      color: 'bg-cyan-500',
+      category: 'Portfolio',
       status: 'coming_soon'
     }
   ];
