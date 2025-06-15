@@ -14,11 +14,11 @@ import {
   Globe,
   Settings
 } from 'lucide-react';
-import { ProfileSelector } from '@/components/ProfileSelector';
-import { DiagnosticWizard } from '@/components/DiagnosticWizard';
-import { AdminModule } from '@/components/modules/AdminModule';
-import { LogementModule } from '@/components/modules/LogementModule';
-import { EmploiModule } from '@/components/modules/EmploiModule';
+import ProfileSelector from '@/components/ProfileSelector';
+import DiagnosticWizard from '@/components/DiagnosticWizard';
+import AdminModule from '@/components/modules/AdminModule';
+import LogementModule from '@/components/modules/LogementModule';
+import EmploiModule from '@/components/modules/EmploiModule';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useI18n } from '@/hooks/useI18n';
@@ -29,7 +29,7 @@ type View = 'home' | 'profile' | 'diagnostic' | 'modules' | 'admin' | 'logement'
 const Index = () => {
   const [currentView, setCurrentView] = useState<View>('home');
   const { t } = useI18n();
-  const { currentProfile, hasProfile } = useUserProfile();
+  const { currentProfile, hasProfile, diagnostic, saveProfile, saveDiagnostic } = useUserProfile();
 
   const modules = [
     {
@@ -97,6 +97,16 @@ const Index = () => {
     }
   ];
 
+  const handleProfileComplete = (profile: any) => {
+    saveProfile(profile);
+    setCurrentView('diagnostic');
+  };
+
+  const handleDiagnosticComplete = (diagnostic: any) => {
+    saveDiagnostic(diagnostic);
+    setCurrentView('modules');
+  };
+
   const renderHeader = () => (
     <header className="border-b bg-white dark:bg-gray-900 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
@@ -136,24 +146,58 @@ const Index = () => {
   const renderContent = () => {
     // Si pas de profil, afficher la sélection
     if (!hasProfile && currentView === 'home') {
-      return <ProfileSelector onComplete={() => setCurrentView('diagnostic')} />;
+      return (
+        <ProfileSelector 
+          onProfileSelect={handleProfileComplete}
+          onBack={() => setCurrentView('home')}
+        />
+      );
     }
 
     switch (currentView) {
       case 'profile':
-        return <ProfileSelector onComplete={() => setCurrentView('home')} />;
+        return (
+          <ProfileSelector 
+            onProfileSelect={handleProfileComplete}
+            onBack={() => setCurrentView('home')}
+          />
+        );
       
       case 'diagnostic':
-        return <DiagnosticWizard onComplete={() => setCurrentView('modules')} />;
+        return (
+          <DiagnosticWizard 
+            userProfile={currentProfile}
+            onDiagnosticComplete={handleDiagnosticComplete}
+            onBack={() => setCurrentView('profile')}
+          />
+        );
       
       case 'admin':
-        return <AdminModule onBack={() => setCurrentView('modules')} />;
+        return (
+          <AdminModule 
+            userProfile={currentProfile}
+            diagnostic={diagnostic}
+            onBack={() => setCurrentView('modules')}
+          />
+        );
       
       case 'logement':
-        return <LogementModule onBack={() => setCurrentView('modules')} />;
+        return (
+          <LogementModule 
+            userProfile={currentProfile}
+            diagnostic={diagnostic}
+            onBack={() => setCurrentView('modules')}
+          />
+        );
       
       case 'emploi':
-        return <EmploiModule onBack={() => setCurrentView('modules')} />;
+        return (
+          <EmploiModule 
+            userProfile={currentProfile}
+            diagnostic={diagnostic}
+            onBack={() => setCurrentView('modules')}
+          />
+        );
       
       case 'modules':
       case 'home':
