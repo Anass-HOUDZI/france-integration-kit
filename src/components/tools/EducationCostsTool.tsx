@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,22 +6,61 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { PiggyBank, Calculator, Euro, TrendingDown, Gift, AlertCircle } from 'lucide-react';
+import { PiggyBank, Calculator, Euro, TrendingDown, Gift, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
 interface EducationCostsProps {
   userProfile: any;
   diagnostic: any;
+  onBack: () => void;
 }
 
-const EducationCostsTool: React.FC<EducationCostsProps> = ({ userProfile }) => {
+interface Scholarship {
+  name: string;
+  amount: number;
+}
+
+interface Aid {
+  name: string;
+  amount: number;
+}
+
+interface LivingCosts {
+  details: { [key: string]: number };
+  total: number;
+  monthly: number;
+}
+
+interface ScholarshipData {
+  scholarships: Scholarship[];
+  total: number;
+}
+
+interface AidData {
+  aids: Aid[];
+  total: number;
+}
+
+interface Calculation {
+  tuitionFees: number;
+  livingCosts: LivingCosts;
+  scholarships: ScholarshipData;
+  aids: AidData;
+  totalAnnual: number;
+  totalMonthly: number;
+  netCost: number;
+  financingOptions: string[];
+  tips: string[];
+}
+
+const EducationCostsTool: React.FC<EducationCostsProps> = ({ userProfile, onBack }) => {
   const { saveToolData } = useUserProfile();
   const [studyLevel, setStudyLevel] = useState('');
   const [institutionType, setInstitutionType] = useState('');
   const [location, setLocation] = useState('');
   const [familyIncome, setFamilyIncome] = useState('');
   const [expenses, setExpenses] = useState<string[]>([]);
-  const [calculation, setCalculation] = useState<any>(null);
+  const [calculation, setCalculation] = useState<Calculation | null>(null);
 
   const levels = [
     { id: 'lycee', name: 'Lycée' },
@@ -77,7 +115,7 @@ const EducationCostsTool: React.FC<EducationCostsProps> = ({ userProfile }) => {
       return;
     }
 
-    const calculation = {
+    const calculation: Calculation = {
       tuitionFees: calculateTuitionFees(studyLevel, institutionData),
       livingCosts: calculateLivingCosts(expenses, locationData),
       scholarships: calculateScholarships(income, studyLevel),
@@ -120,7 +158,7 @@ const EducationCostsTool: React.FC<EducationCostsProps> = ({ userProfile }) => {
     return Math.round(base * (institution?.multiplier || 1));
   };
 
-  const calculateLivingCosts = (selectedExpenses: string[], locationData: any) => {
+  const calculateLivingCosts = (selectedExpenses: string[], locationData: any): LivingCosts => {
     const baseCosts = {
       'Logement étudiant': 500,
       'Alimentation': 300,
@@ -148,8 +186,8 @@ const EducationCostsTool: React.FC<EducationCostsProps> = ({ userProfile }) => {
     };
   };
 
-  const calculateScholarships = (income: number, level: string) => {
-    const scholarships = [];
+  const calculateScholarships = (income: number, level: string): ScholarshipData => {
+    const scholarships: Scholarship[] = [];
     let total = 0;
 
     // Bourse sur critères sociaux
@@ -176,8 +214,8 @@ const EducationCostsTool: React.FC<EducationCostsProps> = ({ userProfile }) => {
     return { scholarships, total };
   };
 
-  const calculateAids = (income: number, level: string, institutionType: string) => {
-    const aids = [];
+  const calculateAids = (income: number, level: string, institutionType: string): AidData => {
+    const aids: Aid[] = [];
     let total = 0;
 
     // APL logement
@@ -200,8 +238,8 @@ const EducationCostsTool: React.FC<EducationCostsProps> = ({ userProfile }) => {
     return { aids, total };
   };
 
-  const getFinancingOptions = (income: number, level: string) => {
-    const options = [];
+  const getFinancingOptions = (income: number, level: string): string[] => {
+    const options: string[] = [];
 
     if (income < 2000) {
       options.push('Job étudiant (10-15h/semaine max)');
@@ -219,8 +257,8 @@ const EducationCostsTool: React.FC<EducationCostsProps> = ({ userProfile }) => {
     return options;
   };
 
-  const getTips = (level: string, institutionType: string, income: number) => {
-    const tips = [
+  const getTips = (level: string, institutionType: string, income: number): string[] => {
+    const tips: string[] = [
       'Déposez votre dossier de bourse avant le 31 mai',
       'Vérifiez les aides spécifiques de votre région',
       'Explorez les résidences universitaires (plus économiques)'
@@ -242,271 +280,281 @@ const EducationCostsTool: React.FC<EducationCostsProps> = ({ userProfile }) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
-          Calculateur Frais Scolarité
-        </h1>
-        <p className="text-lg text-gray-600">
-          Estimez le coût de vos études et découvrez les aides disponibles
-        </p>
-      </div>
-
-      {/* Formulaire */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Calculator className="h-5 w-5" />
-            Votre projet d'études
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label>Niveau d'études</Label>
-              <Select value={studyLevel} onValueChange={setStudyLevel}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionnez le niveau" />
-                </SelectTrigger>
-                <SelectContent>
-                  {levels.map(level => (
-                    <SelectItem key={level.id} value={level.id}>
-                      {level.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div>
-              <Label>Type d'établissement</Label>
-              <Select value={institutionType} onValueChange={setInstitutionType}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionnez le type" />
-                </SelectTrigger>
-                <SelectContent>
-                  {institutions.map(inst => (
-                    <SelectItem key={inst.id} value={inst.id}>
-                      {inst.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label>Zone géographique</Label>
-              <Select value={location} onValueChange={setLocation}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionnez la zone" />
-                </SelectTrigger>
-                <SelectContent>
-                  {locations.map(loc => (
-                    <SelectItem key={loc.id} value={loc.id}>
-                      {loc.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div>
-              <Label htmlFor="income">Revenus familiaux annuels (€)</Label>
-              <Input
-                id="income"
-                type="number"
-                placeholder="30000"
-                value={familyIncome}
-                onChange={(e) => setFamilyIncome(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div>
-            <Label className="text-base font-medium mb-3 block">
-              Postes de dépenses à inclure
-            </Label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {expenseTypes.map(expense => (
-                <div key={expense} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={expense}
-                    checked={expenses.includes(expense)}
-                    onCheckedChange={() => toggleExpense(expense)}
-                  />
-                  <Label htmlFor={expense} className="text-sm">
-                    {expense}
-                  </Label>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <Button 
-            onClick={calculateCosts}
-            disabled={!studyLevel || !institutionType || !location || !familyIncome}
-            className="w-full"
-          >
-            <PiggyBank className="mr-2 h-4 w-4" />
-            Calculer le coût total
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center gap-4 mb-8">
+          <Button variant="outline" onClick={onBack}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Retour
           </Button>
-        </CardContent>
-      </Card>
-
-      {/* Résultats */}
-      {calculation && (
-        <div className="space-y-6">
-          {/* Résumé coûts */}
-          <Card className="border-blue-200 bg-blue-50">
-            <CardHeader>
-              <CardTitle className="text-blue-800">Estimation annuelle</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="text-center">
-                  <div className="text-sm text-gray-600">Coût brut</div>
-                  <div className="text-2xl font-bold">{calculation.totalAnnual}€</div>
-                  <div className="text-sm text-gray-500">{calculation.totalMonthly.toFixed(0)}€/mois</div>
-                </div>
-                
-                <div className="text-center">
-                  <div className="text-sm text-gray-600">Aides possibles</div>
-                  <div className="text-2xl font-bold text-green-600">
-                    -{(calculation.scholarships.total + calculation.aids.total)}€
-                  </div>
-                  <div className="text-sm text-gray-500">Bourses et aides</div>
-                </div>
-                
-                <div className="text-center">
-                  <div className="text-sm text-gray-600">Coût net estimé</div>
-                  <div className="text-2xl font-bold text-blue-600">
-                    {Math.max(0, calculation.netCost)}€
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    {Math.max(0, calculation.netCost / 12).toFixed(0)}€/mois
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Détail frais de scolarité */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Euro className="h-5 w-5" />
-                Détail des coûts
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                  <span>Frais de scolarité</span>
-                  <Badge variant="outline">{calculation.tuitionFees}€</Badge>
-                </div>
-                
-                {Object.entries(calculation.livingCosts.details).map(([expense, cost]) => (
-                  <div key={expense} className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                    <span>{expense}</span>
-                    <Badge variant="outline">{cost}€</Badge>
-                  </div>
-                ))}
-                
-                <div className="flex justify-between items-center p-3 bg-blue-50 rounded border-t-2 border-blue-200">
-                  <span className="font-medium">Total annuel</span>
-                  <Badge className="bg-blue-200 text-blue-800">{calculation.totalAnnual}€</Badge>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Bourses et aides */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Gift className="h-5 w-5" />
-                  Bourses disponibles
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {calculation.scholarships.scholarships.map((scholarship: any, index: number) => (
-                    <div key={index} className="flex justify-between items-center p-2 bg-green-50 rounded">
-                      <span className="text-sm">{scholarship.name}</span>
-                      <Badge className="bg-green-200 text-green-800">{scholarship.amount}€</Badge>
-                    </div>
-                  ))}
-                  {calculation.scholarships.scholarships.length === 0 && (
-                    <p className="text-sm text-gray-500">Aucune bourse disponible selon vos critères</p>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <TrendingDown className="h-5 w-5" />
-                  Autres aides
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {calculation.aids.aids.map((aid: any, index: number) => (
-                    <div key={index} className="flex justify-between items-center p-2 bg-yellow-50 rounded">
-                      <span className="text-sm">{aid.name}</span>
-                      <Badge className="bg-yellow-200 text-yellow-800">{aid.amount}€</Badge>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Calculateur Frais Scolarité
+            </h1>
+            <p className="text-gray-600 dark:text-gray-300">
+              Estimez le coût de vos études et découvrez les aides disponibles
+            </p>
           </div>
-
-          {/* Options de financement */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <PiggyBank className="h-5 w-5" />
-                Options de financement
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {calculation.financingOptions.map((option: string, index: number) => (
-                  <div key={index} className="flex items-center gap-2 p-2">
-                    <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-                    <span className="text-sm">{option}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Conseils */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertCircle className="h-5 w-5" />
-                Conseils pour optimiser votre budget
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {calculation.tips.map((tip: string, index: number) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <span className="text-blue-600">💡</span>
-                    <span className="text-sm">{tip}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
         </div>
-      )}
+
+        <div className="max-w-6xl mx-auto space-y-6">
+          {/* Formulaire */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Calculator className="h-5 w-5" />
+                Votre projet d'études
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label>Niveau d'études</Label>
+                  <Select value={studyLevel} onValueChange={setStudyLevel}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Sélectionnez le niveau" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {levels.map(level => (
+                        <SelectItem key={level.id} value={level.id}>
+                          {level.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div>
+                  <Label>Type d'établissement</Label>
+                  <Select value={institutionType} onValueChange={setInstitutionType}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Sélectionnez le type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {institutions.map(inst => (
+                        <SelectItem key={inst.id} value={inst.id}>
+                          {inst.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label>Zone géographique</Label>
+                  <Select value={location} onValueChange={setLocation}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Sélectionnez la zone" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {locations.map(loc => (
+                        <SelectItem key={loc.id} value={loc.id}>
+                          {loc.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div>
+                  <Label htmlFor="income">Revenus familiaux annuels (€)</Label>
+                  <Input
+                    id="income"
+                    type="number"
+                    placeholder="30000"
+                    value={familyIncome}
+                    onChange={(e) => setFamilyIncome(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label className="text-base font-medium mb-3 block">
+                  Postes de dépenses à inclure
+                </Label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {expenseTypes.map(expense => (
+                    <div key={expense} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={expense}
+                        checked={expenses.includes(expense)}
+                        onCheckedChange={() => toggleExpense(expense)}
+                      />
+                      <Label htmlFor={expense} className="text-sm">
+                        {expense}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <Button 
+                onClick={calculateCosts}
+                disabled={!studyLevel || !institutionType || !location || !familyIncome}
+                className="w-full"
+              >
+                <PiggyBank className="mr-2 h-4 w-4" />
+                Calculer le coût total
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Résultats */}
+          {calculation && (
+            <div className="space-y-6">
+              {/* Résumé coûts */}
+              <Card className="border-blue-200 bg-blue-50">
+                <CardHeader>
+                  <CardTitle className="text-blue-800">Estimation annuelle</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="text-center">
+                      <div className="text-sm text-gray-600">Coût brut</div>
+                      <div className="text-2xl font-bold">{calculation.totalAnnual}€</div>
+                      <div className="text-sm text-gray-500">{calculation.totalMonthly.toFixed(0)}€/mois</div>
+                    </div>
+                    
+                    <div className="text-center">
+                      <div className="text-sm text-gray-600">Aides possibles</div>
+                      <div className="text-2xl font-bold text-green-600">
+                        -{(calculation.scholarships.total + calculation.aids.total)}€
+                      </div>
+                      <div className="text-sm text-gray-500">Bourses et aides</div>
+                    </div>
+                    
+                    <div className="text-center">
+                      <div className="text-sm text-gray-600">Coût net estimé</div>
+                      <div className="text-2xl font-bold text-blue-600">
+                        {Math.max(0, calculation.netCost)}€
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {Math.max(0, calculation.netCost / 12).toFixed(0)}€/mois
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Détail frais de scolarité */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Euro className="h-5 w-5" />
+                    Détail des coûts
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                      <span>Frais de scolarité</span>
+                      <Badge variant="outline">{calculation.tuitionFees}€</Badge>
+                    </div>
+                    
+                    {Object.entries(calculation.livingCosts.details).map(([expense, cost]) => (
+                      <div key={expense} className="flex justify-between items-center p-3 bg-gray-50 rounded">
+                        <span>{expense}</span>
+                        <Badge variant="outline">{cost}€</Badge>
+                      </div>
+                    ))}
+                    
+                    <div className="flex justify-between items-center p-3 bg-blue-50 rounded border-t-2 border-blue-200">
+                      <span className="font-medium">Total annuel</span>
+                      <Badge className="bg-blue-200 text-blue-800">{calculation.totalAnnual}€</Badge>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Bourses et aides */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Gift className="h-5 w-5" />
+                      Bourses disponibles
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {calculation.scholarships.scholarships.map((scholarship, index) => (
+                        <div key={index} className="flex justify-between items-center p-2 bg-green-50 rounded">
+                          <span className="text-sm">{scholarship.name}</span>
+                          <Badge className="bg-green-200 text-green-800">{scholarship.amount}€</Badge>
+                        </div>
+                      ))}
+                      {calculation.scholarships.scholarships.length === 0 && (
+                        <p className="text-sm text-gray-500">Aucune bourse disponible selon vos critères</p>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <TrendingDown className="h-5 w-5" />
+                      Autres aides
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {calculation.aids.aids.map((aid, index) => (
+                        <div key={index} className="flex justify-between items-center p-2 bg-yellow-50 rounded">
+                          <span className="text-sm">{aid.name}</span>
+                          <Badge className="bg-yellow-200 text-yellow-800">{aid.amount}€</Badge>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Options de financement */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <PiggyBank className="h-5 w-5" />
+                    Options de financement
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {calculation.financingOptions.map((option, index) => (
+                      <div key={index} className="flex items-center gap-2 p-2">
+                        <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
+                        <span className="text-sm">{option}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Conseils */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <AlertCircle className="h-5 w-5" />
+                    Conseils pour optimiser votre budget
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {calculation.tips.map((tip, index) => (
+                      <div key={index} className="flex items-start gap-2">
+                        <span className="text-blue-600">💡</span>
+                        <span className="text-sm">{tip}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

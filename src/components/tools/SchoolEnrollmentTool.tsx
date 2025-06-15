@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,15 +5,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { GraduationCap, MapPin, FileText, Calendar, CheckSquare, AlertTriangle } from 'lucide-react';
+import { GraduationCap, MapPin, FileText, Calendar, CheckSquare, AlertTriangle, ArrowLeft } from 'lucide-react';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
 interface SchoolEnrollmentProps {
   userProfile: any;
   diagnostic: any;
+  onBack: () => void;
 }
 
-const SchoolEnrollmentTool: React.FC<SchoolEnrollmentProps> = ({ userProfile }) => {
+const SchoolEnrollmentTool: React.FC<SchoolEnrollmentProps> = ({ userProfile, onBack }) => {
   const { saveToolData } = useUserProfile();
   const [childAge, setChildAge] = useState('');
   const [currentLevel, setCurrentLevel] = useState('');
@@ -167,186 +167,196 @@ const SchoolEnrollmentTool: React.FC<SchoolEnrollmentProps> = ({ userProfile }) 
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
-          Guide Inscription Scolaire
-        </h1>
-        <p className="text-lg text-gray-600">
-          Procédures pour inscrire votre enfant dans le système éducatif français
-        </p>
-      </div>
-
-      {/* Formulaire */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <GraduationCap className="h-5 w-5" />
-            Informations sur votre enfant
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="childAge">Âge de l'enfant</Label>
-              <Input
-                id="childAge"
-                type="number"
-                placeholder="7"
-                value={childAge}
-                onChange={(e) => setChildAge(e.target.value)}
-              />
-            </div>
-            
-            <div>
-              <Label>Niveau scolaire actuel</Label>
-              <Select value={currentLevel} onValueChange={setCurrentLevel}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Sélectionnez" />
-                </SelectTrigger>
-                <SelectContent>
-                  {levels.map(level => (
-                    <SelectItem key={level.id} value={level.id}>
-                      {level.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          <div>
-            <Label htmlFor="address">Adresse de résidence</Label>
-            <Input
-              id="address"
-              placeholder="Ville ou code postal"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <Label>Votre situation</Label>
-            <Select value={situation} onValueChange={setSituation}>
-              <SelectTrigger>
-                <SelectValue placeholder="Sélectionnez votre situation" />
-              </SelectTrigger>
-              <SelectContent>
-                {situations.map(sit => (
-                  <SelectItem key={sit.id} value={sit.id}>
-                    {sit.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <Button 
-            onClick={generateEnrollmentPlan}
-            disabled={!childAge || !situation}
-            className="w-full"
-          >
-            <FileText className="mr-2 h-4 w-4" />
-            Générer mon plan d'inscription
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center gap-4 mb-8">
+          <Button variant="outline" onClick={onBack}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Retour
           </Button>
-        </CardContent>
-      </Card>
-
-      {/* Plan d'inscription */}
-      {enrollmentPlan && (
-        <div className="space-y-6">
-          {/* Niveau recommandé */}
-          <Card className="border-blue-200 bg-blue-50">
-            <CardHeader>
-              <CardTitle className="text-blue-800">
-                Niveau recommandé : {enrollmentPlan.level.name}
-              </CardTitle>
-            </CardHeader>
-          </Card>
-
-          {/* Documents requis */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                Documents requis
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {enrollmentPlan.documents.map((doc: string, index: number) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <CheckSquare className="h-4 w-4 text-green-600" />
-                    <span className="text-sm">{doc}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Calendrier */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="h-5 w-5" />
-                Calendrier d'inscription
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {enrollmentPlan.timeline.map((step: any, index: number) => (
-                  <div key={index} className="flex items-center gap-4 p-3 bg-gray-50 rounded">
-                    <Badge variant="outline">{step.period}</Badge>
-                    <span className="text-sm">{step.action}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Procédures */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MapPin className="h-5 w-5" />
-                Étapes à suivre
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {enrollmentPlan.procedures.map((procedure: string, index: number) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold mt-0.5">
-                      {index + 1}
-                    </div>
-                    <span className="text-sm">{procedure}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Conseils */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5" />
-                Conseils utiles
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {enrollmentPlan.tips.map((tip: string, index: number) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <span className="text-blue-600">💡</span>
-                    <span className="text-sm">{tip}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Guide Inscription Scolaire
+            </h1>
+            <p className="text-gray-600 dark:text-gray-300">
+              Procédures pour inscrire votre enfant dans le système éducatif français
+            </p>
+          </div>
         </div>
-      )}
+
+        <div className="max-w-6xl mx-auto space-y-6">
+          {/* Formulaire */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <GraduationCap className="h-5 w-5" />
+                Informations sur votre enfant
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="childAge">Âge de l'enfant</Label>
+                  <Input
+                    id="childAge"
+                    type="number"
+                    placeholder="7"
+                    value={childAge}
+                    onChange={(e) => setChildAge(e.target.value)}
+                  />
+                </div>
+                
+                <div>
+                  <Label>Niveau scolaire actuel</Label>
+                  <Select value={currentLevel} onValueChange={setCurrentLevel}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Sélectionnez" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {levels.map(level => (
+                        <SelectItem key={level.id} value={level.id}>
+                          {level.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="address">Adresse de résidence</Label>
+                <Input
+                  id="address"
+                  placeholder="Ville ou code postal"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <Label>Votre situation</Label>
+                <Select value={situation} onValueChange={setSituation}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Sélectionnez votre situation" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {situations.map(sit => (
+                      <SelectItem key={sit.id} value={sit.id}>
+                        {sit.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Button 
+                onClick={generateEnrollmentPlan}
+                disabled={!childAge || !situation}
+                className="w-full"
+              >
+                <FileText className="mr-2 h-4 w-4" />
+                Générer mon plan d'inscription
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Plan d'inscription */}
+          {enrollmentPlan && (
+            <div className="space-y-6">
+              {/* Niveau recommandé */}
+              <Card className="border-blue-200 bg-blue-50">
+                <CardHeader>
+                  <CardTitle className="text-blue-800">
+                    Niveau recommandé : {enrollmentPlan.level.name}
+                  </CardTitle>
+                </CardHeader>
+              </Card>
+
+              {/* Documents requis */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <FileText className="h-5 w-5" />
+                    Documents requis
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {enrollmentPlan.documents.map((doc: string, index: number) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <CheckSquare className="h-4 w-4 text-green-600" />
+                        <span className="text-sm">{doc}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Calendrier */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Calendar className="h-5 w-5" />
+                    Calendrier d'inscription
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {enrollmentPlan.timeline.map((step: any, index: number) => (
+                      <div key={index} className="flex items-center gap-4 p-3 bg-gray-50 rounded">
+                        <Badge variant="outline">{step.period}</Badge>
+                        <span className="text-sm">{step.action}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Procédures */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <MapPin className="h-5 w-5" />
+                    Étapes à suivre
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {enrollmentPlan.procedures.map((procedure: string, index: number) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <div className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold mt-0.5">
+                          {index + 1}
+                        </div>
+                        <span className="text-sm">{procedure}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Conseils */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <AlertTriangle className="h-5 w-5" />
+                    Conseils utiles
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {enrollmentPlan.tips.map((tip: string, index: number) => (
+                      <div key={index} className="flex items-start gap-2">
+                        <span className="text-blue-600">💡</span>
+                        <span className="text-sm">{tip}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
