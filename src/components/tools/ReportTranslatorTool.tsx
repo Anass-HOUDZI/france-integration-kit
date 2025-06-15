@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,15 +6,16 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Globe, FileText, ArrowRight, BookOpen, GraduationCap, Award } from 'lucide-react';
+import { Globe, FileText, ArrowRight, BookOpen, GraduationCap, Award, ArrowLeft } from 'lucide-react';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
 interface ReportTranslatorProps {
   userProfile: any;
   diagnostic: any;
+  onBack: () => void;
 }
 
-const ReportTranslatorTool: React.FC<ReportTranslatorProps> = ({ userProfile }) => {
+const ReportTranslatorTool: React.FC<ReportTranslatorProps> = ({ userProfile, onBack }) => {
   const { saveToolData } = useUserProfile();
   const [originCountry, setOriginCountry] = useState('');
   const [gradeLevel, setGradeLevel] = useState('');
@@ -250,13 +250,19 @@ const ReportTranslatorTool: React.FC<ReportTranslatorProps> = ({ userProfile }) 
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
-          Traducteur Bulletins Scolaires
-        </h1>
-        <p className="text-lg text-gray-600">
-          Convertissez vos notes étrangères vers le système français
-        </p>
+      <div className="flex items-center gap-4 mb-6">
+        <Button variant="outline" onClick={onBack}>
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Retour
+        </Button>
+        <div className="text-center flex-1">
+          <h1 className="text-3xl font-bold text-gray-900 mb-1">
+            Traducteur Bulletins Scolaires
+          </h1>
+          <p className="text-lg text-gray-600">
+            Convertissez vos notes étrangères vers le système français
+          </p>
+        </div>
       </div>
 
       {/* Formulaire */}
