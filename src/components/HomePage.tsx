@@ -13,6 +13,7 @@ import SidebarNav from "./SidebarNav";
 import ProgressBar from "./ProgressBar";
 import UserMenu from "./UserMenu";
 import { toast } from "@/hooks/use-toast";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 // Toutes les icônes Lucide sont intégrées via SidebarNav, on utilise les couleurs là-bas.
 
@@ -110,111 +111,113 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
   const activeToolsCount = allTools.filter(t => t.status === 'active').length;
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-indigo-100 via-white to-cyan-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-500">
-      {/* Sidebar Navigation */}
-      <div className="hidden md:block w-56 shrink-0">
-        <SidebarNav selected={selectedCategory} onSelect={setSelectedCategory} />
-      </div>
+    <SidebarProvider>
+      <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-indigo-100 via-white to-cyan-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-500">
+        {/* Sidebar Navigation */}
+        <div className="hidden md:block w-56 shrink-0">
+          <SidebarNav selected={selectedCategory} onSelect={setSelectedCategory} />
+        </div>
 
-      {/* Main content */}
-      <div className="flex-1 w-full max-w-full mx-auto px-2 sm:px-6 md:px-10 flex flex-col relative">
+        {/* Main content */}
+        <div className="flex-1 w-full max-w-full mx-auto px-2 sm:px-6 md:px-10 flex flex-col relative">
 
-        {/* Sticky Top Area */}
-        <section className="sticky top-0 z-30 bg-gradient-to-tr from-white/70 to-indigo-50/60 dark:from-gray-900 dark:to-gray-900/70 backdrop-blur flex flex-col md:flex-row items-center gap-2 pt-3 pb-1 shadow">
-          <div className="flex flex-1 items-center gap-2 w-full">
-            <Search className="text-indigo-400 h-5 w-5 absolute ml-4 pointer-events-none" />
-            <Input
-              placeholder="Rechercher un outil, une catégorie..."
-              value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
-              className="pl-10 py-2 w-full rounded-2xl bg-white/60 dark:bg-slate-800 border shadow-sm focus:outline-none max-w-xs"
-            />
-          </div>
-          <div className="flex items-center gap-3">
-            <UserMenu />
-            <Button 
-              variant="default"
-              size="sm"
-              onClick={onStartJourney}
-              className="bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 text-white font-bold px-4 py-2 rounded-full shadow hover:scale-105 transition-all"
-            >
-              Profiler mon parcours
-            </Button>
-          </div>
-        </section>
-
-        {/* ProgressBar */}
-        <ProgressBar active={activeToolsCount} total={allTools.length} />
-
-        {/* Hero */}
-        <section className="pt-4 pb-4 text-center">
-          <span className="inline-block rounded-full bg-gradient-to-r from-indigo-400 to-fuchsia-500 text-white px-4 py-2 mb-4 shadow-sm font-medium text-base">
-            🇫🇷 Plateforme #1 de l’intégration gratuite
-          </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-3">
-            IntégrationFrance.org
-          </h1>
-          <p className="text-md md:text-lg text-gray-700 dark:text-gray-200 mb-3">
-            <strong>+50 outils digitaux gratuits</strong> pour <b className="bg-fuchsia-100 dark:bg-fuchsia-900/30 rounded px-2 text-fuchsia-700 dark:text-fuchsia-200">réussir votre intégration</b> et démarches en France, <span className="underline">sans inscription</span>.
-          </p>
-          <div className="flex flex-col xs:flex-row gap-3 xs:justify-center items-center mb-5">
-            <Badge variant="default" className="bg-green-100 text-green-700">{activeToolsCount} outils accessibles ✨</Badge>
-            <Badge variant="secondary" className="bg-fuchsia-100 text-fuchsia-700">{allTools.length - activeToolsCount} en dev</Badge>
-            <Badge variant="secondary" className="bg-emerald-100 text-emerald-700">100% gratuit</Badge>
-          </div>
-        </section>
-
-        {/* Liste des outils */}
-        <section className="pb-5 px-1">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filteredTools.map((tool) => (
-              <Card 
-                key={tool.id}
-                className={`transition duration-200 border-0 rounded-2xl shadow-xl group hover:shadow-2xl hover:scale-105 cursor-pointer px-2 py-3 relative overflow-hidden ${
-                  tool.status === 'active' 
-                    ? 'hover:ring-2 hover:ring-indigo-200'
-                    : 'opacity-70'
-                } bg-white/90 dark:bg-slate-800/90`}
-                onClick={tool.status === 'active' ? onStartJourney : undefined}
+          {/* Sticky Top Area */}
+          <section className="sticky top-0 z-30 bg-gradient-to-tr from-white/70 to-indigo-50/60 dark:from-gray-900 dark:to-gray-900/70 backdrop-blur flex flex-col md:flex-row items-center gap-2 pt-3 pb-1 shadow">
+            <div className="flex flex-1 items-center gap-2 w-full">
+              <Search className="text-indigo-400 h-5 w-5 absolute ml-4 pointer-events-none" />
+              <Input
+                placeholder="Rechercher un outil, une catégorie..."
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                className="pl-10 py-2 w-full rounded-2xl bg-white/60 dark:bg-slate-800 border shadow-sm focus:outline-none max-w-xs"
+              />
+            </div>
+            <div className="flex items-center gap-3">
+              <UserMenu />
+              <Button 
+                variant="default"
+                size="sm"
+                onClick={onStartJourney}
+                className="bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 text-white font-bold px-4 py-2 rounded-full shadow hover:scale-105 transition-all"
               >
-                <CardHeader className="pb-1 flex items-center flex-row gap-3">
-                  <div className={`rounded-full shadow-inner bg-gradient-to-br from-white via-indigo-100 to-indigo-300 dark:from-gray-800 dark:to-fuchsia-900 p-3 flex items-center`}>
-                    {/* Icon: Lucide plus grande */}
-                    <tool.icon className="h-8 w-8 text-indigo-500 group-hover:scale-110 transition" />
-                  </div>
-                  <CardTitle className="text-base font-bold flex-1 truncate">{tool.title}</CardTitle>
-                  <Badge className={
-                    tool.status === 'active'
-                      ? "bg-green-400 text-white text-xs shadow-sm"
-                      : "bg-fuchsia-200 text-fuchsia-800 text-xs"
-                    }>
-                    {tool.status === 'active' ? "Actif" : "Bientôt"}
-                  </Badge>
-                </CardHeader>
-                <CardContent className="pt-0 pb-2">
-                  {tool.status === 'active' ? (
-                    <Button 
-                      size="sm" 
-                      className="w-full font-medium bg-gradient-to-tr from-indigo-400 via-violet-400 to-fuchsia-400 text-white shadow  text-xs mt-2"
-                      onClick={onStartJourney}
-                    >
-                      Utiliser
-                    </Button>
-                  ) : (
-                    <Button variant="outline" size="sm" className="w-full text-xs opacity-80 mt-2" disabled>
-                      <Clock className="mr-1 h-3 w-3" />
-                      Bientôt
-                    </Button>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
+                Profiler mon parcours
+              </Button>
+            </div>
+          </section>
 
-        <Footer />
+          {/* ProgressBar */}
+          <ProgressBar active={activeToolsCount} total={allTools.length} />
+
+          {/* Hero */}
+          <section className="pt-4 pb-4 text-center">
+            <span className="inline-block rounded-full bg-gradient-to-r from-indigo-400 to-fuchsia-500 text-white px-4 py-2 mb-4 shadow-sm font-medium text-base">
+              🇫🇷 Plateforme #1 de l’intégration gratuite
+            </span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-3">
+              IntégrationFrance.org
+            </h1>
+            <p className="text-md md:text-lg text-gray-700 dark:text-gray-200 mb-3">
+              <strong>+50 outils digitaux gratuits</strong> pour <b className="bg-fuchsia-100 dark:bg-fuchsia-900/30 rounded px-2 text-fuchsia-700 dark:text-fuchsia-200">réussir votre intégration</b> et démarches en France, <span className="underline">sans inscription</span>.
+            </p>
+            <div className="flex flex-col xs:flex-row gap-3 xs:justify-center items-center mb-5">
+              <Badge variant="default" className="bg-green-100 text-green-700">{activeToolsCount} outils accessibles ✨</Badge>
+              <Badge variant="secondary" className="bg-fuchsia-100 text-fuchsia-700">{allTools.length - activeToolsCount} en dev</Badge>
+              <Badge variant="secondary" className="bg-emerald-100 text-emerald-700">100% gratuit</Badge>
+            </div>
+          </section>
+
+          {/* Liste des outils */}
+          <section className="pb-5 px-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {filteredTools.map((tool) => (
+                <Card 
+                  key={tool.id}
+                  className={`transition duration-200 border-0 rounded-2xl shadow-xl group hover:shadow-2xl hover:scale-105 cursor-pointer px-2 py-3 relative overflow-hidden ${
+                    tool.status === 'active' 
+                      ? 'hover:ring-2 hover:ring-indigo-200'
+                      : 'opacity-70'
+                  } bg-white/90 dark:bg-slate-800/90`}
+                  onClick={tool.status === 'active' ? onStartJourney : undefined}
+                >
+                  <CardHeader className="pb-1 flex items-center flex-row gap-3">
+                    <div className={`rounded-full shadow-inner bg-gradient-to-br from-white via-indigo-100 to-indigo-300 dark:from-gray-800 dark:to-fuchsia-900 p-3 flex items-center`}>
+                      {/* Icon: Lucide plus grande */}
+                      <tool.icon className="h-8 w-8 text-indigo-500 group-hover:scale-110 transition" />
+                    </div>
+                    <CardTitle className="text-base font-bold flex-1 truncate">{tool.title}</CardTitle>
+                    <Badge className={
+                      tool.status === 'active'
+                        ? "bg-green-400 text-white text-xs shadow-sm"
+                        : "bg-fuchsia-200 text-fuchsia-800 text-xs"
+                      }>
+                      {tool.status === 'active' ? "Actif" : "Bientôt"}
+                    </Badge>
+                  </CardHeader>
+                  <CardContent className="pt-0 pb-2">
+                    {tool.status === 'active' ? (
+                      <Button 
+                        size="sm" 
+                        className="w-full font-medium bg-gradient-to-tr from-indigo-400 via-violet-400 to-fuchsia-400 text-white shadow  text-xs mt-2"
+                        onClick={onStartJourney}
+                      >
+                        Utiliser
+                      </Button>
+                    ) : (
+                      <Button variant="outline" size="sm" className="w-full text-xs opacity-80 mt-2" disabled>
+                        <Clock className="mr-1 h-3 w-3" />
+                        Bientôt
+                      </Button>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+
+          <Footer />
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
 
