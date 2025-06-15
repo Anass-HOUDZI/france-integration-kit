@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -147,8 +146,8 @@ const MutualAssistantTool: React.FC<MutualAssistantProps> = ({ userProfile }) =>
     });
   };
 
-  const generateTips = (userAge: number, situation: string, needs: string[]) => {
-    const tips = [];
+  const generateTips = (userAge: number, situation: string, needs: string[]): string[] => {
+    const tips: string[] = [];
     
     if (userAge <= 30) {
       tips.push('Les jeunes ont souvent des tarifs préférentiels');
