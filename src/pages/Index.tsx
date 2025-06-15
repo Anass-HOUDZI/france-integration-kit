@@ -21,12 +21,25 @@ import LogementModule from '@/components/modules/LogementModule';
 import EmploiModule from '@/components/modules/EmploiModule';
 import SanteModule from '@/components/modules/SanteModule';
 import EducationModule from '@/components/modules/EducationModule';
+import CultureModule from '@/components/modules/CultureModule';
+import TransversalModule from '@/components/modules/TransversalModule';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useI18n } from '@/hooks/useI18n';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
-type View = 'home' | 'profile' | 'diagnostic' | 'modules' | 'admin' | 'logement' | 'emploi' | 'sante' | 'education';
+type View = 
+  | 'home'
+  | 'profile'
+  | 'diagnostic'
+  | 'modules'
+  | 'admin'
+  | 'logement'
+  | 'emploi'
+  | 'sante'
+  | 'education'
+  | 'culture'
+  | 'transversal';
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<View>('home');
@@ -86,16 +99,16 @@ const Index = () => {
       icon: Globe,
       color: 'bg-indigo-500',
       tools: 5,
-      component: null
+      component: CultureModule
     },
     {
       id: 'transversal',
       title: 'Outils Transversaux',
-      description: 'Outils d\'aide générale',
+      description: "Outils d'aide générale",
       icon: Settings,
       color: 'bg-gray-500',
       tools: 5,
-      component: null
+      component: TransversalModule
     }
   ];
 
@@ -212,6 +225,24 @@ const Index = () => {
       case 'education':
         return (
           <EducationModule 
+            userProfile={currentProfile}
+            diagnostic={diagnostic}
+            onBack={() => setCurrentView('modules')}
+          />
+        );
+      
+      case 'culture':
+        return (
+          <CultureModule 
+            userProfile={currentProfile}
+            diagnostic={diagnostic}
+            onBack={() => setCurrentView('modules')}
+          />
+        );
+      
+      case 'transversal':
+        return (
+          <TransversalModule 
             userProfile={currentProfile}
             diagnostic={diagnostic}
             onBack={() => setCurrentView('modules')}
