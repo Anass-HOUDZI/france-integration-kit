@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,15 +6,16 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { BookOpen, GraduationCap, Calendar, Euro, MapPin, Award } from 'lucide-react';
+import { BookOpen, GraduationCap, Calendar, Euro, MapPin, Award, ArrowLeft } from 'lucide-react';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
 interface HigherEducationProps {
   userProfile: any;
   diagnostic: any;
+  onBack: () => void;
 }
 
-const HigherEducationTool: React.FC<HigherEducationProps> = ({ userProfile }) => {
+const HigherEducationTool: React.FC<HigherEducationProps> = ({ userProfile, onBack }) => {
   const { saveToolData } = useUserProfile();
   const [currentLevel, setCurrentLevel] = useState('');
   const [desiredField, setDesiredField] = useState('');
@@ -269,13 +269,19 @@ const HigherEducationTool: React.FC<HigherEducationProps> = ({ userProfile }) =>
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
-          Guide Études Supérieures
-        </h1>
-        <p className="text-lg text-gray-600">
-          Orientation et procédures pour l'enseignement supérieur français
-        </p>
+      <div className="flex items-center gap-4 mb-6">
+        <Button variant="outline" onClick={onBack}>
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Retour
+        </Button>
+        <div className="text-center flex-1">
+          <h1 className="text-3xl font-bold text-gray-900 mb-1">
+            Guide Études Supérieures
+          </h1>
+          <p className="text-lg text-gray-600">
+            Orientation et procédures pour l'enseignement supérieur français
+          </p>
+        </div>
       </div>
 
       {/* Formulaire */}
