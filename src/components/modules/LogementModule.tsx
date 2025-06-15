@@ -3,10 +3,13 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Home, Calculator, FileText, MapPin, Users, AlertCircle, Clock, CheckSquare } from 'lucide-react';
+import { Home, Calculator, FileText, MapPin, Users, AlertCircle, Clock, CheckSquare, TrendingDown, Shield } from 'lucide-react';
 import BudgetCalculator from '@/components/tools/BudgetCalculator';
 import RentalDossier from '@/components/tools/RentalDossier';
 import StateOfPlayTool from '@/components/tools/StateOfPlayTool';
+import NeighborhoodComparator from '@/components/tools/NeighborhoodComparator';
+import RentNegotiator from '@/components/tools/RentNegotiator';
+import InsuranceAssistant from '@/components/tools/InsuranceAssistant';
 
 interface LogementModuleProps {
   userProfile: any;
@@ -55,24 +58,45 @@ const LogementModule: React.FC<LogementModuleProps> = ({ userProfile, diagnostic
       icon: MapPin,
       color: 'bg-indigo-500',
       category: 'Recherche',
-      status: 'coming_soon'
+      status: 'active',
+      component: NeighborhoodComparator
     },
     {
-      id: 'housing_rights',
-      title: 'Guide des Droits Locataires',
-      description: 'Connaissez vos droits et devoirs de locataire',
-      icon: FileText,
+      id: 'rent_negotiator',
+      title: 'Guide Négociation Loyer',
+      description: 'Obtenez arguments et outils pour négocier',
+      icon: TrendingDown,
       color: 'bg-orange-500',
-      category: 'Information',
+      category: 'Négociation',
+      status: 'active',
+      component: RentNegotiator
+    },
+    {
+      id: 'insurance_assistant',
+      title: 'Assistant Assurance Habitation',
+      description: 'Trouvez la meilleure assurance pour votre logement',
+      icon: Shield,
+      color: 'bg-teal-500',
+      category: 'Assurance',
+      status: 'active',
+      component: InsuranceAssistant
+    },
+    {
+      id: 'moving_calculator',
+      title: 'Calculateur Frais Déménagement',
+      description: 'Estimez le coût de votre déménagement',
+      icon: Calculator,
+      color: 'bg-red-500',
+      category: 'Déménagement',
       status: 'coming_soon'
     },
     {
-      id: 'colocation_helper',
-      title: 'Assistant Colocation',
-      description: 'Organisez votre colocation efficacement',
-      icon: Users,
-      color: 'bg-teal-500',
-      category: 'Colocation',
+      id: 'moving_planner',
+      title: 'Planificateur Emménagement',
+      description: 'Organisez votre emménagement étape par étape',
+      icon: Calendar,
+      color: 'bg-yellow-500',
+      category: 'Planning',
       status: 'coming_soon'
     }
   ];
