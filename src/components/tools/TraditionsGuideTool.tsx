@@ -33,7 +33,7 @@ const TRADITIONS: Tradition[] = [
   },
   {
     name: "Chandeleur",
-    type: "Traditionnelle",
+    type: "Régionale", // corrigé depuis "Traditionnelle"
     emoji: "🥞",
     description: "Fête des crêpes le 2 février.",
     date: `${YEAR}-02-02`
@@ -47,7 +47,7 @@ const TRADITIONS: Tradition[] = [
   },
   {
     name: "Mardi Gras",
-    type: "Traditionnelle",
+    type: "Régionale", // corrigé depuis "Traditionnelle"
     emoji: "🎭",
     description: "Carnaval, déguisements et gourmandises.",
     date: `${YEAR}-02-13` // 2025 : 4 mars, mais date variable, prendre estimée
