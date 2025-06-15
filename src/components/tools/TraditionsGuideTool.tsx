@@ -8,6 +8,7 @@ interface TraditionsGuideToolProps {
   diagnostic: any;
   onBack: () => void;
 }
+
 const TraditionsGuideTool: React.FC<TraditionsGuideToolProps> = ({ onBack }) => (
   <div className="max-w-2xl mx-auto p-6 space-y-6">
     <Button variant="outline" onClick={onBack}>
@@ -16,11 +17,12 @@ const TraditionsGuideTool: React.FC<TraditionsGuideToolProps> = ({ onBack }) => 
     </Button>
     <h1 className="text-2xl font-bold flex items-center gap-2 mt-6">
       <Heart className="h-7 w-7 text-indigo-600" />
-      Guide Fêtes & Traditions
+      Guide Fêtes et Traditions
     </h1>
     <p className="text-gray-600">
-      🚧 Fonctionnalité à venir : calendrier interactif pour découvrir les fêtes et traditions françaises.
+      🏗️ Fonctionnalité à venir : découvrez le calendrier des fêtes, coutumes, traditions et événements importants en France.
     </p>
   </div>
 );
+
 export default TraditionsGuideTool;

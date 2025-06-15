@@ -8,6 +8,7 @@ interface ExpressionsTranslatorToolProps {
   diagnostic: any;
   onBack: () => void;
 }
+
 const ExpressionsTranslatorTool: React.FC<ExpressionsTranslatorToolProps> = ({ onBack }) => (
   <div className="max-w-2xl mx-auto p-6 space-y-6">
     <Button variant="outline" onClick={onBack}>
@@ -19,8 +20,9 @@ const ExpressionsTranslatorTool: React.FC<ExpressionsTranslatorToolProps> = ({ o
       Traducteur Expressions Françaises
     </h1>
     <p className="text-gray-600">
-      🚧 Fonctionnalité à venir : trouvez la signification et la traduction des expressions idiomatiques françaises.
+      🏗️ Fonctionnalité à venir : bientôt, cherchez la signification et la traduction des expressions idiomatiques françaises et leur contexte d’utilisation.
     </p>
   </div>
 );
+
 export default ExpressionsTranslatorTool;

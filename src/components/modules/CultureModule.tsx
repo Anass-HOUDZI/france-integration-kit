@@ -94,7 +94,7 @@ const CultureModule: React.FC<CultureModuleProps> = ({ userProfile, diagnostic, 
                     <div className="p-2 rounded-lg bg-indigo-500 text-white">
                       <IconComponent className="h-6 w-6" />
                     </div>
-                    <Badge className="bg-green-100 text-green-800">À venir</Badge>
+                    <Badge className="bg-green-100 text-green-800">Fonctionnel</Badge>
                   </div>
                   <CardTitle className="text-lg">{tool.title}</CardTitle>
                   <CardDescription>{tool.description}</CardDescription>

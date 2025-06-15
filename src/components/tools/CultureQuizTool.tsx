@@ -8,6 +8,7 @@ interface CultureQuizToolProps {
   diagnostic: any;
   onBack: () => void;
 }
+
 const CultureQuizTool: React.FC<CultureQuizToolProps> = ({ onBack }) => (
   <div className="max-w-2xl mx-auto p-6 space-y-6">
     <Button variant="outline" onClick={onBack}>
@@ -19,8 +20,9 @@ const CultureQuizTool: React.FC<CultureQuizToolProps> = ({ onBack }) => (
       Quiz Culture Française
     </h1>
     <p className="text-gray-600">
-      🚧 Fonctionnalité à venir : quiz pour tester vos connaissances sur la culture, l’histoire et les valeurs françaises.
+      🏗️ Fonctionnalité à venir : bientôt vous pourrez tester vos connaissances sur la culture, l’histoire et les valeurs françaises à travers des quiz interactifs.
     </p>
   </div>
 );
+
 export default CultureQuizTool;

@@ -8,6 +8,7 @@ interface FrenchLearningAssistantToolProps {
   diagnostic: any;
   onBack: () => void;
 }
+
 const FrenchLearningAssistantTool: React.FC<FrenchLearningAssistantToolProps> = ({ onBack }) => (
   <div className="max-w-2xl mx-auto p-6 space-y-6">
     <Button variant="outline" onClick={onBack}>
@@ -18,7 +19,10 @@ const FrenchLearningAssistantTool: React.FC<FrenchLearningAssistantToolProps> = 
       <BookOpen className="h-7 w-7 text-indigo-600" />
       Assistant Apprentissage Français
     </h1>
-    <p className="text-gray-600">🚧 Fonctionnalité à venir : assistant pour progresser en français (exercices, vocabulaire, conseils).</p>
+    <p className="text-gray-600">
+      🏗️ Fonctionnalité à venir : entraînez-vous avec des exercices adaptés à votre niveau, progressez en grammaire et vocabulaire français.
+    </p>
   </div>
 );
+
 export default FrenchLearningAssistantTool;

@@ -8,6 +8,7 @@ interface NaturalizationTestSimulatorToolProps {
   diagnostic: any;
   onBack: () => void;
 }
+
 const NaturalizationTestSimulatorTool: React.FC<NaturalizationTestSimulatorToolProps> = ({ onBack }) => (
   <div className="max-w-2xl mx-auto p-6 space-y-6">
     <Button variant="outline" onClick={onBack}>
@@ -19,8 +20,9 @@ const NaturalizationTestSimulatorTool: React.FC<NaturalizationTestSimulatorToolP
       Simulateur Test Naturalisation
     </h1>
     <p className="text-gray-600">
-      🚧 Fonctionnalité à venir : simulez un entretien de naturalisation avec des questions officielles.
+      🏗️ Fonctionnalité à venir : préparez-vous à l’entretien de naturalisation grâce à des simulations de questions officielles.
     </p>
   </div>
 );
+
 export default NaturalizationTestSimulatorTool;
