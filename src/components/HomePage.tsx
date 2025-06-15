@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { 
+  FileText, CheckSquare, Calculator, Calendar, PiggyBank, Globe,
+  Users, MapPin, TrendingUp, Building, BookOpen, Award, Heart, PhoneCall, GraduationCap
+} from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -129,7 +133,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
           <div className="flex items-center gap-3">
             <UserMenu />
             <Button 
-              variant="gradient"
+              variant="default"
               size="sm"
               onClick={onStartJourney}
               className="bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 text-white font-bold px-4 py-2 rounded-full shadow hover:scale-105 transition-all"

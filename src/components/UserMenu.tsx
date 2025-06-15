@@ -7,7 +7,7 @@ import { toast } from "@/hooks/use-toast";
 
 export default function UserMenu() {
   const handleRefresh = () => {
-    toast({ title: "Données actualisées", description: "Vos données ont été rechargées.", variant: "success" });
+    toast({ title: "Données actualisées", description: "Vos données ont été rechargées.", variant: "default" });
     window.location.reload();
   };
   const handleExport = () => {
