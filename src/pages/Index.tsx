@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -125,22 +126,26 @@ const Index = () => {
   const renderHeader = () => (
     <header className="border-b bg-white dark:bg-gray-900 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0">
+          <div className="flex items-center gap-4 w-full sm:w-auto">
             <button
               onClick={() => setCurrentView(hasProfile ? 'modules' : 'home')}
               className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors"
             >
               🇫🇷 IntégrationFrance.org
             </button>
-            {hasProfile && (
+            {/* Badge profil affiché SEULEMENT si infos existantes */}
+            {hasProfile && (currentProfile?.name || currentProfile?.status) && (
               <Badge variant="outline" className="hidden sm:flex">
-                {currentProfile?.name} ({t(`profile.${currentProfile?.status}`)})
+                {currentProfile?.name
+                  ? `${currentProfile.name}${currentProfile.status ? ` (${t(`profile.${currentProfile.status}`)})` : ''}`
+                  : currentProfile?.status
+                  ? t(`profile.${currentProfile.status}`)
+                  : ''}
               </Badge>
             )}
           </div>
-          
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full justify-end sm:w-auto">
             <LanguageSelector />
             <ThemeToggle />
             {hasProfile && (
@@ -316,3 +321,4 @@ const Index = () => {
 };
 
 export default Index;
+
