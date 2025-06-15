@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Calculator, TrendingUp, FileText, AlertCircle, Clock, Users } from 'lucide-react';
+import { Calculator, TrendingUp, FileText, AlertCircle, Clock, Users, CheckSquare } from 'lucide-react';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
 interface UnemploymentSimulatorProps {
