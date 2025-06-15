@@ -8,7 +8,7 @@ import {
   FileText, 
   Calculator, 
   Calendar, 
-  Home, 
+  Home as HomeIcon, 
   Briefcase, 
   Heart,
   GraduationCap,
@@ -102,7 +102,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
   ];
 
   const categories = [
-    { id: 'all', name: 'Tous les outils', count: allTools.length },
+    { id: 'all', name: 'Tous les outils', count: allTools.length, color: 'bg-gradient-to-r from-blue-500 via-violet-500 to-fuchsia-500' },
     { id: 'admin', name: 'Démarches Admin', count: allTools.filter(t => t.category === 'admin').length, color: 'bg-blue-500' },
     { id: 'logement', name: 'Logement', count: allTools.filter(t => t.category === 'logement').length, color: 'bg-green-500' },
     { id: 'emploi', name: 'Emploi', count: allTools.filter(t => t.category === 'emploi').length, color: 'bg-purple-500' },
@@ -121,119 +121,135 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
   const activeToolsCount = allTools.filter(t => t.status === 'active').length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      {/* Hero Section */}
-      <section className="relative py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="flex justify-center items-center gap-3 mb-6">
-            <span className="text-6xl">🇫🇷</span>
-            <h1 className="text-5xl font-bold text-gray-900">
-              IntégrationFrance.org
-            </h1>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-cyan-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-500">
+      {/* Recherche sticky top */}
+      <section className="w-full sticky top-0 bg-white/80 dark:bg-gray-900/90 z-50 border-b shadow-md backdrop-blur-[6px] pb-2 pt-2">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center gap-2 px-2">
+          <div className="flex-1 flex items-center gap-2">
+            <Search className="text-indigo-400 h-5 w-5 absolute ml-3 pointer-events-none" />
+            <Input
+              placeholder="Rechercher un outil, une catégorie..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              className="pl-10 py-2 w-full rounded-2xl bg-white/60 dark:bg-slate-800 focus:outline-none border border-indigo-100 dark:border-slate-700 shadow-sm"
+              style={{ maxWidth: 320 }}
+            />
           </div>
-          
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            La plateforme complète avec <strong>50 outils gratuits</strong> pour faciliter votre intégration en France. 
-            Démarches administratives, logement, emploi, santé, éducation et plus encore.
+          <div className="flex gap-2 flex-wrap justify-center">
+            {categories.map(category => (
+              <Button
+                key={category.id}
+                variant={selectedCategory === category.id ? "default" : "outline"}
+                size="sm"
+                className={`rounded-full px-3 py-1 font-semibold ${selectedCategory === category.id ? 'bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 text-white shadow' : 'bg-white/70 dark:bg-slate-800'} transition-all duration-200`}
+                onClick={() => setSelectedCategory(category.id)}
+              >
+                {category.name} <span className="ml-1 text-gray-300">{category.count}</span>
+              </Button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Hero */}
+      <section className="w-full pt-12 pb-6 px-4">
+        <div className="max-w-5xl mx-auto text-center">
+          <span className="inline-block rounded-full bg-gradient-to-r from-indigo-400 to-fuchsia-500 text-white px-4 py-2 mb-4 shadow-sm font-medium text-base">
+            🇫🇷 Plateforme #1 de l’intégration gratuite
+          </span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-4">
+            IntégrationFrance.org
+          </h1>
+          <p className="text-lg text-gray-700 dark:text-gray-200 mb-4">
+            <strong>+50 outils digitaux gratuits</strong> pour <b className="bg-fuchsia-100 dark:bg-fuchsia-900/30 rounded px-2 text-fuchsia-700 dark:text-fuchsia-200">réussir votre intégration</b> et toutes vos démarches en France, sans inscription ni publicité.
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Badge variant="outline" className="text-lg px-4 py-2">
-              ✅ {activeToolsCount} outils déjà disponibles
+          <div className="flex flex-col xs:flex-row gap-3 xs:justify-center items-center mb-8">
+            <Badge variant="outline" className="bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300">
+              {activeToolsCount} outils déjà accessibles ✨
             </Badge>
-            <Badge variant="outline" className="text-lg px-4 py-2">
-              🔄 {allTools.length - activeToolsCount} outils en développement
+            <Badge variant="outline" className="bg-fuchsia-50 dark:bg-fuchsia-900/40 text-fuchsia-700 dark:text-fuchsia-200">
+              {allTools.length - activeToolsCount} en développement
             </Badge>
-            <Badge variant="outline" className="text-lg px-4 py-2">
-              📱 100% gratuit & sans inscription
+            <Badge variant="outline" className="bg-emerald-50 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-200">
+              100% gratuit et anonyme
             </Badge>
           </div>
-          
           <Button 
             size="lg" 
             onClick={onStartJourney}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all"
+            className="bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500 text-white px-8 py-4 text-lg rounded-2xl shadow-xl hover:scale-105 hover:shadow-2xl transition-all"
           >
-            🚀 Commencer votre parcours d'intégration
+            🚀 Commencer mon parcours
           </Button>
         </div>
       </section>
 
-      {/* Filtres et Recherche */}
-      <section className="py-8 px-4 bg-white/50 backdrop-blur-sm sticky top-0 z-40 border-b">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-4 items-center">
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-              <Input
-                placeholder="Rechercher un outil..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            
-            <div className="flex flex-wrap gap-2">
-              {categories.map(category => (
-                <Button
-                  key={category.id}
-                  variant={selectedCategory === category.id ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={selectedCategory === category.id ? 'bg-blue-600' : ''}
-                >
-                  {category.name} ({category.count})
-                </Button>
-              ))}
-            </div>
-          </div>
+      {/* Liste Catégories, sous forme cartes modernes et compactes */}
+      <section className="px-4 pt-2 pb-2">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 mb-4">
+          {categories.slice(1).map(cat => {
+            let Icon = HomeIcon;
+            if (cat.id === 'admin') Icon = FileText;
+            else if (cat.id === 'logement') Icon = HomeIcon;
+            else if (cat.id === 'emploi') Icon = Briefcase;
+            else if (cat.id === 'sante') Icon = Heart;
+            else if (cat.id === 'education') Icon = GraduationCap;
+            else if (cat.id === 'culture') Icon = Globe;
+            else if (cat.id === 'transversal') Icon = Settings;
+            return (
+              <Card
+                key={cat.id}
+                className={`group flex flex-col items-center py-5 bg-white dark:bg-gray-800 rounded-2xl border-0 shadow-md hover:shadow-xl cursor-pointer transition-shadow relative overflow-hidden hover:scale-[1.045] duration-200`}
+                onClick={() => setSelectedCategory(cat.id)}
+              >
+                <div className={`rounded-full mb-2 p-2 transition-colors duration-200 ${cat.color} shadow-inner`}>
+                  <Icon className="w-8 h-8 text-white drop-shadow-lg" />
+                </div>
+                <div className="text-base font-semibold text-gray-800 dark:text-white text-center">
+                  {cat.name}
+                </div>
+                <div className="text-xs text-gray-400">{cat.count} outils</div>
+                <div className={`absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_70%_20%,rgba(147,51,234,0.16)_0%,transparent_70%)] opacity-0 group-hover:opacity-60 transition-opacity duration-200`} />
+              </Card>
+            );
+          })}
         </div>
       </section>
 
       {/* Liste des Outils */}
-      <section className="py-12 px-4">
+      <section className="py-7 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              {filteredTools.length} outil{filteredTools.length > 1 ? 's' : ''} 
-              {selectedCategory !== 'all' && ` - ${categories.find(c => c.id === selectedCategory)?.name}`}
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {filteredTools.map((tool) => (
               <Card 
                 key={tool.id}
-                className={`transition-all duration-300 ${
+                className={`transition transform duration-200 border-0 rounded-xl shadow group ${
                   tool.status === 'active' 
-                    ? 'hover:shadow-lg cursor-pointer hover:scale-105' 
+                    ? 'hover:shadow-lg hover:scale-[1.03] cursor-pointer'
                     : 'opacity-75'
-                }`}
+                } px-2 py-2 bg-white/90 dark:bg-slate-800/90`}
               >
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                      <tool.icon className="h-5 w-5 text-white" />
-                    </div>
-                    <div className="flex gap-1">
-                      {tool.status === 'active' ? (
-                        <Badge className="bg-green-100 text-green-800 text-xs">
-                          ✅ Actif
-                        </Badge>
-                      ) : (
-                        <Badge variant="secondary" className="text-xs">
-                          🔄 Bientôt
-                        </Badge>
-                      )}
-                    </div>
+                <CardHeader className="pb-2 flex items-center flex-row gap-2">
+                  <div className="rounded-full bg-gradient-to-br from-indigo-500 via-fuchsia-500 to-violet-500 flex items-center justify-center shadow-inner p-3">
+                    {/* Icon: Lucide, plus grande */}
+                    <tool.icon className="h-7 w-7 text-white drop-shadow-md" />
                   </div>
-                  <CardTitle className="text-sm leading-tight">{tool.title}</CardTitle>
+                  <CardTitle className="text-base font-bold flex-1 truncate">{tool.title}</CardTitle>
+                  {tool.status === 'active' ? (
+                    <Badge className="bg-gradient-to-tr from-green-300 via-green-400 to-emerald-500 text-green-900 text-xs shadow-sm">
+                      Actif
+                    </Badge>
+                  ) : (
+                    <Badge variant="secondary" className="text-xs">
+                      Bientôt
+                    </Badge>
+                  )}
                 </CardHeader>
-                <CardContent className="pt-0">
+                <CardContent className="pt-0 pb-1">
                   {tool.status === 'active' ? (
                     <Button 
                       size="sm" 
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-xs"
+                      className="w-full font-medium bg-gradient-to-tr from-indigo-400 via-violet-400 to-fuchsia-400 text-white shadow hover:opacity-90 text-xs"
                       onClick={onStartJourney}
                     >
                       Utiliser
@@ -251,19 +267,19 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
         </div>
       </section>
 
-      {/* Section CTA Final */}
-      <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+      {/* Section CTA */}
+      <section className="py-12 px-2 bg-gradient-to-tr from-indigo-500 via-violet-600 to-fuchsia-500 text-white mt-8 rounded-t-3xl shadow-lg">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">
-            Prêt à simplifier votre intégration en France ?
+            Prêt à simplifier votre intégration en France ?
           </h2>
-          <p className="text-xl mb-8 opacity-90">
+          <p className="text-lg mb-8 opacity-90">
             Définissez votre profil en 2 minutes et accédez aux outils personnalisés pour votre situation.
           </p>
           <Button 
             size="lg" 
             onClick={onStartJourney}
-            className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg rounded-xl"
+            className="bg-white text-indigo-600 hover:bg-slate-100 px-8 py-4 text-lg rounded-xl font-bold shadow"
           >
             🎯 Définir mon profil maintenant
           </Button>
