@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Briefcase, FileText, Calculator, Users, GraduationCap, Clock, AlertCircle } from 'lucide-react';
+import CVTranslatorTool from '@/components/tools/CVTranslatorTool';
+import SalaryCalculatorTool from '@/components/tools/SalaryCalculatorTool';
 
 interface EmploiModuleProps {
   userProfile: any;
@@ -23,7 +25,17 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
       color: 'bg-blue-500',
       category: 'CV',
       status: 'active',
-      component: null
+      component: CVTranslatorTool
+    },
+    {
+      id: 'salary_calculator',
+      title: 'Calculateur Salaire Net',
+      description: 'Convertissez brut en net et comprenez votre fiche de paie',
+      icon: Calculator,
+      color: 'bg-teal-500',
+      category: 'Salaire',
+      status: 'active',
+      component: SalaryCalculatorTool
     },
     {
       id: 'motivation_letter',
@@ -60,18 +72,32 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
       color: 'bg-indigo-500',
       category: 'Entretien',
       status: 'coming_soon'
-    },
-    {
-      id: 'salary_calculator',
-      title: 'Calculateur Salaire Net',
-      description: 'Convertissez brut en net et comprenez votre fiche de paie',
-      icon: Calculator,
-      color: 'bg-teal-500',
-      category: 'Salaire',
-      status: 'active',
-      component: null
     }
   ];
+
+  const activeTool = tools.find(t => t.id === activeTab);
+
+  if (activeTool && activeTool.component && activeTool.status === 'active') {
+    const ToolComponent = activeTool.component;
+    return (
+      <div>
+        <div className="flex items-center gap-4 mb-6">
+          <Button 
+            variant="ghost" 
+            onClick={() => setActiveTab('overview')}
+            className="text-purple-600 hover:bg-purple-50"
+          >
+            ← Retour aux outils
+          </Button>
+          <div className="flex items-center gap-2">
+            <activeTool.icon className="h-6 w-6 text-purple-600" />
+            <h2 className="text-2xl font-bold text-gray-900">{activeTool.title}</h2>
+          </div>
+        </div>
+        <ToolComponent userProfile={userProfile} diagnostic={diagnostic} />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -100,7 +126,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
               </div>
               <p className="text-purple-800 text-sm">
                 En tant que <strong>{userProfile?.title}</strong>, nous recommandons de commencer par 
-                l'adaptation de votre CV puis la simulation de vos droits.
+                l'adaptation de votre CV puis la simulation de votre salaire net.
               </p>
             </CardContent>
           </Card>
@@ -116,6 +142,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
                 ? 'hover:shadow-lg cursor-pointer' 
                 : 'opacity-75'
             }`}
+            onClick={() => tool.status === 'active' && setActiveTab(tool.id)}
           >
             <CardHeader className="pb-4">
               <div className="flex items-center justify-between">

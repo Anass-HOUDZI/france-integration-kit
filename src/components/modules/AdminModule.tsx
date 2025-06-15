@@ -1,12 +1,13 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { FileText, Calculator, Calendar, Mail, Download, Copy, Clock, AlertCircle } from 'lucide-react';
+import { FileText, Calculator, Calendar, CheckSquare, Search, Clock, AlertCircle } from 'lucide-react';
 import LetterGenerator from '@/components/tools/LetterGenerator';
 import FeeCalculator from '@/components/tools/FeeCalculator';
 import AppointmentPlanner from '@/components/tools/AppointmentPlanner';
+import DocumentCheckerTool from '@/components/tools/DocumentCheckerTool';
 
 interface AdminModuleProps {
   userProfile: any;
@@ -20,68 +21,62 @@ const AdminModule: React.FC<AdminModuleProps> = ({ userProfile, diagnostic, onBa
   const tools = [
     {
       id: 'letter_generator',
-      title: 'Générateur de Lettres Officielles',
-      description: 'Créez des lettres administratives conformes aux standards français',
+      title: 'Générateur de Lettres',
+      description: 'Créez des lettres administratives conformes',
       icon: FileText,
       color: 'bg-blue-500',
-      category: 'Correspondance',
+      category: 'Documents',
       status: 'active',
       component: LetterGenerator
     },
     {
-      id: 'fee_calculator',
-      title: 'Calculateur de Frais Administratifs',
-      description: 'Calculez les coûts de vos démarches administratives',
-      icon: Calculator,
+      id: 'document_checker',
+      title: 'Vérificateur de Documents',
+      description: 'Vérifiez la complétude de vos dossiers',
+      icon: CheckSquare,
       color: 'bg-green-500',
-      category: 'Finances',
+      category: 'Vérification',
+      status: 'active',
+      component: DocumentCheckerTool
+    },
+    {
+      id: 'fee_calculator',
+      title: 'Calculateur de Frais',
+      description: 'Estimez les coûts de vos démarches',
+      icon: Calculator,
+      color: 'bg-purple-500',
+      category: 'Budget',
       status: 'active',
       component: FeeCalculator
     },
     {
       id: 'appointment_planner',
-      title: 'Planificateur de Rendez-vous',
+      title: 'Planificateur RDV',
       description: 'Organisez vos rendez-vous administratifs',
       icon: Calendar,
-      color: 'bg-purple-500',
-      category: 'Organisation',
+      color: 'bg-orange-500',
+      category: 'Planning',
       status: 'active',
       component: AppointmentPlanner
     },
     {
       id: 'form_assistant',
       title: 'Assistant Formulaires',
-      description: 'Aide pour remplir les formulaires administratifs français',
+      description: 'Aide au remplissage CERFA',
       icon: FileText,
-      color: 'bg-orange-500',
+      color: 'bg-indigo-500',
       category: 'Formulaires',
       status: 'coming_soon'
     },
     {
-      id: 'document_checker',
-      title: 'Vérificateur de Documents',
-      description: 'Vérifiez si vos documents sont complets',
-      icon: AlertCircle,
-      color: 'bg-red-500',
-      category: 'Vérification',
-      status: 'coming_soon'
-    },
-    {
-      id: 'procedure_guide',
-      title: 'Guide des Procédures',
-      description: 'Guide étape par étape pour vos démarches',
-      icon: FileText,
-      color: 'bg-indigo-500',
+      id: 'delay_simulator',
+      title: 'Simulateur de Délais',
+      description: 'Estimez les temps de traitement',
+      icon: Clock,
+      color: 'bg-teal-500',
       category: 'Information',
       status: 'coming_soon'
     }
-  ];
-
-  const categories = [
-    { id: 'all', label: 'Tous les outils', count: tools.length },
-    { id: 'Correspondance', label: 'Correspondance', count: tools.filter(t => t.category === 'Correspondance').length },
-    { id: 'Finances', label: 'Finances', count: tools.filter(t => t.category === 'Finances').length },
-    { id: 'Organisation', label: 'Organisation', count: tools.filter(t => t.category === 'Organisation').length }
   ];
 
   const activeTool = tools.find(t => t.id === activeTab);
@@ -122,7 +117,7 @@ const AdminModule: React.FC<AdminModuleProps> = ({ userProfile, diagnostic, onBa
           <FileText className="h-8 w-8 text-blue-600" />
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Démarches Administratives</h1>
-            <p className="text-gray-600">12 outils pour naviguer dans l'administration française</p>
+            <p className="text-gray-600">12 outils pour simplifier vos démarches</p>
           </div>
         </div>
 
@@ -134,7 +129,8 @@ const AdminModule: React.FC<AdminModuleProps> = ({ userProfile, diagnostic, onBa
                 <span className="font-medium text-blue-900">Recommandations personnalisées</span>
               </div>
               <p className="text-blue-800 text-sm">
-                Basé sur votre profil <strong>{userProfile?.title}</strong>, nous recommandons de commencer par les outils de correspondance et calcul des frais.
+                En tant que <strong>{userProfile?.title}</strong>, nous recommandons de commencer par 
+                vérifier vos documents puis utiliser le générateur de lettres.
               </p>
             </CardContent>
           </Card>

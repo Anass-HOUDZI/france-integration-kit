@@ -1,11 +1,12 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Home, Calculator, FileText, MapPin, Users, AlertCircle, Clock } from 'lucide-react';
+import { Home, Calculator, FileText, MapPin, Users, AlertCircle, Clock, CheckSquare } from 'lucide-react';
 import BudgetCalculator from '@/components/tools/BudgetCalculator';
 import RentalDossier from '@/components/tools/RentalDossier';
+import StateOfPlayTool from '@/components/tools/StateOfPlayTool';
 
 interface LogementModuleProps {
   userProfile: any;
@@ -38,11 +39,21 @@ const LogementModule: React.FC<LogementModuleProps> = ({ userProfile, diagnostic
       component: RentalDossier
     },
     {
+      id: 'state_of_play',
+      title: 'Assistant État des Lieux',
+      description: 'Réalisez un état des lieux précis avec photos',
+      icon: CheckSquare,
+      color: 'bg-purple-500',
+      category: 'État des lieux',
+      status: 'active',
+      component: StateOfPlayTool
+    },
+    {
       id: 'neighborhood_comparator',
       title: 'Comparateur de Quartiers',
       description: 'Comparez les quartiers selon vos critères',
       icon: MapPin,
-      color: 'bg-purple-500',
+      color: 'bg-indigo-500',
       category: 'Recherche',
       status: 'coming_soon'
     },
@@ -64,13 +75,6 @@ const LogementModule: React.FC<LogementModuleProps> = ({ userProfile, diagnostic
       category: 'Colocation',
       status: 'coming_soon'
     }
-  ];
-
-  const categories = [
-    { id: 'all', label: 'Tous les outils', count: tools.length },
-    { id: 'Budget', label: 'Budget', count: tools.filter(t => t.category === 'Budget').length },
-    { id: 'Documents', label: 'Documents', count: tools.filter(t => t.category === 'Documents').length },
-    { id: 'Recherche', label: 'Recherche', count: tools.filter(t => t.category === 'Recherche').length }
   ];
 
   const activeTool = tools.find(t => t.id === activeTab);
@@ -123,8 +127,8 @@ const LogementModule: React.FC<LogementModuleProps> = ({ userProfile, diagnostic
                 <span className="font-medium text-green-900">Conseil personnalisé</span>
               </div>
               <p className="text-green-800 text-sm">
-                En tant que <strong>{userProfile?.title}</strong>, nous recommandons de définir d'abord votre budget 
-                puis de préparer votre dossier locatif pour maximiser vos chances.
+                En tant que <strong>{userProfile?.title}</strong>, nous recommandons de définir d'abord votre budget, 
+                puis de préparer votre dossier locatif et de maîtriser l'état des lieux.
               </p>
             </CardContent>
           </Card>
