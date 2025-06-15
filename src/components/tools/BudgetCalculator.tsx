@@ -68,7 +68,7 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ userProfile, diagno
       other: Math.round(monthlyIncome * 0.15)
     };
 
-    const totalExpenses = Object.values(expenses).reduce((sum, exp) => sum + exp, 0);
+    const totalExpenses = Object.values(expenses).reduce((sum: number, exp: number) => sum + exp, 0);
     const remainingBudget = monthlyIncome - totalExpenses;
 
     const affordability = estimatedRent <= recommendedHousingBudget ? 'good' : 
@@ -255,7 +255,8 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ userProfile, diagno
             <CardContent>
               <div className="space-y-4">
                 {Object.entries(budget.expenses).map(([category, amount]) => {
-                  const percentage = Math.round((amount / budget.monthlyIncome) * 100);
+                  const numericAmount = typeof amount === 'number' ? amount : 0;
+                  const percentage = Math.round((numericAmount / budget.monthlyIncome) * 100);
                   const categoryLabels: Record<string, string> = {
                     housing: 'Logement (loyer + charges)',
                     food: 'Alimentation',
@@ -269,7 +270,7 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ userProfile, diagno
                     <div key={category} className="space-y-2">
                       <div className="flex justify-between items-center">
                         <span className="text-sm font-medium">{categoryLabels[category]}</span>
-                        <span className="text-sm text-gray-600">{amount}€ ({percentage}%)</span>
+                        <span className="text-sm text-gray-600">{numericAmount}€ ({percentage}%)</span>
                       </div>
                       <Progress value={percentage} className="h-2" />
                     </div>

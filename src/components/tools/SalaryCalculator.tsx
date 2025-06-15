@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -221,7 +220,7 @@ const SalaryCalculator: React.FC<SalaryCalculatorProps> = ({ userProfile, diagno
                     {calculation.net.monthly.toLocaleString()}€
                   </div>
                   <p className="text-sm text-green-800">Salaire net mensuel</p>
-                  <Badge className={getSalaryRange(calculation.net.monthly).color} size="sm">
+                  <Badge className={getSalaryRange(calculation.net.monthly).color}>
                     {getSalaryRange(calculation.net.monthly).label}
                   </Badge>
                 </div>
