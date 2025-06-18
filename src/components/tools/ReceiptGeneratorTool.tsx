@@ -289,21 +289,21 @@ Conservez-le précieusement.
 
         <div className="flex gap-2 mb-6">
           <Button 
-            variant={'create' === activeTab ? 'default' : 'outline'} 
+            variant={activeTab === 'create' ? 'default' : 'outline'} 
             onClick={() => setActiveTab('create')}
           >
             <FileText className="mr-2 h-4 w-4" />
             Créer
           </Button>
           <Button 
-            variant={'history' === activeTab ? 'default' : 'outline'} 
+            variant={activeTab === 'history' ? 'default' : 'outline'} 
             onClick={() => setActiveTab('history')}
           >
             <Receipt className="mr-2 h-4 w-4" />
             Historique
           </Button>
           <Button 
-            variant={'track' === activeTab ? 'default' : 'outline'} 
+            variant={activeTab === 'track' ? 'default' : 'outline'} 
             onClick={() => setActiveTab('track')}
           >
             <QrCode className="mr-2 h-4 w-4" />
@@ -550,21 +550,21 @@ Conservez-le précieusement.
 
         <div className="flex gap-2 mb-6">
           <Button 
-            variant={'create' === activeTab ? 'default' : 'outline'} 
+            variant={activeTab === 'create' ? 'default' : 'outline'} 
             onClick={() => setActiveTab('create')}
           >
             <FileText className="mr-2 h-4 w-4" />
             Créer
           </Button>
           <Button 
-            variant={'history' === activeTab ? 'default' : 'outline'} 
+            variant={activeTab === 'history' ? 'default' : 'outline'} 
             onClick={() => setActiveTab('history')}
           >
             <Receipt className="mr-2 h-4 w-4" />
             Historique
           </Button>
           <Button 
-            variant={'track' === activeTab ? 'default' : 'outline'} 
+            variant={activeTab === 'track' ? 'default' : 'outline'} 
             onClick={() => setActiveTab('track')}
           >
             <QrCode className="mr-2 h-4 w-4" />
@@ -675,21 +675,21 @@ Conservez-le précieusement.
 
         <div className="flex gap-2 mb-6">
           <Button 
-            variant={'create' === activeTab ? 'default' : 'outline'} 
+            variant={activeTab === 'create' ? 'default' : 'outline'} 
             onClick={() => setActiveTab('create')}
           >
             <FileText className="mr-2 h-4 w-4" />
             Créer
           </Button>
           <Button 
-            variant={'history' === activeTab ? 'default' : 'outline'} 
+            variant={activeTab === 'history' ? 'default' : 'outline'} 
             onClick={() => setActiveTab('history')}
           >
             <Receipt className="mr-2 h-4 w-4" />
             Historique
           </Button>
           <Button 
-            variant={'track' === activeTab ? 'default' : 'outline'} 
+            variant={activeTab === 'track' ? 'default' : 'outline'} 
             onClick={() => setActiveTab('track')}
           >
             <QrCode className="mr-2 h-4 w-4" />
