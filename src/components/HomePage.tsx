@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   FileText, CheckSquare, Calculator, Calendar, PiggyBank, Globe,
@@ -11,76 +12,75 @@ import SidebarNav from "./SidebarNav";
 import ProgressBar from "./ProgressBar";
 import UserMenu from "./UserMenu";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { useUserProfile } from '@/hooks/useUserProfile';
 
 interface HomePageProps {
-  onStartJourney: () => void;
+  onToolSelect: (moduleId: string) => void;
 }
 
 const allTools = [
   // Démarches Administratives (12 outils)
-  { id: 'letter_generator', title: 'Générateur de Lettres', category: 'admin', icon: FileText, status: 'active' },
-  { id: 'document_checker', title: 'Vérificateur de Documents', category: 'admin', icon: CheckSquare, status: 'active' },
-  { id: 'fee_calculator', title: 'Calculateur de Frais', category: 'admin', icon: Calculator, status: 'active' },
-  { id: 'appointment_planner', title: 'Planificateur RDV', category: 'admin', icon: Calendar, status: 'active' },
-  { id: 'form_assistant', title: 'Assistant Formulaires CERFA', category: 'admin', icon: ClipboardEdit, status: 'active' },
-  { id: 'delay_simulator', title: 'Simulateur de Délais', category: 'admin', icon: Clock, status: 'active' },
-  { id: 'receipt_generator', title: 'Générateur de Récépissés', category: 'admin', icon: Receipt, status: 'active' },
-  { id: 'tax_assistant', title: 'Assistant Déclarations Fiscales', category: 'admin', icon: Calculator, status: 'coming_soon' },
-  { id: 'apl_calculator', title: 'Calculateur APL/CAF', category: 'admin', icon: PiggyBank, status: 'coming_soon' },
-  { id: 'attestation_generator', title: 'Générateur Attestations', category: 'admin', icon: FileSignature, status: 'coming_soon' },
-  { id: 'admin_translator', title: 'Traducteur Termes Administratifs', category: 'admin', icon: Globe, status: 'coming_soon' },
-  { id: 'profile_guide', title: 'Guide Démarches par Profil', category: 'admin', icon: Users, status: 'coming_soon' },
+  { id: 'letter_generator', title: 'Générateur de Lettres', category: 'admin', icon: FileText, status: 'active', moduleId: 'admin' },
+  { id: 'document_checker', title: 'Vérificateur de Documents', category: 'admin', icon: CheckSquare, status: 'active', moduleId: 'admin' },
+  { id: 'fee_calculator', title: 'Calculateur de Frais', category: 'admin', icon: Calculator, status: 'active', moduleId: 'admin' },
+  { id: 'appointment_planner', title: 'Planificateur RDV', category: 'admin', icon: Calendar, status: 'active', moduleId: 'admin' },
+  { id: 'form_assistant', title: 'Assistant Formulaires CERFA', category: 'admin', icon: ClipboardEdit, status: 'active', moduleId: 'admin' },
+  { id: 'delay_simulator', title: 'Simulateur de Délais', category: 'admin', icon: Clock, status: 'active', moduleId: 'admin' },
+  { id: 'receipt_generator', title: 'Générateur de Récépissés', category: 'admin', icon: Receipt, status: 'active', moduleId: 'admin' },
+  { id: 'tax_assistant', title: 'Assistant Déclarations Fiscales', category: 'admin', icon: Calculator, status: 'coming_soon', moduleId: 'admin' },
+  { id: 'apl_calculator', title: 'Calculateur APL/CAF', category: 'admin', icon: PiggyBank, status: 'coming_soon', moduleId: 'admin' },
+  { id: 'attestation_generator', title: 'Générateur Attestations', category: 'admin', icon: FileSignature, status: 'coming_soon', moduleId: 'admin' },
+  { id: 'admin_translator', title: 'Traducteur Termes Administratifs', category: 'admin', icon: Globe, status: 'coming_soon', moduleId: 'admin' },
+  { id: 'profile_guide', title: 'Guide Démarches par Profil', category: 'admin', icon: Users, status: 'coming_soon', moduleId: 'admin' },
   
   // Logement & Vie Quotidienne (8 outils)
-  { id: 'budget_calculator', title: 'Calculateur Budget Logement', category: 'logement', icon: Calculator, status: 'active' },
-  { id: 'rental_dossier', title: 'Générateur Dossier Locatif', category: 'logement', icon: FileText, status: 'active' },
-  { id: 'state_of_play', title: 'Assistant État des Lieux', category: 'logement', icon: CheckSquare, status: 'active' },
-  { id: 'neighborhood_comparator', title: 'Comparateur de Quartiers', category: 'logement', icon: MapPin, status: 'coming_soon' },
-  { id: 'moving_calculator', title: 'Calculateur Frais Déménagement', category: 'logement', icon: Truck, status: 'coming_soon' },
-  { id: 'rent_negotiator', title: 'Guide Négociation Loyer', category: 'logement', icon: TrendingDown, status: 'coming_soon' },
-  { id: 'moving_planner', title: 'Planificateur Emménagement', category: 'logement', icon: Calendar, status: 'coming_soon' },
-  { id: 'insurance_assistant', title: 'Assistant Assurance Habitation', category: 'logement', icon: Shield, status: 'coming_soon' },
+  { id: 'budget_calculator', title: 'Calculateur Budget Logement', category: 'logement', icon: Calculator, status: 'active', moduleId: 'logement' },
+  { id: 'rental_dossier', title: 'Générateur Dossier Locatif', category: 'logement', icon: FileText, status: 'active', moduleId: 'logement' },
+  { id: 'state_of_play', title: 'Assistant État des Lieux', category: 'logement', icon: CheckSquare, status: 'active', moduleId: 'logement' },
+  { id: 'neighborhood_comparator', title: 'Comparateur de Quartiers', category: 'logement', icon: MapPin, status: 'coming_soon', moduleId: 'logement' },
+  { id: 'moving_calculator', title: 'Calculateur Frais Déménagement', category: 'logement', icon: Truck, status: 'coming_soon', moduleId: 'logement' },
+  { id: 'rent_negotiator', title: 'Guide Négociation Loyer', category: 'logement', icon: TrendingDown, status: 'coming_soon', moduleId: 'logement' },
+  { id: 'moving_planner', title: 'Planificateur Emménagement', category: 'logement', icon: Calendar, status: 'coming_soon', moduleId: 'logement' },
+  { id: 'insurance_assistant', title: 'Assistant Assurance Habitation', category: 'logement', icon: Shield, status: 'coming_soon', moduleId: 'logement' },
   
   // Emploi & Formation (8 outils)
-  { id: 'cv_translator', title: 'Traducteur de CV Français', category: 'emploi', icon: FileText, status: 'active' },
-  { id: 'salary_calculator', title: 'Calculateur Salaire Net', category: 'emploi', icon: Calculator, status: 'active' },
-  { id: 'motivation_letter', title: 'Générateur Lettres de Motivation', category: 'emploi', icon: Mail, status: 'active' },
-  { id: 'diploma_equivalence', title: 'Équivalence Diplômes Étrangers', category: 'emploi', icon: GraduationCap, status: 'active' },
-  { id: 'interview_assistant', title: 'Assistant Entretien d\'Embauche', category: 'emploi', icon: Users, status: 'active' },
-  { id: 'unemployment_simulator', title: 'Simulateur Droits Pôle Emploi', category: 'emploi', icon: Calculator, status: 'coming_soon' },
-  { id: 'training_guide', title: 'Guide Formation Professionnelle', category: 'emploi', icon: BookOpen, status: 'coming_soon' },
-  { id: 'portfolio_creator', title: 'Créateur Portfolio Professionnel', category: 'emploi', icon: LayoutGrid, status: 'coming_soon' },
+  { id: 'cv_translator', title: 'Traducteur de CV Français', category: 'emploi', icon: FileText, status: 'active', moduleId: 'emploi' },
+  { id: 'salary_calculator', title: 'Calculateur Salaire Net', category: 'emploi', icon: Calculator, status: 'active', moduleId: 'emploi' },
+  { id: 'motivation_letter', title: 'Générateur Lettres de Motivation', category: 'emploi', icon: Mail, status: 'active', moduleId: 'emploi' },
+  { id: 'diploma_equivalence', title: 'Équivalence Diplômes Étrangers', category: 'emploi', icon: GraduationCap, status: 'active', moduleId: 'emploi' },
+  { id: 'interview_assistant', title: 'Assistant Entretien d\'Embauche', category: 'emploi', icon: Users, status: 'active', moduleId: 'emploi' },
+  { id: 'unemployment_simulator', title: 'Simulateur Droits Pôle Emploi', category: 'emploi', icon: Calculator, status: 'coming_soon', moduleId: 'emploi' },
+  { id: 'training_guide', title: 'Guide Formation Professionnelle', category: 'emploi', icon: BookOpen, status: 'coming_soon', moduleId: 'emploi' },
+  { id: 'portfolio_creator', title: 'Créateur Portfolio Professionnel', category: 'emploi', icon: LayoutGrid, status: 'coming_soon', moduleId: 'emploi' },
   
   // Santé & Social (6 outils)
-  { id: 'social_security_guide', title: 'Guide Sécurité Sociale', category: 'sante', icon: Heart, status: 'coming_soon' },
-  { id: 'health_calculator', title: 'Calculateur Remboursements Santé', category: 'sante', icon: Calculator, status: 'coming_soon' },
-  { id: 'mutual_assistant', title: 'Assistant Mutuelle', category: 'sante', icon: Shield, status: 'coming_soon' },
-  { id: 'medical_translator', title: 'Traducteur Médical', category: 'sante', icon: Globe, status: 'coming_soon' },
-  { id: 'social_services', title: 'Localisateur Services Sociaux', category: 'sante', icon: MapPin, status: 'coming_soon' },
-  { id: 'emergency_guide', title: 'Guide Urgences Médicales', category: 'sante', icon: PhoneCall, status: 'coming_soon' },
+  { id: 'social_security_guide', title: 'Guide Sécurité Sociale', category: 'sante', icon: Heart, status: 'coming_soon', moduleId: 'sante' },
+  { id: 'health_calculator', title: 'Calculateur Remboursements Santé', category: 'sante', icon: Calculator, status: 'coming_soon', moduleId: 'sante' },
+  { id: 'mutual_assistant', title: 'Assistant Mutuelle', category: 'sante', icon: Shield, status: 'coming_soon', moduleId: 'sante' },
+  { id: 'medical_translator', title: 'Traducteur Médical', category: 'sante', icon: Globe, status: 'coming_soon', moduleId: 'sante' },
+  { id: 'social_services', title: 'Localisateur Services Sociaux', category: 'sante', icon: MapPin, status: 'coming_soon', moduleId: 'sante' },
+  { id: 'emergency_guide', title: 'Guide Urgences Médicales', category: 'sante', icon: PhoneCall, status: 'coming_soon', moduleId: 'sante' },
   
   // Éducation & Famille (6 outils)
-  { id: 'school_enrollment', title: 'Guide Inscription Scolaire', category: 'education', icon: GraduationCap, status: 'coming_soon' },
-  { id: 'family_allowances', title: 'Calculateur Allocations Familiales', category: 'education', icon: Calculator, status: 'coming_soon' },
-  { id: 'childcare_assistant', title: 'Assistant Garde d\'Enfants', category: 'education', icon: Baby, status: 'coming_soon' },
-  { id: 'higher_education', title: 'Guide Études Supérieures', category: 'education', icon: GraduationCap, status: 'coming_soon' },
-  { id: 'report_translator', title: 'Traducteur Bulletins Scolaires', category: 'education', icon: Globe, status: 'coming_soon' },
-  { id: 'education_costs', title: 'Calculateur Frais Scolarité', category: 'education', icon: PiggyBank, status: 'coming_soon' },
+  { id: 'school_enrollment', title: 'Guide Inscription Scolaire', category: 'education', icon: GraduationCap, status: 'coming_soon', moduleId: 'education' },
+  { id: 'family_allowances', title: 'Calculateur Allocations Familiales', category: 'education', icon: Calculator, status: 'coming_soon', moduleId: 'education' },
+  { id: 'childcare_assistant', title: 'Assistant Garde d\'Enfants', category: 'education', icon: Baby, status: 'coming_soon', moduleId: 'education' },
+  { id: 'higher_education', title: 'Guide Études Supérieures', category: 'education', icon: GraduationCap, status: 'coming_soon', moduleId: 'education' },
+  { id: 'report_translator', title: 'Traducteur Bulletins Scolaires', category: 'education', icon: Globe, status: 'coming_soon', moduleId: 'education' },
+  { id: 'education_costs', title: 'Calculateur Frais Scolarité', category: 'education', icon: PiggyBank, status: 'coming_soon', moduleId: 'education' },
   
   // Intégration Culturelle (5 outils)
-  { id: 'culture_quiz', title: 'Quiz Culture Française', category: 'culture', icon: Lightbulb, status: 'coming_soon' },
-  { id: 'french_assistant', title: 'Assistant Apprentissage Français', category: 'culture', icon: BookOpen, status: 'coming_soon' },
-  { id: 'traditions_guide', title: 'Guide Fêtes et Traditions', category: 'culture', icon: PartyPopper, status: 'coming_soon' },
-  { id: 'naturalization_test', title: 'Simulateur Test Naturalisation', category: 'culture', icon: Award, status: 'coming_soon' },
-  { id: 'expressions_translator', title: 'Traducteur Expressions Françaises', category: 'culture', icon: MessageSquare, status: 'coming_soon' },
+  { id: 'culture_quiz', title: 'Quiz Culture Française', category: 'culture', icon: Lightbulb, status: 'coming_soon', moduleId: 'culture' },
+  { id: 'french_assistant', title: 'Assistant Apprentissage Français', category: 'culture', icon: BookOpen, status: 'coming_soon', moduleId: 'culture' },
+  { id: 'traditions_guide', title: 'Guide Fêtes et Traditions', category: 'culture', icon: PartyPopper, status: 'coming_soon', moduleId: 'culture' },
+  { id: 'naturalization_test', title: 'Simulateur Test Naturalisation', category: 'culture', icon: Award, status: 'coming_soon', moduleId: 'culture' },
+  { id: 'expressions_translator', title: 'Traducteur Expressions Françaises', category: 'culture', icon: MessageSquare, status: 'coming_soon', moduleId: 'culture' },
   
   // Outils Transversaux (5 outils)
-  { id: 'universal_converter', title: 'Convertisseur Universel', category: 'transversal', icon: Calculator, status: 'coming_soon' },
-  { id: 'emergency_assistant', title: 'Assistant Urgences', category: 'transversal', icon: Siren, status: 'coming_soon' },
-  { id: 'planning_generator', title: 'Générateur Planning', category: 'transversal', icon: Calendar, status: 'coming_soon' },
-  { id: 'budget_assistant', title: 'Assistant Budget Familial', category: 'transversal', icon: PiggyBank, status: 'coming_soon' },
-  { id: 'rights_guide', title: 'Guide Droits et Recours', category: 'transversal', icon: Gavel, status: 'coming_soon' }
+  { id: 'universal_converter', title: 'Convertisseur Universel', category: 'transversal', icon: Calculator, status: 'coming_soon', moduleId: 'transversal' },
+  { id: 'emergency_assistant', title: 'Assistant Urgences', category: 'transversal', icon: Siren, status: 'coming_soon', moduleId: 'transversal' },
+  { id: 'planning_generator', title: 'Générateur Planning', category: 'transversal', icon: Calendar, status: 'coming_soon', moduleId: 'transversal' },
+  { id: 'budget_assistant', title: 'Assistant Budget Familial', category: 'transversal', icon: PiggyBank, status: 'coming_soon', moduleId: 'transversal' },
+  { id: 'rights_guide', title: 'Guide Droits et Recours', category: 'transversal', icon: Gavel, status: 'coming_soon', moduleId: 'transversal' }
 ];
 
 const categories = [
@@ -94,15 +94,10 @@ const categories = [
   { id: 'transversal', name: 'Transversal', count: allTools.filter(t => t.category === 'transversal').length, color: 'bg-gray-500' }
 ];
 
-const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
+const HomePage: React.FC<HomePageProps> = ({ onToolSelect }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const { favoriteTools, toggleFavoriteTool, hasProfile } = useUserProfile();
 
   const filteredTools = allTools.filter(tool => {
-    if (selectedCategory === 'favorites') {
-      if (!hasProfile) return false;
-      return favoriteTools.includes(tool.id);
-    }
     const matchesCategory = selectedCategory === 'all' || tool.category === selectedCategory;
     return matchesCategory;
   });
@@ -124,14 +119,6 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
           <section className="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm flex flex-col md:flex-row items-center justify-end gap-2 pt-3 pb-1 shadow-sm">
             <div className="flex items-center gap-3">
               <UserMenu />
-              <Button 
-                variant="default"
-                size="sm"
-                onClick={onStartJourney}
-                className="bg-violet-500 hover:bg-violet-600 text-white font-bold px-4 py-2 rounded-full shadow-lg hover:shadow-violet-500/20 hover:scale-105 transition-all"
-              >
-                Profiler mon parcours
-              </Button>
             </div>
           </section>
 
@@ -141,7 +128,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
           {/* Hero */}
           <section className="pt-4 pb-4 text-center">
             <span className="inline-block rounded-full bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-200 px-4 py-2 mb-4 shadow-sm font-medium text-base">
-              🇫🇷 Plateforme #1 de l’intégration gratuite
+              🇫🇷 Plateforme #1 de l'intégration gratuite
             </span>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-3">
               IntégrationFrance.org
@@ -167,7 +154,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
                       ? 'hover:border-violet-300 dark:hover:border-violet-700'
                       : 'opacity-70'
                   } bg-white/70 dark:bg-slate-800/60 backdrop-blur-sm`}
-                  onClick={tool.status === 'active' ? onStartJourney : undefined}
+                  onClick={tool.status === 'active' ? () => onToolSelect(tool.moduleId) : undefined}
                 >
                   <div>
                     <CardHeader className="p-4 pb-2 flex items-start flex-row gap-3">
@@ -177,19 +164,6 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
                       <div className="flex-1 pt-1">
                         <CardTitle className="text-base font-bold flex-1">{tool.title}</CardTitle>
                       </div>
-                      {hasProfile && tool.status === 'active' && (
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 shrink-0 rounded-full"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleFavoriteTool(tool.id);
-                          }}
-                        >
-                          <Star className={`h-5 w-5 transition-all ${favoriteTools.includes(tool.id) ? 'text-amber-400 fill-amber-400' : 'text-gray-400 dark:text-gray-500 group-hover:text-amber-400'}`} />
-                        </Button>
-                      )}
                     </CardHeader>
                     <CardContent className="px-4 pt-0 pb-2">
                       <div className="flex justify-end">
@@ -208,7 +182,7 @@ const HomePage: React.FC<HomePageProps> = ({ onStartJourney }) => {
                       <Button 
                         size="sm" 
                         className="w-full font-semibold bg-violet-500 hover:bg-violet-600 text-white shadow-lg hover:shadow-violet-500/30 text-xs"
-                        onClick={onStartJourney}
+                        onClick={() => onToolSelect(tool.moduleId)}
                       >
                         Utiliser l'outil
                       </Button>
