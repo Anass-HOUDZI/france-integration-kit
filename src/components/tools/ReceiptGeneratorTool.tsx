@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -272,6 +273,32 @@ Conservez-le précieusement.
     }
   };
 
+  const renderNavButtons = () => (
+    <div className="flex gap-2 mb-6">
+      <Button 
+        variant={activeTab === 'create' ? 'default' : 'outline'} 
+        onClick={() => setActiveTab('create')}
+      >
+        <FileText className="mr-2 h-4 w-4" />
+        Créer
+      </Button>
+      <Button 
+        variant={activeTab === 'history' ? 'default' : 'outline'} 
+        onClick={() => setActiveTab('history')}
+      >
+        <Receipt className="mr-2 h-4 w-4" />
+        Historique
+      </Button>
+      <Button 
+        variant={activeTab === 'track' ? 'default' : 'outline'} 
+        onClick={() => setActiveTab('track')}
+      >
+        <QrCode className="mr-2 h-4 w-4" />
+        Suivi
+      </Button>
+    </div>
+  );
+
   if (activeTab === 'create') {
     return (
       <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -287,29 +314,7 @@ Conservez-le précieusement.
           </div>
         </div>
 
-        <div className="flex gap-2 mb-6">
-          <Button 
-            variant={activeTab === 'create' ? 'default' : 'outline'} 
-            onClick={() => setActiveTab('create')}
-          >
-            <FileText className="mr-2 h-4 w-4" />
-            Créer
-          </Button>
-          <Button 
-            variant={activeTab === 'history' ? 'default' : 'outline'} 
-            onClick={() => setActiveTab('history')}
-          >
-            <Receipt className="mr-2 h-4 w-4" />
-            Historique
-          </Button>
-          <Button 
-            variant={activeTab === 'track' ? 'default' : 'outline'} 
-            onClick={() => setActiveTab('track')}
-          >
-            <QrCode className="mr-2 h-4 w-4" />
-            Suivi
-          </Button>
-        </div>
+        {renderNavButtons()}
 
         <Card>
           <CardHeader>
@@ -548,29 +553,7 @@ Conservez-le précieusement.
           </div>
         </div>
 
-        <div className="flex gap-2 mb-6">
-          <Button 
-            variant={activeTab === 'create' ? 'default' : 'outline'} 
-            onClick={() => setActiveTab('create')}
-          >
-            <FileText className="mr-2 h-4 w-4" />
-            Créer
-          </Button>
-          <Button 
-            variant={activeTab === 'history' ? 'default' : 'outline'} 
-            onClick={() => setActiveTab('history')}
-          >
-            <Receipt className="mr-2 h-4 w-4" />
-            Historique
-          </Button>
-          <Button 
-            variant={activeTab === 'track' ? 'default' : 'outline'} 
-            onClick={() => setActiveTab('track')}
-          >
-            <QrCode className="mr-2 h-4 w-4" />
-            Suivi
-          </Button>
-        </div>
+        {renderNavButtons()}
 
         {receipts.length === 0 ? (
           <Card>
@@ -673,29 +656,7 @@ Conservez-le précieusement.
           </div>
         </div>
 
-        <div className="flex gap-2 mb-6">
-          <Button 
-            variant={activeTab === 'create' ? 'default' : 'outline'} 
-            onClick={() => setActiveTab('create')}
-          >
-            <FileText className="mr-2 h-4 w-4" />
-            Créer
-          </Button>
-          <Button 
-            variant={activeTab === 'history' ? 'default' : 'outline'} 
-            onClick={() => setActiveTab('history')}
-          >
-            <Receipt className="mr-2 h-4 w-4" />
-            Historique
-          </Button>
-          <Button 
-            variant={activeTab === 'track' ? 'default' : 'outline'} 
-            onClick={() => setActiveTab('track')}
-          >
-            <QrCode className="mr-2 h-4 w-4" />
-            Suivi
-          </Button>
-        </div>
+        {renderNavButtons()}
 
         <Card>
           <CardHeader>
