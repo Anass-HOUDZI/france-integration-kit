@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { FileText, Calculator, Calendar, CheckSquare, Search, Clock, AlertCircle, ClipboardEdit } from 'lucide-react';
+import { FileText, Calculator, Calendar, CheckSquare, Search, Clock, AlertCircle, ClipboardEdit, Receipt } from 'lucide-react';
 import LetterGenerator from '@/components/tools/LetterGenerator';
 import FeeCalculator from '@/components/tools/FeeCalculator';
 import AppointmentPlanner from '@/components/tools/AppointmentPlanner';
 import DocumentCheckerTool from '@/components/tools/DocumentCheckerTool';
 import FormAssistantTool from '@/components/tools/FormAssistantTool';
 import DelaySimulatorTool from '@/components/tools/DelaySimulatorTool';
+import ReceiptGeneratorTool from '@/components/tools/ReceiptGeneratorTool';
 
 interface AdminModuleProps {
   userProfile: any;
@@ -79,6 +80,16 @@ const AdminModule: React.FC<AdminModuleProps> = ({ userProfile, diagnostic, onBa
       category: 'Information',
       status: 'active',
       component: DelaySimulatorTool
+    },
+    {
+      id: 'receipt_generator',
+      title: 'Générateur de Récépissés',
+      description: 'Créez et suivez vos récépissés de dépôt',
+      icon: Receipt,
+      color: 'bg-cyan-500',
+      category: 'Suivi',
+      status: 'active',
+      component: ReceiptGeneratorTool
     }
   ];
 

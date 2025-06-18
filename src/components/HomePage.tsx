@@ -25,7 +25,7 @@ const allTools = [
   { id: 'appointment_planner', title: 'Planificateur RDV', category: 'admin', icon: Calendar, status: 'active' },
   { id: 'form_assistant', title: 'Assistant Formulaires CERFA', category: 'admin', icon: ClipboardEdit, status: 'active' },
   { id: 'delay_simulator', title: 'Simulateur de Délais', category: 'admin', icon: Clock, status: 'active' },
-  { id: 'receipt_generator', title: 'Générateur de Récépissés', category: 'admin', icon: Receipt, status: 'coming_soon' },
+  { id: 'receipt_generator', title: 'Générateur de Récépissés', category: 'admin', icon: Receipt, status: 'active' },
   { id: 'tax_assistant', title: 'Assistant Déclarations Fiscales', category: 'admin', icon: Calculator, status: 'coming_soon' },
   { id: 'apl_calculator', title: 'Calculateur APL/CAF', category: 'admin', icon: PiggyBank, status: 'coming_soon' },
   { id: 'attestation_generator', title: 'Générateur Attestations', category: 'admin', icon: FileSignature, status: 'coming_soon' },
