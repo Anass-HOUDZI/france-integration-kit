@@ -1,21 +1,10 @@
 
-import React from 'react';
-import { Button } from '@/components/ui/button';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
-  FileText, 
-  Calculator, 
-  Calendar, 
-  Home, 
-  Briefcase, 
-  Heart,
-  GraduationCap,
-  Globe,
-  Settings,
-  ArrowRight,
-  Star
-} from 'lucide-react';
+import { Search, ArrowRight, Users, Home, Briefcase, Heart, GraduationCap, FileText, Globe, Calculator, Sparkles, TrendingUp, Star, Filter } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 import { useI18n } from '@/hooks/useI18n';
 
 interface HomePageProps {
@@ -23,236 +12,461 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const { t } = useI18n();
 
-  const modules = [
+  const tools = [
+    // DÉMARCHES ADMINISTRATIVES
     {
-      id: 'admin',
-      title: t('modules.admin.title'),
-      description: t('modules.admin.description'),
+      id: 'letter-generator',
+      title: t('tool.letter_generator'),
+      description: t('tool.letter_generator_desc'),
+      category: t('category.admin'),
       icon: FileText,
-      color: 'from-blue-500 to-blue-600',
-      tools: t('modules.admin.tools_count'),
-      featured: ['letter-generator', 'fee-calculator']
+      gradient: 'from-blue-500 to-blue-600',
+      difficulty: t('common.easy'),
+      popular: true,
+      accessibility: 'excellent'
     },
     {
-      id: 'logement',
-      title: t('modules.logement.title'),  
-      description: t('modules.logement.description'),
+      id: 'fee-calculator',
+      title: t('tool.fee_calculator'),
+      description: t('tool.fee_calculator_desc'),
+      category: t('category.admin'),
+      icon: Calculator,
+      gradient: 'from-green-500 to-green-600',
+      difficulty: t('common.easy'),
+      popular: false,
+      accessibility: 'good'
+    },
+    {
+      id: 'receipt-generator',
+      title: t('tool.receipt_generator'),
+      description: t('tool.receipt_generator_desc'),
+      category: t('category.admin'),
+      icon: FileText,
+      gradient: 'from-purple-500 to-purple-600',
+      difficulty: t('common.easy'),
+      popular: false,
+      accessibility: 'good'
+    },
+    {
+      id: 'delay-simulator',
+      title: t('tool.delay_simulator'),
+      description: t('tool.delay_simulator_desc'),
+      category: t('category.admin'),
+      icon: Calculator,
+      gradient: 'from-orange-500 to-orange-600',
+      difficulty: t('common.easy'),
+      popular: false,
+      accessibility: 'excellent'
+    },
+    // LOGEMENT & VIE QUOTIDIENNE
+    {
+      id: 'budget-calculator',
+      title: t('tool.budget_calculator'),
+      description: t('tool.budget_calculator_desc'),
+      category: t('category.logement'),
       icon: Home,
-      color: 'from-green-500 to-green-600', 
-      tools: t('modules.logement.tools_count'),
-      featured: ['budget-calculator']
+      gradient: 'from-teal-500 to-teal-600',
+      difficulty: t('common.easy'),
+      popular: true,
+      accessibility: 'excellent'
     },
+    // EMPLOI & FORMATION
     {
-      id: 'emploi',
-      title: t('modules.emploi.title'),
-      description: t('modules.emploi.description'),
+      id: 'cv-translator',
+      title: t('tool.cv_translator'),
+      description: t('tool.cv_translator_desc'),
+      category: t('category.emploi'),
       icon: Briefcase,
-      color: 'from-purple-500 to-purple-600',
-      tools: t('modules.emploi.tools_count'),
-      featured: ['cv-translator']
+      gradient: 'from-indigo-500 to-indigo-600',
+      difficulty: t('common.medium'),
+      popular: true,
+      accessibility: 'good'
     },
+    // SANTÉ & SOCIAL
     {
-      id: 'sante',
-      title: t('modules.sante.title'),
-      description: t('modules.sante.description'),
+      id: 'social-security-guide',
+      title: t('tool.social_security_guide'),
+      description: t('tool.social_security_guide_desc'),
+      category: t('category.sante'),
       icon: Heart,
-      color: 'from-red-500 to-red-600',
-      tools: t('modules.sante.tools_count'),
-      featured: ['social-security-guide']
+      gradient: 'from-red-500 to-red-600',
+      difficulty: t('common.medium'),
+      popular: false,
+      accessibility: 'excellent'
     },
     {
-      id: 'education', 
-      title: t('modules.education.title'),
-      description: t('modules.education.description'),
+      id: 'social-services-locator',
+      title: t('tool.social_services_locator'),
+      description: t('tool.social_services_locator_desc'),
+      category: t('category.sante'),
+      icon: Users,
+      gradient: 'from-pink-500 to-pink-600',
+      difficulty: t('common.easy'),
+      popular: true,
+      accessibility: 'good'
+    },
+    // ÉDUCATION & FAMILLE
+    {
+      id: 'family-allowances-calculator',
+      title: t('tool.family_allowances_calculator'),
+      description: t('tool.family_allowances_calculator_desc'),
+      category: t('category.education'),
       icon: GraduationCap,
-      color: 'from-yellow-500 to-yellow-600',
-      tools: t('modules.education.tools_count'),
-      featured: ['education-costs-calculator']
+      gradient: 'from-yellow-500 to-yellow-600',
+      difficulty: t('common.easy'),
+      popular: false,
+      accessibility: 'excellent'
     },
     {
-      id: 'culture',
-      title: t('modules.culture.title'),
-      description: t('modules.culture.description'),
+      id: 'education-costs-calculator',
+      title: t('tool.education_costs_calculator'),
+      description: t('tool.education_costs_calculator_desc'),
+      category: t('category.education'),
+      icon: Calculator,
+      gradient: 'from-cyan-500 to-cyan-600',
+      difficulty: t('common.easy'),
+      popular: false,
+      accessibility: 'good'
+    },
+    // INTÉGRATION CULTURELLE
+    {
+      id: 'culture-quiz',
+      title: t('tool.culture_quiz'),
+      description: t('tool.culture_quiz_desc'),
+      category: t('category.culture'),
       icon: Globe,
-      color: 'from-indigo-500 to-indigo-600',
-      tools: t('modules.culture.tools_count'),
-      featured: ['culture-quiz', 'french-learning-assistant']
+      gradient: 'from-violet-500 to-violet-600',
+      difficulty: t('common.medium'),
+      popular: true,
+      accessibility: 'excellent'
     },
     {
-      id: 'transversal',
-      title: t('modules.transversal.title'),
-      description: t('modules.transversal.description'),
-      icon: Settings,
-      color: 'from-gray-500 to-gray-600',
-      tools: t('modules.transversal.tools_count'),
-      featured: ['emergency-assistant']
+      id: 'traditions-guide',
+      title: t('tool.traditions_guide'),
+      description: t('tool.traditions_guide_desc'),
+      category: t('category.culture'),
+      icon: Heart,
+      gradient: 'from-rose-500 to-rose-600',
+      difficulty: t('common.easy'),
+      popular: false,
+      accessibility: 'good'
+    },
+    {
+      id: 'french-learning-assistant',
+      title: t('tool.french_learning_assistant'),
+      description: t('tool.french_learning_assistant_desc'),
+      category: t('category.culture'),
+      icon: GraduationCap,
+      gradient: 'from-emerald-500 to-emerald-600',
+      difficulty: t('common.medium'),
+      popular: true,
+      accessibility: 'excellent'
+    },
+    {
+      id: 'naturalization-simulator',
+      title: t('tool.naturalization_simulator'),
+      description: t('tool.naturalization_simulator_desc'),
+      category: t('category.culture'),
+      icon: FileText,
+      gradient: 'from-amber-500 to-amber-600',
+      difficulty: t('common.advanced'),
+      popular: false,
+      accessibility: 'good'
+    },
+    {
+      id: 'french-expressions-translator',
+      title: t('tool.french_expressions_translator'),
+      description: t('tool.french_expressions_translator_desc'),
+      category: t('category.culture'),
+      icon: Globe,
+      gradient: 'from-lime-500 to-lime-600',
+      difficulty: t('common.medium'),
+      popular: false,
+      accessibility: 'excellent'
+    },
+    // OUTILS TRANSVERSAUX
+    {
+      id: 'emergency-assistant',
+      title: t('tool.emergency_assistant'),
+      description: t('tool.emergency_assistant_desc'),
+      category: t('category.transversal'),
+      icon: Heart,
+      gradient: 'from-red-600 to-red-700',
+      difficulty: t('common.easy'),
+      popular: false,
+      accessibility: 'excellent'
+    },
+    {
+      id: 'planning-generator',
+      title: t('tool.planning_generator'),
+      description: t('tool.planning_generator_desc'),
+      category: t('category.transversal'),
+      icon: Calculator,
+      gradient: 'from-blue-600 to-blue-700',
+      difficulty: t('common.easy'),
+      popular: false,
+      accessibility: 'good'
+    },
+    {
+      id: 'family-budget-assistant',
+      title: t('tool.family_budget_assistant'),
+      description: t('tool.family_budget_assistant_desc'),
+      category: t('category.transversal'),
+      icon: Calculator,
+      gradient: 'from-green-600 to-green-700',
+      difficulty: t('common.medium'),
+      popular: false,
+      accessibility: 'excellent'
+    },
+    {
+      id: 'rights-guide',
+      title: t('tool.rights_guide'),
+      description: t('tool.rights_guide_desc'),
+      category: t('category.transversal'),
+      icon: FileText,
+      gradient: 'from-purple-600 to-purple-700',
+      difficulty: t('common.advanced'),
+      popular: false,
+      accessibility: 'good'
     }
   ];
 
-  const featuredTools = [
-    {
-      id: 'letter-generator',
-      title: t('tools.letter_generator.title'),
-      description: t('tools.letter_generator.description'),
-      icon: FileText,
-      color: 'bg-blue-500',
-      category: t('modules.admin.title')
-    },
-    {
-      id: 'budget-calculator',
-      title: t('tools.budget_calculator.title'),
-      description: t('tools.budget_calculator.description'),
-      icon: Calculator,
-      color: 'bg-green-500',
-      category: t('modules.logement.title')
-    },
-    {
-      id: 'emergency-assistant',
-      title: t('tools.emergency_assistant.title'),
-      description: t('tools.emergency_assistant.description'),
-      icon: Heart,
-      color: 'bg-red-500',
-      category: t('modules.transversal.title')
+  const categories = [...new Set(tools.map(tool => tool.category))];
+  const filteredTools = tools.filter(tool => {
+    const matchesSearch = tool.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         tool.description.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         tool.category.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'all' || tool.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const popularTools = tools.filter(tool => tool.popular);
+  const totalTools = tools.length;
+
+  const getAccessibilityBadge = (level: string) => {
+    switch (level) {
+      case 'excellent':
+        return <Badge className="bg-green-100 text-green-800 hover:bg-green-200">★★★ {t('common.excellent')}</Badge>;
+      case 'good':
+        return <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-200">★★☆ {t('common.good')}</Badge>;
+      default:
+        return <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-200">★☆☆ {t('common.basic')}</Badge>;
     }
-  ];
+  };
+
+  const getDifficultyColor = (difficulty: string) => {
+    if (difficulty === t('common.easy')) {
+      return 'bg-green-100 text-green-800 hover:bg-green-200';
+    } else if (difficulty === t('common.medium')) {
+      return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200';
+    } else if (difficulty === t('common.advanced')) {
+      return 'bg-red-100 text-red-800 hover:bg-red-200';
+    }
+    return 'bg-gray-100 text-gray-800 hover:bg-gray-200';
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* Hero Section */}
-      <div className="relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 backdrop-blur-3xl"></div>
-        <div className="relative container mx-auto px-4 py-20">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-2xl">
-                🇫🇷
-              </div>
-              <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+      <div className="container mx-auto px-4 py-8">
+        {/* Hero Section */}
+        <div className="text-center mb-12 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 rounded-3xl -z-10"></div>
+          <div className="py-16 px-8">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
                 {t('home.title')}
-              </h1>
-            </div>
+              </span>
+              <br />
+              <span className="text-gray-800 dark:text-gray-200">{t('home.subtitle')}</span>
+            </h1>
             
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-              {t('home.subtitle')}
-            </p>
-            
-            <p className="text-lg text-gray-500 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
               {t('home.description')}
             </p>
+          </div>
+        </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-200">
-                <ArrowRight className="mr-2 h-5 w-5" />
-                {t('home.get_started')}
-              </Button>
-              <Button size="lg" variant="outline" className="border-2 border-blue-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200">
-                {t('home.explore_tools')}
-              </Button>
+        {/* Search and Filter Section - Sticky */}
+        <div className="sticky top-20 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 p-6 mb-8">
+          <div className="flex flex-col lg:flex-row gap-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <Input 
+                type="text" 
+                placeholder={t('home.search_placeholder')} 
+                value={searchTerm} 
+                onChange={e => setSearchTerm(e.target.value)} 
+                className="pl-12 py-3 text-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl" 
+              />
             </div>
-
-            <div className="flex items-center justify-center gap-8 text-sm text-gray-500">
-              <div className="flex items-center gap-2">
-                <Star className="h-4 w-4 text-yellow-500" />
-                <span>50 {t('home.total_tools')}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Settings className="h-4 w-4 text-blue-500" />
-                <span>7 {t('home.categories')}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Heart className="h-4 w-4 text-red-500" />
-                <span>100% {t('common.free')}</span>
-              </div>
+            
+            <div className="flex items-center gap-3">
+              <Filter className="h-5 w-5 text-gray-400" />
+              <select 
+                value={selectedCategory} 
+                onChange={e => setSelectedCategory(e.target.value)} 
+                className="px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-blue-500 bg-white dark:bg-gray-800"
+              >
+                <option value="all">{t('home.all_categories')}</option>
+                {categories.map(category => (
+                  <option key={category} value={category}>{category}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          
+          {/* Stats */}
+          <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-gray-100">
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <TrendingUp className="h-4 w-4 text-green-500" />
+              <span>{filteredTools.length} {t('home.tools_found')}</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <Star className="h-4 w-4 text-yellow-500" />
+              <span>{popularTools.length} {t('home.popular_tools')}</span>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Featured Tools */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            {t('home.explore_tools')}
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            {t('home.description')}
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6 mb-16">
-          {featuredTools.map((tool) => {
-            const Icon = tool.icon;
-            return (
-              <Card 
-                key={tool.id} 
-                className="group hover:shadow-2xl transition-all duration-300 cursor-pointer border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:scale-105"
-                onClick={() => onSelectTool(tool.id)}
-              >
-                <CardHeader className="text-center pb-4">
-                  <div className={`w-16 h-16 ${tool.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                    <Icon className="h-8 w-8 text-white" />
-                  </div>
-                  <CardTitle className="text-xl group-hover:text-blue-600 transition-colors duration-200">
-                    {tool.title}
-                  </CardTitle>
-                  <Badge variant="secondary" className="w-fit mx-auto">
-                    {tool.category}
-                  </Badge>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <CardDescription className="text-gray-600 dark:text-gray-300">
-                    {tool.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Modules Grid */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            {t('home.categories')}
-          </h2>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {modules.map((module) => {
-            const Icon = module.icon;
-            return (
-              <Card 
-                key={module.id} 
-                className="group hover:shadow-2xl transition-all duration-300 cursor-pointer border-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm hover:scale-105"
-                onClick={() => onSelectTool(module.id)}
-              >
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 bg-gradient-to-br ${module.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-                      <Icon className="h-6 w-6 text-white" />
-                    </div>
-                    <div className="flex-1">
-                      <CardTitle className="text-lg group-hover:text-blue-600 transition-colors duration-200">
-                        {module.title}
+        {/* Popular Tools Section */}
+        {selectedCategory === 'all' && !searchTerm && (
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center gap-3">
+              <Star className="h-8 w-8 text-yellow-500" />
+              {t('home.popular_tools_title')}
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {popularTools.map(tool => {
+                const IconComponent = tool.icon;
+                return (
+                  <Card key={tool.id} className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:scale-105 bg-white/80 backdrop-blur-sm">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-start justify-between">
+                        <div className={`p-4 rounded-2xl bg-gradient-to-br ${tool.gradient} text-white shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+                          <IconComponent className="h-8 w-8" />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <Badge className={getDifficultyColor(tool.difficulty)}>
+                            {tool.difficulty}
+                          </Badge>
+                          {getAccessibilityBadge(tool.accessibility)}
+                        </div>
+                      </div>
+                      <CardTitle className="text-xl leading-tight group-hover:text-blue-600 transition-colors">
+                        {tool.title}
                       </CardTitle>
-                      <Badge variant="outline" className="text-xs mt-1">
-                        {module.tools}
-                      </Badge>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-600 dark:text-gray-300">
-                    {module.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <CardDescription className="text-gray-600 mb-6 text-base leading-relaxed">
+                        {tool.description}
+                      </CardDescription>
+                      <Button 
+                        onClick={() => onSelectTool(tool.id)} 
+                        className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 text-white font-medium py-3 rounded-xl shadow-lg hover:shadow-xl group-hover:scale-105"
+                      >
+                        {t('common.use_tool')}
+                        <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* All Tools by Category */}
+        <div className="space-y-12">
+          {categories.map(category => {
+            const categoryTools = filteredTools.filter(tool => tool.category === category);
+            if (categoryTools.length === 0) return null;
+
+            return (
+              <div key={category} className="animate-fade-in">
+                <div className="flex items-center justify-between mb-8">
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-4">
+                    <div className="w-2 h-12 bg-gradient-to-b from-blue-500 to-indigo-500 rounded-full"></div>
+                    {category}
+                  </h2>
+                  <Badge variant="secondary" className="text-lg px-4 py-2 bg-blue-100 text-blue-800">
+                    {categoryTools.length} {t('home.tools_count')}
+                  </Badge>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {categoryTools.map(tool => {
+                    const IconComponent = tool.icon;
+                    return (
+                      <Card key={tool.id} className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-md hover:scale-105 bg-white/80 backdrop-blur-sm hover:bg-white">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-start justify-between mb-3">
+                            <div className={`p-3 rounded-xl bg-gradient-to-br ${tool.gradient} text-white shadow-md group-hover:shadow-lg transition-all duration-300`}>
+                              <IconComponent className="h-6 w-6" />
+                            </div>
+                            {tool.popular && (
+                              <div className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                                <Star className="h-3 w-3" />
+                                {t('common.popular')}
+                              </div>
+                            )}
+                          </div>
+                          <CardTitle className="text-lg leading-tight group-hover:text-blue-600 transition-colors">
+                            {tool.title}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="pt-0 space-y-4">
+                          <CardDescription className="text-gray-600 text-sm leading-relaxed line-clamp-3">
+                            {tool.description}
+                          </CardDescription>
+                          
+                          <div className="flex flex-wrap gap-2">
+                            <Badge className={getDifficultyColor(tool.difficulty)}>
+                              {tool.difficulty}
+                            </Badge>
+                            {getAccessibilityBadge(tool.accessibility)}
+                          </div>
+                          
+                          <Button 
+                            onClick={() => onSelectTool(tool.id)} 
+                            className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 text-white font-medium py-2.5 rounded-lg shadow-md hover:shadow-lg"
+                          >
+                            {t('common.use_tool')}
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </div>
             );
           })}
         </div>
+
+        {filteredTools.length === 0 && (
+          <div className="text-center py-16">
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Search className="h-12 w-12 text-gray-400" />
+            </div>
+            <h3 className="text-2xl font-semibold text-gray-900 mb-4">{t('home.no_tools_found')}</h3>
+            <p className="text-gray-600 text-lg mb-6">{t('home.no_tools_description')}</p>
+            <Button 
+              onClick={() => {
+                setSearchTerm('');
+                setSelectedCategory('all');
+              }} 
+              variant="outline" 
+              className="border-blue-500 text-blue-600 hover:bg-blue-50"
+            >
+              {t('home.reset_filters')}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
