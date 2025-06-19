@@ -22,6 +22,22 @@ import SanteModule from '@/components/modules/SanteModule';
 import EducationModule from '@/components/modules/EducationModule';
 import CultureModule from '@/components/modules/CultureModule';
 import TransversalModule from '@/components/modules/TransversalModule';
+import LetterGenerator from '@/components/tools/LetterGenerator';
+import FeeCalculator from '@/components/tools/FeeCalculator';
+import BudgetCalculator from '@/components/tools/BudgetCalculator';
+import CVTranslator from '@/components/tools/CVTranslator';
+import SocialSecurityGuideTool from '@/components/tools/SocialSecurityGuideTool';
+import SocialServicesLocatorTool from '@/components/tools/SocialServicesLocatorTool';
+import FamilyAllowancesTool from '@/components/tools/FamilyAllowancesTool';
+import EducationCostsTool from '@/components/tools/EducationCostsTool';
+import CultureQuizTool from '@/components/tools/CultureQuizTool';
+import TraditionsGuideTool from '@/components/tools/TraditionsGuideTool';
+import FrenchLearningAssistantTool from '@/components/tools/FrenchLearningAssistantTool';
+import NaturalizationTestSimulatorTool from '@/components/tools/NaturalizationTestSimulatorTool';
+import ExpressionsTranslatorTool from '@/components/tools/ExpressionsTranslatorTool';
+import PlanningGeneratorTool from '@/components/tools/PlanningGeneratorTool';
+import BudgetAssistantTool from '@/components/tools/BudgetAssistantTool';
+import RightsGuideTool from '@/components/tools/RightsGuideTool';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useI18n } from '@/hooks/useI18n';
@@ -37,7 +53,26 @@ type View =
   | 'sante'
   | 'education'
   | 'culture'
-  | 'transversal';
+  | 'transversal'
+  | 'letter-generator'
+  | 'fee-calculator'
+  | 'receipt-generator'
+  | 'delay-simulator'
+  | 'budget-calculator'
+  | 'cv-translator'
+  | 'social-security-guide'
+  | 'social-services-locator'
+  | 'family-allowances-calculator'
+  | 'education-costs-calculator'
+  | 'culture-quiz'
+  | 'traditions-guide'
+  | 'french-learning-assistant'
+  | 'naturalization-simulator'
+  | 'french-expressions-translator'
+  | 'emergency-assistant'
+  | 'planning-generator'
+  | 'family-budget-assistant'
+  | 'rights-guide';
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<View>('home');
@@ -134,8 +169,9 @@ const Index = () => {
   const renderContent = () => {
     switch (currentView) {
       case 'home':
-        return <HomePage onSelectTool={(moduleId) => setCurrentView(moduleId as View)} />;
+        return <HomePage onSelectTool={(toolId) => setCurrentView(toolId as View)} />;
       
+      // Module views
       case 'admin':
         return (
           <AdminModule 
@@ -198,9 +234,58 @@ const Index = () => {
             onBack={() => setCurrentView('home')}
           />
         );
+
+      // Individual tool views
+      case 'letter-generator':
+        return <LetterGenerator userProfile={null} diagnostic={null} />;
+      
+      case 'fee-calculator':
+        return <FeeCalculator userProfile={null} diagnostic={null} />;
+      
+      case 'budget-calculator':
+        return <BudgetCalculator userProfile={null} diagnostic={null} />;
+      
+      case 'cv-translator':
+        return <CVTranslator userProfile={null} diagnostic={null} />;
+      
+      case 'social-security-guide':
+        return <SocialSecurityGuideTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
+      case 'social-services-locator':
+        return <SocialServicesLocatorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
+      case 'family-allowances-calculator':
+        return <FamilyAllowancesTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
+      case 'education-costs-calculator':
+        return <EducationCostsTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
+      case 'culture-quiz':
+        return <CultureQuizTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
+      case 'traditions-guide':
+        return <TraditionsGuideTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
+      case 'french-learning-assistant':
+        return <FrenchLearningAssistantTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
+      case 'naturalization-simulator':
+        return <NaturalizationTestSimulatorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
+      case 'french-expressions-translator':
+        return <ExpressionsTranslatorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
+      case 'planning-generator':
+        return <PlanningGeneratorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
+      case 'family-budget-assistant':
+        return <BudgetAssistantTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
+      case 'rights-guide':
+        return <RightsGuideTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
       
       default:
-        return <HomePage onSelectTool={(moduleId) => setCurrentView(moduleId as View)} />;
+        return <HomePage onSelectTool={(toolId) => setCurrentView(toolId as View)} />;
     }
   };
 
