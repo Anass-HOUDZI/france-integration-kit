@@ -6,15 +6,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Phone, Clock, Users, Heart, Home, Building, Search } from 'lucide-react';
+import { MapPin, Phone, Clock, Users, Heart, Home, Building, Search, ArrowLeft } from 'lucide-react';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
 interface SocialServicesLocatorProps {
   userProfile: any;
   diagnostic: any;
+  onBack: () => void;
 }
 
-const SocialServicesLocatorTool: React.FC<SocialServicesLocatorProps> = ({ userProfile }) => {
+const SocialServicesLocatorTool: React.FC<SocialServicesLocatorProps> = ({ userProfile, onBack }) => {
   const { saveToolData } = useUserProfile();
   const [city, setCity] = useState('');
   const [serviceType, setServiceType] = useState('');
@@ -148,6 +149,13 @@ const SocialServicesLocatorTool: React.FC<SocialServicesLocatorProps> = ({ userP
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
+      <div className="flex items-center gap-4 mb-6">
+        <Button variant="outline" onClick={onBack}>
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Retour
+        </Button>
+      </div>
+
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">
           Localisateur Services Sociaux

@@ -4,15 +4,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Heart, CreditCard, Clock, MapPin, Phone, FileText, AlertCircle, CheckSquare } from 'lucide-react';
+import { Heart, CreditCard, Clock, MapPin, Phone, FileText, AlertCircle, CheckSquare, ArrowLeft } from 'lucide-react';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
 interface SocialSecurityGuideProps {
   userProfile: any;
   diagnostic: any;
+  onBack: () => void;
 }
 
-const SocialSecurityGuideTool: React.FC<SocialSecurityGuideProps> = ({ userProfile }) => {
+const SocialSecurityGuideTool: React.FC<SocialSecurityGuideProps> = ({ userProfile, onBack }) => {
   const { saveToolData } = useUserProfile();
   const [completedSteps, setCompletedSteps] = useState<string[]>([]);
 
@@ -102,6 +103,13 @@ const SocialSecurityGuideTool: React.FC<SocialSecurityGuideProps> = ({ userProfi
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
+      <div className="flex items-center gap-4 mb-6">
+        <Button variant="outline" onClick={onBack}>
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Retour
+        </Button>
+      </div>
+
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">
           Guide de la Sécurité Sociale
