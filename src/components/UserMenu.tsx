@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Menu, LogOut, RefreshCcw, Download, Upload, User, Settings, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -112,9 +111,7 @@ export default function UserMenu() {
             <User className="h-3 w-3 text-white" />
           </div>
         </Button>
-      </DropdownMenuTrig
-
-ger>
+      </DropdownMenuTrigger>
       <DropdownMenuContent 
         align="end" 
         className="w-64 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200/50 mt-2 z-50 p-2"
