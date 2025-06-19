@@ -134,7 +134,7 @@ const Index = () => {
   const renderContent = () => {
     switch (currentView) {
       case 'home':
-        return <HomePage onToolSelect={(moduleId) => setCurrentView(moduleId as View)} />;
+        return <HomePage onSelectTool={(moduleId) => setCurrentView(moduleId as View)} />;
       
       case 'admin':
         return (
@@ -200,7 +200,7 @@ const Index = () => {
         );
       
       default:
-        return <HomePage onToolSelect={(moduleId) => setCurrentView(moduleId as View)} />;
+        return <HomePage onSelectTool={(moduleId) => setCurrentView(moduleId as View)} />;
     }
   };
 
