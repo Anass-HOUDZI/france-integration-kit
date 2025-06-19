@@ -192,7 +192,7 @@ const Index = () => {
       {currentView !== 'home' && (
         <Header 
           onSelectTool={(toolId) => setCurrentView(toolId as View)}
-          showFilters={false}
+          showHomeButton={true}
         />
       )}
       

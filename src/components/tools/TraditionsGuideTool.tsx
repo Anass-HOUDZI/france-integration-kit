@@ -1,7 +1,6 @@
-
 import React, { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Heart, Filter, CalendarDays, Search as SearchIcon } from "lucide-react";
+import { Heart, Filter, CalendarDays, Search as SearchIcon } from "lucide-react";
 
 interface Tradition {
   name: string;
@@ -182,77 +181,89 @@ const TraditionsGuideTool: React.FC<TraditionsGuideToolProps> = ({ onBack }) => 
   }, [typeFilter, query]);
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6">
-      <Button variant="outline" onClick={onBack}>
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Retour
-      </Button>
-      <h1 className="text-2xl font-bold flex items-center gap-2 mt-6">
-        <Heart className="h-7 w-7 text-indigo-600" />
-        Guide Fêtes et Traditions
-      </h1>
-
-      <div className="flex flex-col md:flex-row items-stretch gap-3 mt-2 animate-fade-in">
-        <div className="flex gap-2">
-          <div className="relative flex items-center">
-            <Filter className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-500" />
-            <select
-              value={typeFilter}
-              className="pl-8 pr-4 py-2 rounded-md border text-sm shadow focus:ring-2 ring-indigo-500 bg-white"
-              onChange={e => setTypeFilter(e.target.value)}
-              aria-label="Filtrer par type"
-            >
-              {ALL_TYPES.map((t) => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent flex items-center justify-center gap-3">
+                <Heart className="h-8 w-8 text-indigo-600" />
+                Guide Fêtes et Traditions
+              </span>
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-300">
+              Découvrez les fêtes et traditions françaises
+            </p>
           </div>
-        </div>
-        <div className="relative flex-1">
-          <SearchIcon className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-500" />
-          <input
-            type="search"
-            aria-label="Recherche fête ou tradition"
-            className="w-full pl-8 pr-4 py-2 rounded-md border text-sm shadow focus:ring-2 ring-indigo-500 bg-white"
-            placeholder="Recherche par nom ou description…"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            autoComplete="off"
-          />
-        </div>
-      </div>
 
-      <div className="mt-3 grid gap-3">
-        {filtered.length === 0 && (
-          <div className="text-center text-gray-500 py-10">
-            Aucune fête ou tradition trouvée.
-          </div>
-        )}
-        {filtered.map((fete, i) => (
-          <div
-            key={fete.name + fete.date}
-            className="flex flex-col md:flex-row items-center gap-4 animate-fade-in bg-indigo-50 dark:bg-indigo-950 rounded-lg border p-4 shadow-sm"
-          >
-            <div className="flex flex-col items-center min-w-[62px]">
-              <span className="text-3xl" title={fete.emoji}>{fete.emoji}</span>
-              <span className="text-xs mt-1 text-indigo-700">{fete.type}</span>
-            </div>
-            <div className="flex flex-col flex-1">
-              <div className="font-bold text-indigo-900 dark:text-white text-lg flex items-center gap-2">
-                {fete.name}
-                <CalendarDays className="h-4 w-4 text-indigo-400" />
-                <span className="text-sm text-gray-600">{formatDate(fete.date)}</span>
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 p-6">
+            <div className="flex flex-col md:flex-row items-stretch gap-3 animate-fade-in">
+              <div className="flex gap-2">
+                <div className="relative flex items-center">
+                  <Filter className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-500" />
+                  <select
+                    value={typeFilter}
+                    className="pl-8 pr-4 py-2 rounded-xl border border-gray-200 text-sm shadow focus:ring-2 ring-indigo-500 bg-white focus:border-indigo-500"
+                    onChange={e => setTypeFilter(e.target.value)}
+                    aria-label="Filtrer par type"
+                  >
+                    {ALL_TYPES.map((t) => (
+                      <option key={t} value={t}>{t}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
-              <div className="text-gray-700 dark:text-gray-200 text-sm mt-1">{fete.description}</div>
-              {fete.location && (
-                <span className="text-xs text-gray-500 mt-1 italic">Région/ville : {fete.location}</span>
-              )}
+              <div className="relative flex-1">
+                <SearchIcon className="absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-indigo-500" />
+                <input
+                  type="search"
+                  aria-label="Recherche fête ou tradition"
+                  className="w-full pl-8 pr-4 py-2 rounded-xl border border-gray-200 text-sm shadow focus:ring-2 ring-indigo-500 bg-white focus:border-indigo-500"
+                  placeholder="Recherche par nom ou description…"
+                  value={query}
+                  onChange={e => setQuery(e.target.value)}
+                  autoComplete="off"
+                />
+              </div>
             </div>
           </div>
-        ))}
-      </div>
-      <div className="mt-7 text-xs text-gray-400">
-        Liste indicative : pour suggestions ou ajouts régionaux, contactez-nous !
+
+          <div className="space-y-4">
+            {filtered.length === 0 && (
+              <div className="text-center text-gray-500 py-10 bg-white/50 rounded-2xl">
+                Aucune fête ou tradition trouvée.
+              </div>
+            )}
+            {filtered.map((fete, i) => (
+              <div
+                key={fete.name + fete.date}
+                className="flex flex-col md:flex-row items-center gap-4 animate-fade-in bg-white/90 backdrop-blur-sm rounded-2xl border border-indigo-100 p-6 shadow-md hover:shadow-lg transition-all duration-300"
+              >
+                <div className="flex flex-col items-center min-w-[80px]">
+                  <span className="text-4xl mb-2" title={fete.emoji}>{fete.emoji}</span>
+                  <span className="text-xs px-2 py-1 bg-indigo-100 text-indigo-700 rounded-full font-medium">{fete.type}</span>
+                </div>
+                <div className="flex flex-col flex-1">
+                  <div className="font-bold text-indigo-900 dark:text-white text-xl flex items-center gap-3 mb-2">
+                    {fete.name}
+                    <div className="flex items-center gap-1 text-sm text-gray-600 bg-gray-100 px-2 py-1 rounded-full">
+                      <CalendarDays className="h-4 w-4" />
+                      {formatDate(fete.date)}
+                    </div>
+                  </div>
+                  <div className="text-gray-700 dark:text-gray-200 leading-relaxed mb-2">{fete.description}</div>
+                  {fete.location && (
+                    <span className="text-sm text-indigo-600 font-medium">📍 {fete.location}</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="text-center mt-8 text-sm text-gray-500 bg-white/50 p-4 rounded-xl">
+            💡 Liste indicative : pour suggestions ou ajouts régionaux, contactez-nous !
+          </div>
+        </div>
       </div>
     </div>
   );

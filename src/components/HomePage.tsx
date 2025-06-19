@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Search, ArrowRight, Users, Home, Briefcase, Heart, GraduationCap, FileText, Globe, Calculator, Sparkles, TrendingUp, Star } from 'lucide-react';
+import { ArrowRight, Users, Home, Briefcase, Heart, GraduationCap, FileText, Globe, Calculator, Star } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 import Header from '@/components/Header';
 
@@ -11,8 +11,6 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const { t } = useI18n();
 
   const tools = [
@@ -235,14 +233,6 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
   ];
 
   const categories = [...new Set(tools.map(tool => tool.category))];
-  const filteredTools = tools.filter(tool => {
-    const matchesSearch = tool.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         tool.description.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         tool.category.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || tool.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
-
   const popularTools = tools.filter(tool => tool.popular);
 
   const getAccessibilityBadge = (level: string) => {
@@ -269,17 +259,7 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <Header 
-        onSelectTool={onSelectTool}
-        showFilters={true}
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-        selectedCategory={selectedCategory}
-        onCategoryChange={setSelectedCategory}
-        categories={categories}
-        filteredToolsCount={filteredTools.length}
-        popularToolsCount={popularTools.length}
-      />
+      <Header onSelectTool={onSelectTool} />
       
       <div className="container mx-auto px-4 py-8">
         {/* Hero Section */}
@@ -301,57 +281,55 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
         </div>
 
         {/* Popular Tools Section */}
-        {selectedCategory === 'all' && !searchTerm && (
-          <div className="mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center gap-3">
-              <Star className="h-8 w-8 text-yellow-500" />
-              {t('home.popular_tools_title')}
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {popularTools.map(tool => {
-                const IconComponent = tool.icon;
-                return (
-                  <Card key={tool.id} className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:scale-105 bg-white/80 backdrop-blur-sm">
-                    <CardHeader className="pb-4">
-                      <div className="flex items-start justify-between">
-                        <div className={`p-4 rounded-2xl bg-gradient-to-br ${tool.gradient} text-white shadow-lg group-hover:shadow-xl transition-all duration-300`}>
-                          <IconComponent className="h-8 w-8" />
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <Badge className={getDifficultyColor(tool.difficulty)}>
-                            {tool.difficulty}
-                          </Badge>
-                          {getAccessibilityBadge(tool.accessibility)}
-                        </div>
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center gap-3">
+            <Star className="h-8 w-8 text-yellow-500" />
+            {t('home.popular_tools_title')}
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {popularTools.map(tool => {
+              const IconComponent = tool.icon;
+              return (
+                <Card key={tool.id} className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:scale-105 bg-white/80 backdrop-blur-sm">
+                  <CardHeader className="pb-4">
+                    <div className="flex items-start justify-between">
+                      <div className={`p-4 rounded-2xl bg-gradient-to-br ${tool.gradient} text-white shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+                        <IconComponent className="h-8 w-8" />
                       </div>
-                      <CardTitle className="text-xl leading-tight group-hover:text-blue-600 transition-colors">
-                        {tool.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                      <CardDescription className="text-gray-600 mb-6 text-base leading-relaxed">
-                        {tool.description}
-                      </CardDescription>
-                      <Button 
-                        onClick={() => onSelectTool(tool.id)} 
-                        className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 text-white font-medium py-3 rounded-xl shadow-lg hover:shadow-xl group-hover:scale-105"
-                      >
-                        {t('common.use_tool')}
-                        <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
+                      <div className="flex flex-col gap-2">
+                        <Badge className={getDifficultyColor(tool.difficulty)}>
+                          {tool.difficulty}
+                        </Badge>
+                        {getAccessibilityBadge(tool.accessibility)}
+                      </div>
+                    </div>
+                    <CardTitle className="text-xl leading-tight group-hover:text-blue-600 transition-colors">
+                      {tool.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <CardDescription className="text-gray-600 mb-6 text-base leading-relaxed">
+                      {tool.description}
+                    </CardDescription>
+                    <Button 
+                      onClick={() => onSelectTool(tool.id)} 
+                      className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 text-white font-medium py-3 rounded-xl shadow-lg hover:shadow-xl group-hover:scale-105"
+                    >
+                      {t('common.use_tool')}
+                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
-        )}
+        </div>
 
         {/* All Tools by Category */}
         <div className="space-y-12">
           {categories.map(category => {
-            const categoryTools = filteredTools.filter(tool => tool.category === category);
+            const categoryTools = tools.filter(tool => tool.category === category);
             if (categoryTools.length === 0) return null;
 
             return (
@@ -415,26 +393,6 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
             );
           })}
         </div>
-
-        {filteredTools.length === 0 && (
-          <div className="text-center py-16">
-            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Search className="h-12 w-12 text-gray-400" />
-            </div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-4">{t('home.no_tools_found')}</h3>
-            <p className="text-gray-600 text-lg mb-6">{t('home.no_tools_description')}</p>
-            <Button 
-              onClick={() => {
-                setSearchTerm('');
-                setSelectedCategory('all');
-              }} 
-              variant="outline" 
-              className="border-blue-500 text-blue-600 hover:bg-blue-50"
-            >
-              {t('home.reset_filters')}
-            </Button>
-          </div>
-        )}
       </div>
     </div>
   );
