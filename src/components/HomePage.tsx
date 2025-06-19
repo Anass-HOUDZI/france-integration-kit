@@ -1,206 +1,310 @@
 
 import React, { useState } from 'react';
-import { 
-  FileText, CheckSquare, Calculator, Calendar, PiggyBank, Globe,
-  Users, MapPin, TrendingUp, BookOpen, Award, Heart, PhoneCall, GraduationCap, Clock,
-  ClipboardEdit, Receipt, FileSignature, Truck, TrendingDown, Shield, Mail, LayoutGrid, Baby, Lightbulb, PartyPopper, MessageSquare, Siren, Gavel, Star
-} from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import SidebarNav from "./SidebarNav";
-import ProgressBar from "./ProgressBar";
-import UserMenu from "./UserMenu";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { Search, ArrowRight, Users, Home, Briefcase, Heart, GraduationCap, FileText, Globe, Calculator } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
 interface HomePageProps {
-  onToolSelect: (moduleId: string) => void;
+  onSelectTool: (toolId: string) => void;
 }
 
-const allTools = [
-  // Démarches Administratives (12 outils)
-  { id: 'letter_generator', title: 'Générateur de Lettres', category: 'admin', icon: FileText, status: 'active', moduleId: 'admin' },
-  { id: 'document_checker', title: 'Vérificateur de Documents', category: 'admin', icon: CheckSquare, status: 'active', moduleId: 'admin' },
-  { id: 'fee_calculator', title: 'Calculateur de Frais', category: 'admin', icon: Calculator, status: 'active', moduleId: 'admin' },
-  { id: 'appointment_planner', title: 'Planificateur RDV', category: 'admin', icon: Calendar, status: 'active', moduleId: 'admin' },
-  { id: 'form_assistant', title: 'Assistant Formulaires CERFA', category: 'admin', icon: ClipboardEdit, status: 'active', moduleId: 'admin' },
-  { id: 'delay_simulator', title: 'Simulateur de Délais', category: 'admin', icon: Clock, status: 'active', moduleId: 'admin' },
-  { id: 'receipt_generator', title: 'Générateur de Récépissés', category: 'admin', icon: Receipt, status: 'active', moduleId: 'admin' },
-  { id: 'tax_assistant', title: 'Assistant Déclarations Fiscales', category: 'admin', icon: Calculator, status: 'coming_soon', moduleId: 'admin' },
-  { id: 'apl_calculator', title: 'Calculateur APL/CAF', category: 'admin', icon: PiggyBank, status: 'coming_soon', moduleId: 'admin' },
-  { id: 'attestation_generator', title: 'Générateur Attestations', category: 'admin', icon: FileSignature, status: 'coming_soon', moduleId: 'admin' },
-  { id: 'admin_translator', title: 'Traducteur Termes Administratifs', category: 'admin', icon: Globe, status: 'coming_soon', moduleId: 'admin' },
-  { id: 'profile_guide', title: 'Guide Démarches par Profil', category: 'admin', icon: Users, status: 'coming_soon', moduleId: 'admin' },
-  
-  // Logement & Vie Quotidienne (8 outils)
-  { id: 'budget_calculator', title: 'Calculateur Budget Logement', category: 'logement', icon: Calculator, status: 'active', moduleId: 'logement' },
-  { id: 'rental_dossier', title: 'Générateur Dossier Locatif', category: 'logement', icon: FileText, status: 'active', moduleId: 'logement' },
-  { id: 'state_of_play', title: 'Assistant État des Lieux', category: 'logement', icon: CheckSquare, status: 'active', moduleId: 'logement' },
-  { id: 'neighborhood_comparator', title: 'Comparateur de Quartiers', category: 'logement', icon: MapPin, status: 'coming_soon', moduleId: 'logement' },
-  { id: 'moving_calculator', title: 'Calculateur Frais Déménagement', category: 'logement', icon: Truck, status: 'coming_soon', moduleId: 'logement' },
-  { id: 'rent_negotiator', title: 'Guide Négociation Loyer', category: 'logement', icon: TrendingDown, status: 'coming_soon', moduleId: 'logement' },
-  { id: 'moving_planner', title: 'Planificateur Emménagement', category: 'logement', icon: Calendar, status: 'coming_soon', moduleId: 'logement' },
-  { id: 'insurance_assistant', title: 'Assistant Assurance Habitation', category: 'logement', icon: Shield, status: 'coming_soon', moduleId: 'logement' },
-  
-  // Emploi & Formation (8 outils)
-  { id: 'cv_translator', title: 'Traducteur de CV Français', category: 'emploi', icon: FileText, status: 'active', moduleId: 'emploi' },
-  { id: 'salary_calculator', title: 'Calculateur Salaire Net', category: 'emploi', icon: Calculator, status: 'active', moduleId: 'emploi' },
-  { id: 'motivation_letter', title: 'Générateur Lettres de Motivation', category: 'emploi', icon: Mail, status: 'active', moduleId: 'emploi' },
-  { id: 'diploma_equivalence', title: 'Équivalence Diplômes Étrangers', category: 'emploi', icon: GraduationCap, status: 'active', moduleId: 'emploi' },
-  { id: 'interview_assistant', title: 'Assistant Entretien d\'Embauche', category: 'emploi', icon: Users, status: 'active', moduleId: 'emploi' },
-  { id: 'unemployment_simulator', title: 'Simulateur Droits Pôle Emploi', category: 'emploi', icon: Calculator, status: 'coming_soon', moduleId: 'emploi' },
-  { id: 'training_guide', title: 'Guide Formation Professionnelle', category: 'emploi', icon: BookOpen, status: 'coming_soon', moduleId: 'emploi' },
-  { id: 'portfolio_creator', title: 'Créateur Portfolio Professionnel', category: 'emploi', icon: LayoutGrid, status: 'coming_soon', moduleId: 'emploi' },
-  
-  // Santé & Social (6 outils)
-  { id: 'social_security_guide', title: 'Guide Sécurité Sociale', category: 'sante', icon: Heart, status: 'coming_soon', moduleId: 'sante' },
-  { id: 'health_calculator', title: 'Calculateur Remboursements Santé', category: 'sante', icon: Calculator, status: 'coming_soon', moduleId: 'sante' },
-  { id: 'mutual_assistant', title: 'Assistant Mutuelle', category: 'sante', icon: Shield, status: 'coming_soon', moduleId: 'sante' },
-  { id: 'medical_translator', title: 'Traducteur Médical', category: 'sante', icon: Globe, status: 'coming_soon', moduleId: 'sante' },
-  { id: 'social_services', title: 'Localisateur Services Sociaux', category: 'sante', icon: MapPin, status: 'coming_soon', moduleId: 'sante' },
-  { id: 'emergency_guide', title: 'Guide Urgences Médicales', category: 'sante', icon: PhoneCall, status: 'coming_soon', moduleId: 'sante' },
-  
-  // Éducation & Famille (6 outils)
-  { id: 'school_enrollment', title: 'Guide Inscription Scolaire', category: 'education', icon: GraduationCap, status: 'coming_soon', moduleId: 'education' },
-  { id: 'family_allowances', title: 'Calculateur Allocations Familiales', category: 'education', icon: Calculator, status: 'coming_soon', moduleId: 'education' },
-  { id: 'childcare_assistant', title: 'Assistant Garde d\'Enfants', category: 'education', icon: Baby, status: 'coming_soon', moduleId: 'education' },
-  { id: 'higher_education', title: 'Guide Études Supérieures', category: 'education', icon: GraduationCap, status: 'coming_soon', moduleId: 'education' },
-  { id: 'report_translator', title: 'Traducteur Bulletins Scolaires', category: 'education', icon: Globe, status: 'coming_soon', moduleId: 'education' },
-  { id: 'education_costs', title: 'Calculateur Frais Scolarité', category: 'education', icon: PiggyBank, status: 'coming_soon', moduleId: 'education' },
-  
-  // Intégration Culturelle (5 outils)
-  { id: 'culture_quiz', title: 'Quiz Culture Française', category: 'culture', icon: Lightbulb, status: 'coming_soon', moduleId: 'culture' },
-  { id: 'french_assistant', title: 'Assistant Apprentissage Français', category: 'culture', icon: BookOpen, status: 'coming_soon', moduleId: 'culture' },
-  { id: 'traditions_guide', title: 'Guide Fêtes et Traditions', category: 'culture', icon: PartyPopper, status: 'coming_soon', moduleId: 'culture' },
-  { id: 'naturalization_test', title: 'Simulateur Test Naturalisation', category: 'culture', icon: Award, status: 'coming_soon', moduleId: 'culture' },
-  { id: 'expressions_translator', title: 'Traducteur Expressions Françaises', category: 'culture', icon: MessageSquare, status: 'coming_soon', moduleId: 'culture' },
-  
-  // Outils Transversaux (5 outils)
-  { id: 'universal_converter', title: 'Convertisseur Universel', category: 'transversal', icon: Calculator, status: 'coming_soon', moduleId: 'transversal' },
-  { id: 'emergency_assistant', title: 'Assistant Urgences', category: 'transversal', icon: Siren, status: 'coming_soon', moduleId: 'transversal' },
-  { id: 'planning_generator', title: 'Générateur Planning', category: 'transversal', icon: Calendar, status: 'coming_soon', moduleId: 'transversal' },
-  { id: 'budget_assistant', title: 'Assistant Budget Familial', category: 'transversal', icon: PiggyBank, status: 'coming_soon', moduleId: 'transversal' },
-  { id: 'rights_guide', title: 'Guide Droits et Recours', category: 'transversal', icon: Gavel, status: 'coming_soon', moduleId: 'transversal' }
-];
+const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
+  const [searchTerm, setSearchTerm] = useState('');
 
-const categories = [
-  { id: 'all', name: 'Tous les outils', count: allTools.length, color: 'bg-gradient-to-r from-blue-500 via-violet-500 to-fuchsia-500' },
-  { id: 'admin', name: 'Démarches Admin', count: allTools.filter(t => t.category === 'admin').length, color: 'bg-blue-500' },
-  { id: 'logement', name: 'Logement', count: allTools.filter(t => t.category === 'logement').length, color: 'bg-green-500' },
-  { id: 'emploi', name: 'Emploi', count: allTools.filter(t => t.category === 'emploi').length, color: 'bg-purple-500' },
-  { id: 'sante', name: 'Santé', count: allTools.filter(t => t.category === 'sante').length, color: 'bg-red-500' },
-  { id: 'education', name: 'Éducation', count: allTools.filter(t => t.category === 'education').length, color: 'bg-yellow-500' },
-  { id: 'culture', name: 'Culture', count: allTools.filter(t => t.category === 'culture').length, color: 'bg-indigo-500' },
-  { id: 'transversal', name: 'Transversal', count: allTools.filter(t => t.category === 'transversal').length, color: 'bg-gray-500' }
-];
+  const tools = [
+    // DÉMARCHES ADMINISTRATIVES
+    {
+      id: 'letter-generator',
+      title: 'Générateur de Lettres Administratives',
+      description: 'Créez des lettres officielles pour vos démarches (préfecture, CAF, Pôle Emploi)',
+      category: 'Démarches Administratives',
+      icon: FileText,
+      color: 'bg-blue-500',
+      difficulty: 'Facile'
+    },
+    {
+      id: 'fee-calculator',
+      title: 'Calculateur de Frais de Dossier',
+      description: 'Estimez les coûts de vos démarches administratives',
+      category: 'Démarches Administratives', 
+      icon: Calculator,
+      color: 'bg-green-500',
+      difficulty: 'Facile'
+    },
+    {
+      id: 'receipt-generator',
+      title: 'Générateur de Récépissés',
+      description: 'Créez et suivez vos récépissés de dépôt de dossier',
+      category: 'Démarches Administratives',
+      icon: FileText,
+      color: 'bg-purple-500',
+      difficulty: 'Facile'
+    },
+    {
+      id: 'delay-simulator',
+      title: 'Simulateur de Délais',
+      description: 'Estimez les temps de traitement de vos démarches',
+      category: 'Démarches Administratives',
+      icon: Calculator,
+      color: 'bg-orange-500',
+      difficulty: 'Facile'
+    },
 
-const HomePage: React.FC<HomePageProps> = ({ onToolSelect }) => {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+    // LOGEMENT & VIE QUOTIDIENNE
+    {
+      id: 'budget-calculator',
+      title: 'Calculateur Budget Logement',
+      description: 'Calculez votre budget logement selon vos revenus',
+      category: 'Logement & Vie Quotidienne',
+      icon: Home,
+      color: 'bg-teal-500',
+      difficulty: 'Facile'
+    },
 
-  const filteredTools = allTools.filter(tool => {
-    const matchesCategory = selectedCategory === 'all' || tool.category === selectedCategory;
-    return matchesCategory;
-  });
+    // EMPLOI & FORMATION
+    {
+      id: 'cv-translator',
+      title: 'Traducteur de CV Français',
+      description: 'Adaptez votre CV aux standards français',
+      category: 'Emploi & Formation',
+      icon: Briefcase,
+      color: 'bg-indigo-500',
+      difficulty: 'Moyen'
+    },
 
-  const activeToolsCount = allTools.filter(t => t.status === 'active').length;
+    // SANTÉ & SOCIAL
+    {
+      id: 'social-security-guide',
+      title: 'Guide Sécurité Sociale',
+      description: 'Comprenez le système de santé français',
+      category: 'Santé & Social',
+      icon: Heart,
+      color: 'bg-red-500',
+      difficulty: 'Moyen'
+    },
+    {
+      id: 'social-services-locator',
+      title: 'Localisateur Services Sociaux',
+      description: 'Trouvez les services sociaux près de chez vous',
+      category: 'Santé & Social',
+      icon: Users,
+      color: 'bg-pink-500',
+      difficulty: 'Facile'
+    },
+
+    // ÉDUCATION & FAMILLE
+    {
+      id: 'family-allowances-calculator',
+      title: 'Calculateur Allocations Familiales',
+      description: 'Estimez vos droits aux allocations familiales',
+      category: 'Éducation & Famille',
+      icon: GraduationCap,
+      color: 'bg-yellow-500',
+      difficulty: 'Facile'
+    },
+    {
+      id: 'education-costs-calculator',
+      title: 'Calculateur Frais Scolarité',
+      description: 'Budgétez les coûts de scolarité et bourses',
+      category: 'Éducation & Famille',
+      icon: Calculator,
+      color: 'bg-cyan-500',
+      difficulty: 'Facile'
+    },
+
+    // INTÉGRATION CULTURELLE
+    {
+      id: 'culture-quiz',
+      title: 'Quiz Culture Française',
+      description: 'Testez vos connaissances sur la culture française',
+      category: 'Intégration Culturelle',
+      icon: Globe,
+      color: 'bg-violet-500',
+      difficulty: 'Moyen'
+    },
+    {
+      id: 'traditions-guide',
+      title: 'Guide Fêtes et Traditions',
+      description: 'Découvrez le calendrier culturel français',
+      category: 'Intégration Culturelle',
+      icon: Heart,
+      color: 'bg-rose-500',
+      difficulty: 'Facile'
+    },
+    {
+      id: 'french-learning-assistant',
+      title: 'Assistant Apprentissage Français',
+      description: 'Améliorez votre français au quotidien',
+      category: 'Intégration Culturelle',
+      icon: GraduationCap,
+      color: 'bg-emerald-500',
+      difficulty: 'Moyen'
+    },
+    {
+      id: 'naturalization-simulator',
+      title: 'Simulateur Test Naturalisation',
+      description: 'Préparez votre entretien de naturalisation',
+      category: 'Intégration Culturelle',
+      icon: FileText,
+      color: 'bg-amber-500',
+      difficulty: 'Avancé'
+    },
+    {
+      id: 'french-expressions-translator',
+      title: 'Traducteur Expressions Françaises',
+      description: 'Maîtrisez les expressions idiomatiques françaises',
+      category: 'Intégration Culturelle',
+      icon: Globe,
+      color: 'bg-lime-500',
+      difficulty: 'Moyen'
+    },
+
+    // OUTILS TRANSVERSAUX
+    {
+      id: 'emergency-assistant',
+      title: 'Assistant Urgences',
+      description: 'Numéros d\'urgence et procédures essentielles',
+      category: 'Outils Transversaux',
+      icon: Heart,
+      color: 'bg-red-600',
+      difficulty: 'Facile'
+    },
+    {
+      id: 'planning-generator',
+      title: 'Générateur Planning',
+      description: 'Organisez toutes vos démarches administratives',
+      category: 'Outils Transversaux',
+      icon: Calculator,
+      color: 'bg-blue-600',
+      difficulty: 'Facile'
+    },
+    {
+      id: 'family-budget-assistant',
+      title: 'Assistant Budget Familial',
+      description: 'Gérez vos finances familiales en France',
+      category: 'Outils Transversaux',
+      icon: Calculator,
+      color: 'bg-green-600',
+      difficulty: 'Moyen'
+    },
+    {
+      id: 'rights-guide',
+      title: 'Guide Droits et Recours',
+      description: 'Connaissez vos droits et les procédures de recours',
+      category: 'Outils Transversaux',
+      icon: FileText,
+      color: 'bg-purple-600',
+      difficulty: 'Avancé'
+    }
+  ];
+
+  const categories = [...new Set(tools.map(tool => tool.category))];
+
+  const filteredTools = tools.filter(tool =>
+    tool.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    tool.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    tool.category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const toolsByCategory = categories.reduce((acc, category) => {
+    acc[category] = filteredTools.filter(tool => tool.category === category);
+    return acc;
+  }, {} as Record<string, typeof tools>);
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-br from-violet-50 via-white to-sky-100 dark:from-gray-900 dark:via-slate-800 dark:to-slate-900 transition-colors duration-500">
-        {/* Sidebar Navigation */}
-        <div className="hidden md:block w-56 shrink-0">
-          <SidebarNav selected={selectedCategory} onSelect={setSelectedCategory} />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Outils d'Intégration en France
+          </h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Une suite complète d'outils gratuits pour vous accompagner dans vos démarches administratives et votre intégration en France
+          </p>
         </div>
 
-        {/* Main content */}
-        <div className="flex-1 w-full max-w-full mx-auto px-2 sm:px-6 md:px-10 flex flex-col relative">
-
-          {/* Sticky Top Area */}
-          <section className="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm flex flex-col md:flex-row items-center justify-end gap-2 pt-3 pb-1 shadow-sm">
-            <div className="flex items-center gap-3">
-              <UserMenu />
-            </div>
-          </section>
-
-          {/* ProgressBar */}
-          <ProgressBar active={activeToolsCount} total={allTools.length} />
-
-          {/* Hero */}
-          <section className="pt-4 pb-4 text-center">
-            <span className="inline-block rounded-full bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-200 px-4 py-2 mb-4 shadow-sm font-medium text-base">
-              🇫🇷 Plateforme #1 de l'intégration gratuite
-            </span>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-3">
-              IntégrationFrance.org
-            </h1>
-            <p className="text-md md:text-lg text-gray-700 dark:text-gray-200 mb-3">
-              <strong>+50 outils digitaux gratuits</strong> pour <b className="bg-violet-100 dark:bg-violet-900/30 rounded px-2 py-1 text-violet-700 dark:text-violet-200">réussir votre intégration</b> et démarches en France, <span className="underline">sans inscription</span>.
-            </p>
-            <div className="flex flex-col xs:flex-row gap-3 xs:justify-center items-center mb-5">
-              <Badge variant="default" className="bg-teal-100 text-teal-800 dark:bg-teal-900/50 dark:text-teal-200 font-medium">{activeToolsCount} outils accessibles ✨</Badge>
-              <Badge variant="secondary" className="bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200 font-medium">{allTools.length - activeToolsCount} en dev</Badge>
-              <Badge variant="secondary" className="bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-200 font-medium">100% gratuit</Badge>
-            </div>
-          </section>
-
-          {/* Liste des outils */}
-          <section className="pb-5 px-1">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {filteredTools.map((tool) => (
-                <Card 
-                  key={tool.id}
-                  className={`flex flex-col justify-between transition duration-300 border rounded-2xl shadow-lg group hover:shadow-xl hover:scale-[1.03] cursor-pointer relative overflow-hidden ${
-                    tool.status === 'active' 
-                      ? 'hover:border-violet-300 dark:hover:border-violet-700'
-                      : 'opacity-70'
-                  } bg-white/70 dark:bg-slate-800/60 backdrop-blur-sm`}
-                  onClick={tool.status === 'active' ? () => onToolSelect(tool.moduleId) : undefined}
-                >
-                  <div>
-                    <CardHeader className="p-4 pb-2 flex items-start flex-row gap-3">
-                      <div className={`rounded-xl shadow-inner bg-gradient-to-br from-violet-50 to-sky-100 dark:from-gray-800 dark:to-violet-900/30 p-3 flex items-center`}>
-                        <tool.icon className="h-8 w-8 text-violet-500 group-hover:scale-110 transition" />
-                      </div>
-                      <div className="flex-1 pt-1">
-                        <CardTitle className="text-base font-bold flex-1">{tool.title}</CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="px-4 pt-0 pb-2">
-                      <div className="flex justify-end">
-                        <Badge className={`text-xs font-medium ${
-                          tool.status === 'active'
-                            ? "bg-teal-100 text-teal-800 dark:bg-teal-900/50 dark:text-teal-200"
-                            : "bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200"
-                          }`}>
-                          {tool.status === 'active' ? "Actif" : "Bientôt"}
-                        </Badge>
-                      </div>
-                    </CardContent>
-                  </div>
-                  <CardContent className="p-4 pt-0">
-                    {tool.status === 'active' ? (
-                      <Button 
-                        size="sm" 
-                        className="w-full font-semibold bg-violet-500 hover:bg-violet-600 text-white shadow-lg hover:shadow-violet-500/30 text-xs"
-                        onClick={() => onToolSelect(tool.moduleId)}
-                      >
-                        Utiliser l'outil
-                      </Button>
-                    ) : (
-                      <Button variant="outline" size="sm" className="w-full text-xs opacity-80" disabled>
-                        <Clock className="mr-1 h-3 w-3" />
-                        Bientôt disponible
-                      </Button>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-
+        {/* Search */}
+        <div className="max-w-2xl mx-auto mb-8">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <Input
+              type="text"
+              placeholder="Rechercher un outil..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 py-3 text-lg"
+            />
+          </div>
         </div>
+
+        {/* Tools by Category */}
+        <div className="space-y-12">
+          {categories.map(category => {
+            const categoryTools = toolsByCategory[category];
+            if (categoryTools.length === 0) return null;
+
+            return (
+              <div key={category}>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                  <span className="w-1 h-8 bg-blue-500 rounded-full"></span>
+                  {category}
+                  <Badge variant="secondary" className="ml-2">
+                    {categoryTools.length} outils
+                  </Badge>
+                </h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {categoryTools.map(tool => {
+                    const IconComponent = tool.icon;
+                    return (
+                      <Card key={tool.id} className="group hover:shadow-lg transition-all duration-300 border-0 shadow-md">
+                        <CardHeader className="pb-4">
+                          <div className="flex items-start justify-between">
+                            <div className={`p-3 rounded-lg ${tool.color} text-white`}>
+                              <IconComponent className="h-6 w-6" />
+                            </div>
+                            <Badge 
+                              variant={tool.difficulty === 'Facile' ? 'default' : tool.difficulty === 'Moyen' ? 'secondary' : 'destructive'}
+                              className="text-xs"
+                            >
+                              {tool.difficulty}
+                            </Badge>
+                          </div>
+                          <CardTitle className="text-lg leading-tight">
+                            {tool.title}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                          <CardDescription className="text-gray-600 mb-4 text-sm leading-relaxed">
+                            {tool.description}
+                          </CardDescription>
+                          <Button 
+                            onClick={() => onSelectTool(tool.id)}
+                            className="w-full group-hover:bg-blue-600 transition-colors"
+                          >
+                            Utiliser l'outil
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {filteredTools.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">Aucun outil trouvé pour votre recherche.</p>
+          </div>
+        )}
       </div>
-    </SidebarProvider>
+    </div>
   );
 };
 
