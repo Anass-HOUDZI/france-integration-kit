@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -63,15 +64,14 @@ const Header: React.FC<HeaderProps> = ({
                 <Home className="h-4 w-4" />
               </Button>}
             
+            {isMobile && <>
+                <LanguageSelector />
+                <ThemeToggle />
+              </>}
+            
             <UserMenu />
           </div>
         </div>
-        
-        {/* Mobile controls row */}
-        {isMobile && <div className="flex items-center justify-center gap-4 mt-2 pt-2 border-t border-gray-100">
-            <LanguageSelector />
-            <ThemeToggle />
-          </div>}
       </div>
     </header>;
 };

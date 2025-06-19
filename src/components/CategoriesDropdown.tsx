@@ -104,7 +104,7 @@ const CategoriesDropdown: React.FC<CategoriesDropdownProps> = ({ onSelectCategor
             variant="ghost"
             className="text-sm font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center gap-2 min-h-[44px]"
           >
-            {t('home.all_categories')}
+            Catégories
             <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
           </Button>
         </SheetTrigger>
@@ -115,7 +115,7 @@ const CategoriesDropdown: React.FC<CategoriesDropdownProps> = ({ onSelectCategor
         >
           <SheetHeader className="pb-4">
             <SheetTitle className="text-lg font-semibold text-center">
-              {t('home.all_categories')}
+              Catégories
             </SheetTitle>
           </SheetHeader>
           
