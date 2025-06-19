@@ -447,7 +447,7 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
                           </CardDescription>
                           
                           <div className="flex flex-wrap gap-2">
-                            <Badge className={getDifficultyColor(tool.difficulty)} size="sm">
+                            <Badge className={getDifficultyColor(tool.difficulty)}>
                               {tool.difficulty}
                             </Badge>
                             {getAccessibilityBadge(tool.accessibility)}
@@ -456,7 +456,6 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
                           <Button 
                             onClick={() => onSelectTool(tool.id)}
                             className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 text-white font-medium py-2.5 rounded-lg shadow-md hover:shadow-lg"
-                            size="sm"
                           >
                             Utiliser
                             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
