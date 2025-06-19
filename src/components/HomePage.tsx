@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Search, ArrowRight, Users, Home, Briefcase, Heart, GraduationCap, FileText, Globe, Calculator, Sparkles, TrendingUp, Star, Filter } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { Search, ArrowRight, Users, Home, Briefcase, Heart, GraduationCap, FileText, Globe, Calculator, Sparkles, TrendingUp, Star } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
+import Header from '@/components/Header';
 
 interface HomePageProps {
   onSelectTool: (toolId: string) => void;
@@ -245,7 +244,6 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
   });
 
   const popularTools = tools.filter(tool => tool.popular);
-  const totalTools = tools.length;
 
   const getAccessibilityBadge = (level: string) => {
     switch (level) {
@@ -271,6 +269,18 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <Header 
+        onSelectTool={onSelectTool}
+        showFilters={true}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        selectedCategory={selectedCategory}
+        onCategoryChange={setSelectedCategory}
+        categories={categories}
+        filteredToolsCount={filteredTools.length}
+        popularToolsCount={popularTools.length}
+      />
+      
       <div className="container mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="text-center mb-12 relative">
@@ -287,48 +297,6 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
               {t('home.description')}
             </p>
-          </div>
-        </div>
-
-        {/* Search and Filter Section - Sticky */}
-        <div className="sticky top-20 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 p-6 mb-8">
-          <div className="flex flex-col lg:flex-row gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-              <Input 
-                type="text" 
-                placeholder={t('home.search_placeholder')} 
-                value={searchTerm} 
-                onChange={e => setSearchTerm(e.target.value)} 
-                className="pl-12 py-3 text-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl" 
-              />
-            </div>
-            
-            <div className="flex items-center gap-3">
-              <Filter className="h-5 w-5 text-gray-400" />
-              <select 
-                value={selectedCategory} 
-                onChange={e => setSelectedCategory(e.target.value)} 
-                className="px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-blue-500 bg-white dark:bg-gray-800"
-              >
-                <option value="all">{t('home.all_categories')}</option>
-                {categories.map(category => (
-                  <option key={category} value={category}>{category}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-          
-          {/* Stats */}
-          <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-gray-100">
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <TrendingUp className="h-4 w-4 text-green-500" />
-              <span>{filteredTools.length} {t('home.tools_found')}</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <Star className="h-4 w-4 text-yellow-500" />
-              <span>{popularTools.length} {t('home.popular_tools')}</span>
-            </div>
           </div>
         </div>
 
