@@ -4,12 +4,15 @@ import { Menu, LogOut, RefreshCcw, Download, Upload, User, Settings, HelpCircle 
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import { toast } from "@/hooks/use-toast";
+import { useI18n } from '@/hooks/useI18n';
 
 export default function UserMenu() {
+  const { t } = useI18n();
+
   const handleRefresh = () => {
     toast({ 
-      title: "✅ Données actualisées", 
-      description: "Vos données ont été rechargées avec succès.", 
+      title: "✅ " + t('user.refresh'), 
+      description: t('user.refresh_desc'), 
       variant: "default" 
     });
     window.location.reload();
@@ -34,8 +37,8 @@ export default function UserMenu() {
     URL.revokeObjectURL(url);
     
     toast({ 
-      title: "📥 Export effectué", 
-      description: "Vos données ont été exportées avec succès." 
+      title: "📥 " + t('user.export'), 
+      description: t('user.export_desc')
     });
   };
 
@@ -52,13 +55,13 @@ export default function UserMenu() {
             const data = JSON.parse(e.target.result);
             console.log('Imported data:', data);
             toast({ 
-              title: "📤 Import réussi", 
-              description: "Vos données ont été importées avec succès." 
+              title: "📤 " + t('user.import'), 
+              description: t('user.import_desc')
             });
           } catch (error) {
             toast({ 
-              title: "❌ Erreur d'import", 
-              description: "Le fichier sélectionné n'est pas valide.",
+              title: "❌ " + t('common.error'), 
+              description: t('user.import_desc'),
               variant: "destructive"
             });
           }
@@ -71,29 +74,29 @@ export default function UserMenu() {
 
   const handleProfile = () => {
     toast({ 
-      title: "👤 Profil utilisateur", 
-      description: "Fonctionnalité de profil à venir." 
+      title: "👤 " + t('user.profile'), 
+      description: t('user.profile_desc')
     });
   };
 
   const handleSettings = () => {
     toast({ 
-      title: "⚙️ Paramètres", 
-      description: "Page de paramètres à venir." 
+      title: "⚙️ " + t('user.settings'), 
+      description: t('user.settings_desc')
     });
   };
 
   const handleHelp = () => {
     toast({ 
-      title: "❓ Aide", 
-      description: "Centre d'aide à venir." 
+      title: "❓ " + t('user.help'), 
+      description: t('user.help_desc')
     });
   };
 
   const handleLogout = () => {
     toast({ 
-      title: "👋 Déconnexion", 
-      description: "Fonctionnalité de déconnexion à venir." 
+      title: "👋 " + t('user.logout'), 
+      description: t('user.logout_desc')
     });
   };
 
@@ -109,13 +112,15 @@ export default function UserMenu() {
             <User className="h-3 w-3 text-white" />
           </div>
         </Button>
-      </DropdownMenuTrigger>
+      </DropdownMenuTrig
+
+ger>
       <DropdownMenuContent 
         align="end" 
         className="w-64 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200/50 mt-2 z-50 p-2"
       >
         <DropdownMenuLabel className="text-base font-semibold text-gray-900 dark:text-gray-100 px-3 py-2">
-          Mon compte
+          {t('user.my_account')}
         </DropdownMenuLabel>
         
         <DropdownMenuSeparator className="bg-gray-200/50" />
@@ -129,8 +134,8 @@ export default function UserMenu() {
               <User className="w-4 h-4 text-blue-600" />
             </div>
             <div>
-              <div className="font-medium">Mon profil</div>
-              <div className="text-xs text-gray-500">Gérer mes informations</div>
+              <div className="font-medium">{t('user.profile')}</div>
+              <div className="text-xs text-gray-500">{t('user.profile_desc')}</div>
             </div>
           </div>
         </DropdownMenuItem>
@@ -144,8 +149,8 @@ export default function UserMenu() {
               <Settings className="w-4 h-4 text-gray-600" />
             </div>
             <div>
-              <div className="font-medium">Paramètres</div>
-              <div className="text-xs text-gray-500">Préférences et options</div>
+              <div className="font-medium">{t('user.settings')}</div>
+              <div className="text-xs text-gray-500">{t('user.settings_desc')}</div>
             </div>
           </div>
         </DropdownMenuItem>
@@ -161,8 +166,8 @@ export default function UserMenu() {
               <RefreshCcw className="w-4 h-4 text-green-600" />
             </div>
             <div>
-              <div className="font-medium">Actualiser</div>
-              <div className="text-xs text-gray-500">Recharger les données</div>
+              <div className="font-medium">{t('user.refresh')}</div>
+              <div className="text-xs text-gray-500">{t('user.refresh_desc')}</div>
             </div>
           </div>
         </DropdownMenuItem>
@@ -176,8 +181,8 @@ export default function UserMenu() {
               <Download className="w-4 h-4 text-indigo-600" />
             </div>
             <div>
-              <div className="font-medium">Exporter données</div>
-              <div className="text-xs text-gray-500">Sauvegarder localement</div>
+              <div className="font-medium">{t('user.export')}</div>
+              <div className="text-xs text-gray-500">{t('user.export_desc')}</div>
             </div>
           </div>
         </DropdownMenuItem>
@@ -191,8 +196,8 @@ export default function UserMenu() {
               <Upload className="w-4 h-4 text-purple-600" />
             </div>
             <div>
-              <div className="font-medium">Importer données</div>
-              <div className="text-xs text-gray-500">Restaurer une sauvegarde</div>
+              <div className="font-medium">{t('user.import')}</div>
+              <div className="text-xs text-gray-500">{t('user.import_desc')}</div>
             </div>
           </div>
         </DropdownMenuItem>
@@ -208,8 +213,8 @@ export default function UserMenu() {
               <HelpCircle className="w-4 h-4 text-yellow-600" />
             </div>
             <div>
-              <div className="font-medium">Aide</div>
-              <div className="text-xs text-gray-500">Support et documentation</div>
+              <div className="font-medium">{t('user.help')}</div>
+              <div className="text-xs text-gray-500">{t('user.help_desc')}</div>
             </div>
           </div>
         </DropdownMenuItem>
@@ -225,8 +230,8 @@ export default function UserMenu() {
               <LogOut className="w-4 h-4 text-red-600" />
             </div>
             <div>
-              <div className="font-medium">Déconnexion</div>
-              <div className="text-xs text-gray-500">Quitter l'application</div>
+              <div className="font-medium">{t('user.logout')}</div>
+              <div className="text-xs text-gray-500">{t('user.logout_desc')}</div>
             </div>
           </div>
         </DropdownMenuItem>

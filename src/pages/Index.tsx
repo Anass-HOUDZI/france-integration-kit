@@ -37,6 +37,7 @@ import TraditionsGuideTool from '@/components/tools/TraditionsGuideTool';
 import FrenchLearningAssistantTool from '@/components/tools/FrenchLearningAssistantTool';
 import NaturalizationTestSimulatorTool from '@/components/tools/NaturalizationTestSimulatorTool';
 import ExpressionsTranslatorTool from '@/components/tools/ExpressionsTranslatorTool';
+import EmergencyAssistantTool from '@/components/tools/EmergencyAssistantTool';
 import PlanningGeneratorTool from '@/components/tools/PlanningGeneratorTool';
 import BudgetAssistantTool from '@/components/tools/BudgetAssistantTool';
 import RightsGuideTool from '@/components/tools/RightsGuideTool';
@@ -95,10 +96,10 @@ const Index = () => {
     },
     {
       id: 'logement',
-      title: t('modules.logement.title'),
+      title: t('modules.logement.title'),  
       description: t('modules.logement.description'),
       icon: Home,
-      color: 'from-green-500 to-green-600',
+      color: 'from-green-500 to-green-600', 
       tools: 8,
       component: LogementModule
     },
@@ -113,17 +114,17 @@ const Index = () => {
     },
     {
       id: 'sante',
-      title: 'Santé & Social',
-      description: 'Comprendre le système de santé français',
+      title: t('modules.sante.title'),
+      description: t('modules.sante.description'),
       icon: Heart,
       color: 'from-red-500 to-red-600',
       tools: 6,
       component: SanteModule
     },
     {
-      id: 'education',
-      title: 'Éducation & Famille',
-      description: 'Scolarité et vie de famille en France',
+      id: 'education', 
+      title: t('modules.education.title'),
+      description: t('modules.education.description'),
       icon: GraduationCap,
       color: 'from-yellow-500 to-yellow-600',
       tools: 6,
@@ -131,8 +132,8 @@ const Index = () => {
     },
     {
       id: 'culture',
-      title: 'Intégration Culturelle',
-      description: 'Découvrir la culture française',
+      title: t('modules.culture.title'),
+      description: t('modules.culture.description'),
       icon: Globe,
       color: 'from-indigo-500 to-indigo-600',
       tools: 5,
@@ -140,8 +141,8 @@ const Index = () => {
     },
     {
       id: 'transversal',
-      title: 'Outils Transversaux',
-      description: "Outils d'aide générale",
+      title: t('modules.transversal.title'),
+      description: t('modules.transversal.description'),
       icon: Settings,
       color: 'from-gray-500 to-gray-600',
       tools: 5,
@@ -292,6 +293,9 @@ const Index = () => {
       
       case 'french-expressions-translator':
         return <ExpressionsTranslatorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
+      case 'emergency-assistant':
+        return <EmergencyAssistantTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
       
       case 'planning-generator':
         return <PlanningGeneratorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
