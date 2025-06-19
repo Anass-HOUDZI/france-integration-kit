@@ -1,4 +1,3 @@
-
 /**
  * Service d'internationalisation
  */
@@ -118,20 +117,12 @@ const TRANSLATIONS: Record<string, Translations> = {
     
     // User Menu
     'user.my_account': 'Mon compte',
-    'user.profile': 'Mon profil',
-    'user.profile_desc': 'Gérer mes informations',
-    'user.settings': 'Paramètres',
-    'user.settings_desc': 'Préférences et options',
     'user.refresh': 'Actualiser',
     'user.refresh_desc': 'Recharger les données',
     'user.export': 'Exporter données',
     'user.export_desc': 'Sauvegarder localement',
     'user.import': 'Importer données',
     'user.import_desc': 'Restaurer une sauvegarde',
-    'user.help': 'Aide',
-    'user.help_desc': 'Support et documentation',
-    'user.logout': 'Déconnexion',
-    'user.logout_desc': 'Quitter l\'application',
     
     // Modules
     'modules.admin.title': 'Démarches Administratives',
@@ -274,20 +265,12 @@ const TRANSLATIONS: Record<string, Translations> = {
     
     // User Menu
     'user.my_account': 'My account',
-    'user.profile': 'My profile',
-    'user.profile_desc': 'Manage my information',
-    'user.settings': 'Settings',
-    'user.settings_desc': 'Preferences and options',
     'user.refresh': 'Refresh',
     'user.refresh_desc': 'Reload data',
     'user.export': 'Export data',
     'user.export_desc': 'Save locally',
     'user.import': 'Import data',
     'user.import_desc': 'Restore backup',
-    'user.help': 'Help',
-    'user.help_desc': 'Support and documentation',
-    'user.logout': 'Logout',
-    'user.logout_desc': 'Exit application',
     
     // Modules
     'modules.admin.title': 'Administrative Procedures',
@@ -388,22 +371,23 @@ const TRANSLATIONS: Record<string, Translations> = {
     'category.culture': 'Integración Cultural',
     'category.transversal': 'Herramientas Transversales',
     
-    // Add other Spanish translations...
+    // User Menu
     'user.my_account': 'Mi cuenta',
-    'user.profile': 'Mi perfil',
-    'user.profile_desc': 'Gestionar mi información',
-    'user.settings': 'Configuración',
-    'user.settings_desc': 'Preferencias y opciones',
     'user.refresh': 'Actualizar',
     'user.refresh_desc': 'Recargar datos',
     'user.export': 'Exportar datos',
     'user.export_desc': 'Guardar localmente',
     'user.import': 'Importar datos',
     'user.import_desc': 'Restaurar copia de seguridad',
-    'user.help': 'Ayuda',
-    'user.help_desc': 'Soporte y documentación',
-    'user.logout': 'Cerrar sesión',
-    'user.logout_desc': 'Salir de la aplicación',
+    
+    // Modules
+    'modules.admin.title': 'Procedimientos Administrativos',
+    'modules.logement.title': 'Vivienda y Vida Diaria',
+    'modules.emploi.title': 'Empleo y Formación',
+    'modules.sante.title': 'Salud y Social',
+    'modules.education.title': 'Educación y Familia',
+    'modules.culture.title': 'Integración Cultural',
+    'modules.transversal.title': 'Herramientas Transversales',
   },
   
   ar: {
@@ -459,22 +443,23 @@ const TRANSLATIONS: Record<string, Translations> = {
     'category.culture': 'الاندماج الثقافي',
     'category.transversal': 'أدوات شاملة',
     
-    // Add other Arabic translations...
+    // User Menu
     'user.my_account': 'حسابي',
-    'user.profile': 'ملفي الشخصي',
-    'user.profile_desc': 'إدارة معلوماتي',
-    'user.settings': 'الإعدادات',
-    'user.settings_desc': 'التفضيلات والخيارات',
     'user.refresh': 'تحديث',
     'user.refresh_desc': 'إعادة تحميل البيانات',
     'user.export': 'تصدير البيانات',
     'user.export_desc': 'حفظ محلياً',
     'user.import': 'استيراد البيانات',
     'user.import_desc': 'استعادة النسخة الاحتياطية',
-    'user.help': 'المساعدة',
-    'user.help_desc': 'الدعم والوثائق',
-    'user.logout': 'تسجيل الخروج',
-    'user.logout_desc': 'الخروج من التطبيق',
+    
+    // Modules
+    'modules.admin.title': 'الإجراءات الإدارية',
+    'modules.logement.title': 'السكن والحياة اليومية',
+    'modules.emploi.title': 'العمل والتدريب',
+    'modules.sante.title': 'الصحة والاجتماعية',
+    'modules.education.title': 'التعليم والعائلة',
+    'modules.culture.title': 'الاندماج الثقافي',
+    'modules.transversal.title': 'أدوات شاملة',
   },
   
   zh: {
@@ -530,22 +515,23 @@ const TRANSLATIONS: Record<string, Translations> = {
     'category.culture': '文化融入',
     'category.transversal': '综合工具',
     
-    // Add other Chinese translations...
+    // User Menu
     'user.my_account': '我的账户',
-    'user.profile': '我的资料',
-    'user.profile_desc': '管理我的信息',
-    'user.settings': '设置',
-    'user.settings_desc': '偏好和选项',
     'user.refresh': '刷新',
     'user.refresh_desc': '重新加载数据',
     'user.export': '导出数据',
     'user.export_desc': '本地保存',
     'user.import': '导入数据',
     'user.import_desc': '恢复备份',
-    'user.help': '帮助',
-    'user.help_desc': '支持和文档',
-    'user.logout': '退出',
-    'user.logout_desc': '退出应用程序',
+    
+    // Modules
+    'modules.admin.title': '行政程序',
+    'modules.logement.title': '住房与日常生活',
+    'modules.emploi.title': '就业与培训',
+    'modules.sante.title': '健康与社会',
+    'modules.education.title': '教育与家庭',
+    'modules.culture.title': '文化融入',
+    'modules.transversal.title': '综合工具',
   }
 };
 

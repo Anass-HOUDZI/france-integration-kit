@@ -1,5 +1,6 @@
+
 import React from "react";
-import { Menu, LogOut, RefreshCcw, Download, Upload, User, Settings, HelpCircle } from "lucide-react";
+import { LogOut, RefreshCcw, Download, Upload, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
 import { toast } from "@/hooks/use-toast";
@@ -71,34 +72,6 @@ export default function UserMenu() {
     input.click();
   };
 
-  const handleProfile = () => {
-    toast({ 
-      title: "👤 " + t('user.profile'), 
-      description: t('user.profile_desc')
-    });
-  };
-
-  const handleSettings = () => {
-    toast({ 
-      title: "⚙️ " + t('user.settings'), 
-      description: t('user.settings_desc')
-    });
-  };
-
-  const handleHelp = () => {
-    toast({ 
-      title: "❓ " + t('user.help'), 
-      description: t('user.help_desc')
-    });
-  };
-
-  const handleLogout = () => {
-    toast({ 
-      title: "👋 " + t('user.logout'), 
-      description: t('user.logout_desc')
-    });
-  };
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -120,38 +93,6 @@ export default function UserMenu() {
           {t('user.my_account')}
         </DropdownMenuLabel>
         
-        <DropdownMenuSeparator className="bg-gray-200/50" />
-        
-        <DropdownMenuItem 
-          onClick={handleProfile}
-          className="rounded-xl px-3 py-3 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 cursor-pointer group"
-        >
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
-              <User className="w-4 h-4 text-blue-600" />
-            </div>
-            <div>
-              <div className="font-medium">{t('user.profile')}</div>
-              <div className="text-xs text-gray-500">{t('user.profile_desc')}</div>
-            </div>
-          </div>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem 
-          onClick={handleSettings}
-          className="rounded-xl px-3 py-3 hover:bg-gray-50 hover:text-gray-700 transition-all duration-200 cursor-pointer group"
-        >
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-gray-200 transition-colors">
-              <Settings className="w-4 h-4 text-gray-600" />
-            </div>
-            <div>
-              <div className="font-medium">{t('user.settings')}</div>
-              <div className="text-xs text-gray-500">{t('user.settings_desc')}</div>
-            </div>
-          </div>
-        </DropdownMenuItem>
-
         <DropdownMenuSeparator className="bg-gray-200/50" />
 
         <DropdownMenuItem 
@@ -195,40 +136,6 @@ export default function UserMenu() {
             <div>
               <div className="font-medium">{t('user.import')}</div>
               <div className="text-xs text-gray-500">{t('user.import_desc')}</div>
-            </div>
-          </div>
-        </DropdownMenuItem>
-
-        <DropdownMenuSeparator className="bg-gray-200/50" />
-
-        <DropdownMenuItem 
-          onClick={handleHelp}
-          className="rounded-xl px-3 py-3 hover:bg-yellow-50 hover:text-yellow-700 transition-all duration-200 cursor-pointer group"
-        >
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-yellow-100 rounded-lg group-hover:bg-yellow-200 transition-colors">
-              <HelpCircle className="w-4 h-4 text-yellow-600" />
-            </div>
-            <div>
-              <div className="font-medium">{t('user.help')}</div>
-              <div className="text-xs text-gray-500">{t('user.help_desc')}</div>
-            </div>
-          </div>
-        </DropdownMenuItem>
-
-        <DropdownMenuSeparator className="bg-gray-200/50" />
-
-        <DropdownMenuItem 
-          onClick={handleLogout}
-          className="rounded-xl px-3 py-3 hover:bg-red-50 hover:text-red-700 transition-all duration-200 cursor-pointer group"
-        >
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-red-100 rounded-lg group-hover:bg-red-200 transition-colors">
-              <LogOut className="w-4 h-4 text-red-600" />
-            </div>
-            <div>
-              <div className="font-medium">{t('user.logout')}</div>
-              <div className="text-xs text-gray-500">{t('user.logout_desc')}</div>
             </div>
           </div>
         </DropdownMenuItem>

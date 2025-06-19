@@ -24,6 +24,12 @@ const Header: React.FC<HeaderProps> = ({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { t } = useI18n();
 
+  const handleAllCategories = () => {
+    if (onSelectTool) {
+      onSelectTool('home');
+    }
+  };
+
   return (
     <header className="border-b bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 py-3">
@@ -56,15 +62,19 @@ const Header: React.FC<HeaderProps> = ({
                 className="flex items-center gap-2 border-blue-200 text-blue-600 hover:bg-blue-50"
               >
                 <Home className="h-4 w-4" />
-                Accueil
+                {t('nav.home')}
               </Button>
             )}
           </div>
           
           <div className="flex items-center gap-3">
-            <Badge variant="secondary" className="hidden sm:flex">
-              Toutes les catégories
-            </Badge>
+            <Button
+              variant="ghost"
+              onClick={handleAllCategories}
+              className="text-sm font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors"
+            >
+              {t('home.all_categories')}
+            </Button>
             <LanguageSelector />
             <ThemeToggle />
             <UserMenu />
