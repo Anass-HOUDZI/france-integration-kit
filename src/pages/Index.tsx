@@ -12,7 +12,9 @@ import {
   Heart,
   GraduationCap,
   Globe,
-  Settings
+  Settings,
+  Menu,
+  X
 } from 'lucide-react';
 import HomePage from '@/components/HomePage';
 import AdminModule from '@/components/modules/AdminModule';
@@ -40,6 +42,7 @@ import BudgetAssistantTool from '@/components/tools/BudgetAssistantTool';
 import RightsGuideTool from '@/components/tools/RightsGuideTool';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import UserMenu from '@/components/UserMenu';
 import { useI18n } from '@/hooks/useI18n';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import Footer from '@/components/Footer';
@@ -76,6 +79,7 @@ type View =
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<View>('home');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { t } = useI18n();
   const isOnline = useOnlineStatus();
 
@@ -85,7 +89,7 @@ const Index = () => {
       title: t('modules.admin.title'),
       description: t('modules.admin.description'),
       icon: FileText,
-      color: 'bg-blue-500',
+      color: 'from-blue-500 to-blue-600',
       tools: 12,
       component: AdminModule
     },
@@ -94,7 +98,7 @@ const Index = () => {
       title: t('modules.logement.title'),
       description: t('modules.logement.description'),
       icon: Home,
-      color: 'bg-green-500',
+      color: 'from-green-500 to-green-600',
       tools: 8,
       component: LogementModule
     },
@@ -103,7 +107,7 @@ const Index = () => {
       title: t('modules.emploi.title'),
       description: t('modules.emploi.description'),
       icon: Briefcase,
-      color: 'bg-purple-500',
+      color: 'from-purple-500 to-purple-600',
       tools: 8,
       component: EmploiModule
     },
@@ -112,7 +116,7 @@ const Index = () => {
       title: 'Santé & Social',
       description: 'Comprendre le système de santé français',
       icon: Heart,
-      color: 'bg-red-500',
+      color: 'from-red-500 to-red-600',
       tools: 6,
       component: SanteModule
     },
@@ -121,7 +125,7 @@ const Index = () => {
       title: 'Éducation & Famille',
       description: 'Scolarité et vie de famille en France',
       icon: GraduationCap,
-      color: 'bg-yellow-500',
+      color: 'from-yellow-500 to-yellow-600',
       tools: 6,
       component: EducationModule
     },
@@ -130,7 +134,7 @@ const Index = () => {
       title: 'Intégration Culturelle',
       description: 'Découvrir la culture française',
       icon: Globe,
-      color: 'bg-indigo-500',
+      color: 'from-indigo-500 to-indigo-600',
       tools: 5,
       component: CultureModule
     },
@@ -139,27 +143,41 @@ const Index = () => {
       title: 'Outils Transversaux',
       description: "Outils d'aide générale",
       icon: Settings,
-      color: 'bg-gray-500',
+      color: 'from-gray-500 to-gray-600',
       tools: 5,
       component: TransversalModule
     }
   ];
 
   const renderHeader = () => (
-    <header className="border-b bg-white dark:bg-gray-900 sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0">
-          <div className="flex items-center gap-4 w-full sm:w-auto">
+    <header className="border-b bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm">
+      <div className="container mx-auto px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+              {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </Button>
+            
             <button
               onClick={() => setCurrentView('home')}
-              className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors"
+              className="flex items-center gap-3 text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent hover:from-blue-700 hover:to-indigo-700 transition-all duration-200"
             >
-              🇫🇷 IntégrationFrance.org
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-sm shadow-lg">
+                🇫🇷
+              </div>
+              <span className="hidden sm:block">IntégrationFrance.org</span>
             </button>
           </div>
-          <div className="flex items-center gap-4 w-full justify-end sm:w-auto">
+          
+          <div className="flex items-center gap-3">
             <LanguageSelector />
             <ThemeToggle />
+            <UserMenu />
           </div>
         </div>
       </div>
@@ -290,11 +308,13 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col">
       {currentView !== 'home' && renderHeader()}
-      <main className="flex-1">
+      
+      <main className="flex-1 relative">
         {renderContent()}
       </main>
+      
       <div id="notifications" className="fixed top-4 right-4 z-50" />
       <OnlineStatusIndicator />
       <Footer />

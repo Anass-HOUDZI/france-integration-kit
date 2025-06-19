@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Search, ArrowRight, Users, Home, Briefcase, Heart, GraduationCap, FileText, Globe, Calculator } from 'lucide-react';
+import { Search, ArrowRight, Users, Home, Briefcase, Heart, GraduationCap, FileText, Globe, Calculator, Sparkles, TrendingUp, Star, Filter } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 
 interface HomePageProps {
@@ -12,6 +12,7 @@ interface HomePageProps {
 
 const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   const tools = [
     // DÉMARCHES ADMINISTRATIVES
@@ -21,8 +22,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Créez des lettres officielles pour vos démarches (préfecture, CAF, Pôle Emploi)',
       category: 'Démarches Administratives',
       icon: FileText,
-      color: 'bg-blue-500',
-      difficulty: 'Facile'
+      gradient: 'from-blue-500 to-blue-600',
+      difficulty: 'Facile',
+      popular: true,
+      accessibility: 'excellent'
     },
     {
       id: 'fee-calculator',
@@ -30,8 +33,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Estimez les coûts de vos démarches administratives',
       category: 'Démarches Administratives', 
       icon: Calculator,
-      color: 'bg-green-500',
-      difficulty: 'Facile'
+      gradient: 'from-green-500 to-green-600',
+      difficulty: 'Facile',
+      popular: false,
+      accessibility: 'good'
     },
     {
       id: 'receipt-generator',
@@ -39,8 +44,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Créez et suivez vos récépissés de dépôt de dossier',
       category: 'Démarches Administratives',
       icon: FileText,
-      color: 'bg-purple-500',
-      difficulty: 'Facile'
+      gradient: 'from-purple-500 to-purple-600',
+      difficulty: 'Facile',
+      popular: false,
+      accessibility: 'good'
     },
     {
       id: 'delay-simulator',
@@ -48,8 +55,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Estimez les temps de traitement de vos démarches',
       category: 'Démarches Administratives',
       icon: Calculator,
-      color: 'bg-orange-500',
-      difficulty: 'Facile'
+      gradient: 'from-orange-500 to-orange-600',
+      difficulty: 'Facile',
+      popular: false,
+      accessibility: 'excellent'
     },
 
     // LOGEMENT & VIE QUOTIDIENNE
@@ -59,8 +68,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Calculez votre budget logement selon vos revenus',
       category: 'Logement & Vie Quotidienne',
       icon: Home,
-      color: 'bg-teal-500',
-      difficulty: 'Facile'
+      gradient: 'from-teal-500 to-teal-600',
+      difficulty: 'Facile',
+      popular: true,
+      accessibility: 'excellent'
     },
 
     // EMPLOI & FORMATION
@@ -70,8 +81,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Adaptez votre CV aux standards français',
       category: 'Emploi & Formation',
       icon: Briefcase,
-      color: 'bg-indigo-500',
-      difficulty: 'Moyen'
+      gradient: 'from-indigo-500 to-indigo-600',
+      difficulty: 'Moyen',
+      popular: true,
+      accessibility: 'good'
     },
 
     // SANTÉ & SOCIAL
@@ -81,8 +94,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Comprenez le système de santé français',
       category: 'Santé & Social',
       icon: Heart,
-      color: 'bg-red-500',
-      difficulty: 'Moyen'
+      gradient: 'from-red-500 to-red-600',
+      difficulty: 'Moyen',
+      popular: false,
+      accessibility: 'excellent'
     },
     {
       id: 'social-services-locator',
@@ -90,8 +105,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Trouvez les services sociaux près de chez vous',
       category: 'Santé & Social',
       icon: Users,
-      color: 'bg-pink-500',
-      difficulty: 'Facile'
+      gradient: 'from-pink-500 to-pink-600',
+      difficulty: 'Facile',
+      popular: true,
+      accessibility: 'good'
     },
 
     // ÉDUCATION & FAMILLE
@@ -101,8 +118,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Estimez vos droits aux allocations familiales',
       category: 'Éducation & Famille',
       icon: GraduationCap,
-      color: 'bg-yellow-500',
-      difficulty: 'Facile'
+      gradient: 'from-yellow-500 to-yellow-600',
+      difficulty: 'Facile',
+      popular: false,
+      accessibility: 'excellent'
     },
     {
       id: 'education-costs-calculator',
@@ -110,8 +129,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Budgétez les coûts de scolarité et bourses',
       category: 'Éducation & Famille',
       icon: Calculator,
-      color: 'bg-cyan-500',
-      difficulty: 'Facile'
+      gradient: 'from-cyan-500 to-cyan-600',
+      difficulty: 'Facile',
+      popular: false,
+      accessibility: 'good'
     },
 
     // INTÉGRATION CULTURELLE
@@ -121,8 +142,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Testez vos connaissances sur la culture française',
       category: 'Intégration Culturelle',
       icon: Globe,
-      color: 'bg-violet-500',
-      difficulty: 'Moyen'
+      gradient: 'from-violet-500 to-violet-600',
+      difficulty: 'Moyen',
+      popular: true,
+      accessibility: 'excellent'
     },
     {
       id: 'traditions-guide',
@@ -130,8 +153,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Découvrez le calendrier culturel français',
       category: 'Intégration Culturelle',
       icon: Heart,
-      color: 'bg-rose-500',
-      difficulty: 'Facile'
+      gradient: 'from-rose-500 to-rose-600',
+      difficulty: 'Facile',
+      popular: false,
+      accessibility: 'good'
     },
     {
       id: 'french-learning-assistant',
@@ -139,8 +164,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Améliorez votre français au quotidien',
       category: 'Intégration Culturelle',
       icon: GraduationCap,
-      color: 'bg-emerald-500',
-      difficulty: 'Moyen'
+      gradient: 'from-emerald-500 to-emerald-600',
+      difficulty: 'Moyen',
+      popular: true,
+      accessibility: 'excellent'
     },
     {
       id: 'naturalization-simulator',
@@ -148,8 +175,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Préparez votre entretien de naturalisation',
       category: 'Intégration Culturelle',
       icon: FileText,
-      color: 'bg-amber-500',
-      difficulty: 'Avancé'
+      gradient: 'from-amber-500 to-amber-600',
+      difficulty: 'Avancé',
+      popular: false,
+      accessibility: 'good'
     },
     {
       id: 'french-expressions-translator',
@@ -157,8 +186,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Maîtrisez les expressions idiomatiques françaises',
       category: 'Intégration Culturelle',
       icon: Globe,
-      color: 'bg-lime-500',
-      difficulty: 'Moyen'
+      gradient: 'from-lime-500 to-lime-600',
+      difficulty: 'Moyen',
+      popular: false,
+      accessibility: 'excellent'
     },
 
     // OUTILS TRANSVERSAUX
@@ -168,8 +199,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Numéros d\'urgence et procédures essentielles',
       category: 'Outils Transversaux',
       icon: Heart,
-      color: 'bg-red-600',
-      difficulty: 'Facile'
+      gradient: 'from-red-600 to-red-700',
+      difficulty: 'Facile',
+      popular: false,
+      accessibility: 'excellent'
     },
     {
       id: 'planning-generator',
@@ -177,8 +210,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Organisez toutes vos démarches administratives',
       category: 'Outils Transversaux',
       icon: Calculator,
-      color: 'bg-blue-600',
-      difficulty: 'Facile'
+      gradient: 'from-blue-600 to-blue-700',
+      difficulty: 'Facile',
+      popular: false,
+      accessibility: 'good'
     },
     {
       id: 'family-budget-assistant',
@@ -186,8 +221,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Gérez vos finances familiales en France',
       category: 'Outils Transversaux',
       icon: Calculator,
-      color: 'bg-green-600',
-      difficulty: 'Moyen'
+      gradient: 'from-green-600 to-green-700',
+      difficulty: 'Moyen',
+      popular: false,
+      accessibility: 'excellent'
     },
     {
       id: 'rights-guide',
@@ -195,98 +232,234 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       description: 'Connaissez vos droits et les procédures de recours',
       category: 'Outils Transversaux',
       icon: FileText,
-      color: 'bg-purple-600',
-      difficulty: 'Avancé'
+      gradient: 'from-purple-600 to-purple-700',
+      difficulty: 'Avancé',
+      popular: false,
+      accessibility: 'good'
     }
   ];
 
   const categories = [...new Set(tools.map(tool => tool.category))];
 
-  const filteredTools = tools.filter(tool =>
-    tool.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    tool.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    tool.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredTools = tools.filter(tool => {
+    const matchesSearch = tool.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tool.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tool.category.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesCategory = selectedCategory === 'all' || tool.category === selectedCategory;
+    
+    return matchesSearch && matchesCategory;
+  });
 
-  const toolsByCategory = categories.reduce((acc, category) => {
-    acc[category] = filteredTools.filter(tool => tool.category === category);
-    return acc;
-  }, {} as Record<string, typeof tools>);
+  const popularTools = tools.filter(tool => tool.popular);
+  const totalTools = tools.length;
+  const completionPercentage = Math.round((totalTools / 50) * 100);
+
+  const getAccessibilityBadge = (level: string) => {
+    switch (level) {
+      case 'excellent':
+        return <Badge className="bg-green-100 text-green-800 hover:bg-green-200">★★★ Excellent</Badge>;
+      case 'good':
+        return <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-200">★★☆ Bon</Badge>;
+      default:
+        return <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-200">★☆☆ Basique</Badge>;
+    }
+  };
+
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case 'Facile':
+        return 'bg-green-100 text-green-800 hover:bg-green-200';
+      case 'Moyen':
+        return 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200';
+      case 'Avancé':
+        return 'bg-red-100 text-red-800 hover:bg-red-200';
+      default:
+        return 'bg-gray-100 text-gray-800 hover:bg-gray-200';
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Outils d'Intégration en France
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Une suite complète d'outils gratuits pour vous accompagner dans vos démarches administratives et votre intégration en France
-          </p>
-        </div>
-
-        {/* Search */}
-        <div className="max-w-2xl mx-auto mb-8">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-            <Input
-              type="text"
-              placeholder="Rechercher un outil..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 py-3 text-lg"
-            />
+        {/* Hero Section */}
+        <div className="text-center mb-12 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 rounded-3xl -z-10"></div>
+          <div className="py-16 px-8">
+            <div className="inline-flex items-center gap-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full px-6 py-3 mb-6 shadow-lg border border-blue-100">
+              <Sparkles className="h-5 w-5 text-blue-600" />
+              <span className="text-sm font-medium text-blue-600">50 Outils Gratuits</span>
+              <div className="w-24 bg-gray-200 rounded-full h-2">
+                <div 
+                  className="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all duration-500"
+                  style={{ width: `${completionPercentage}%` }}
+                ></div>
+              </div>
+              <span className="text-xs text-gray-600">{completionPercentage}%</span>
+            </div>
+            
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                Outils d'Intégration
+              </span>
+              <br />
+              <span className="text-gray-800 dark:text-gray-200">en France</span>
+            </h1>
+            
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
+              Une suite complète d'<strong>outils gratuits et modernes</strong> pour vous accompagner dans vos démarches administratives et votre intégration en France
+            </p>
           </div>
         </div>
 
-        {/* Tools by Category */}
+        {/* Search and Filter Section - Sticky */}
+        <div className="sticky top-20 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 p-6 mb-8">
+          <div className="flex flex-col lg:flex-row gap-4">
+            <div className="flex-1 relative">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <Input
+                type="text"
+                placeholder="Rechercher un outil..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-12 py-3 text-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl"
+              />
+            </div>
+            
+            <div className="flex items-center gap-3">
+              <Filter className="h-5 w-5 text-gray-400" />
+              <select 
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 focus:ring-blue-500 bg-white dark:bg-gray-800"
+              >
+                <option value="all">Toutes les catégories</option>
+                {categories.map(category => (
+                  <option key={category} value={category}>{category}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          
+          {/* Stats */}
+          <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t border-gray-100">
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <TrendingUp className="h-4 w-4 text-green-500" />
+              <span>{filteredTools.length} outils trouvés</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <Star className="h-4 w-4 text-yellow-500" />
+              <span>{popularTools.length} outils populaires</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Popular Tools Section */}
+        {selectedCategory === 'all' && !searchTerm && (
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 flex items-center gap-3">
+              <Star className="h-8 w-8 text-yellow-500" />
+              Outils Populaires
+            </h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {popularTools.map(tool => {
+                const IconComponent = tool.icon;
+                return (
+                  <Card key={tool.id} className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:scale-105 bg-white/80 backdrop-blur-sm">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-start justify-between">
+                        <div className={`p-4 rounded-2xl bg-gradient-to-br ${tool.gradient} text-white shadow-lg group-hover:shadow-xl transition-all duration-300`}>
+                          <IconComponent className="h-8 w-8" />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <Badge className={getDiff¡cultyColor(tool.difficulty)}>
+                            {tool.difficulty}
+                          </Badge>
+                          {getAccessibilityBadge(tool.accessibility)}
+                        </div>
+                      </div>
+                      <CardTitle className="text-xl leading-tight group-hover:text-blue-600 transition-colors">
+                        {tool.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <CardDescription className="text-gray-600 mb-6 text-base leading-relaxed">
+                        {tool.description}
+                      </CardDescription>
+                      <Button 
+                        onClick={() => onSelectTool(tool.id)}
+                        className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 text-white font-medium py-3 rounded-xl shadow-lg hover:shadow-xl group-hover:scale-105"
+                      >
+                        Utiliser l'outil
+                        <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* All Tools by Category */}
         <div className="space-y-12">
           {categories.map(category => {
-            const categoryTools = toolsByCategory[category];
+            const categoryTools = filteredTools.filter(tool => tool.category === category);
             if (categoryTools.length === 0) return null;
 
             return (
-              <div key={category}>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                  <span className="w-1 h-8 bg-blue-500 rounded-full"></span>
-                  {category}
-                  <Badge variant="secondary" className="ml-2">
+              <div key={category} className="animate-fade-in">
+                <div className="flex items-center justify-between mb-8">
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-4">
+                    <div className="w-2 h-12 bg-gradient-to-b from-blue-500 to-indigo-500 rounded-full"></div>
+                    {category}
+                  </h2>
+                  <Badge variant="secondary" className="text-lg px-4 py-2 bg-blue-100 text-blue-800">
                     {categoryTools.length} outils
                   </Badge>
-                </h2>
+                </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {categoryTools.map(tool => {
                     const IconComponent = tool.icon;
                     return (
-                      <Card key={tool.id} className="group hover:shadow-lg transition-all duration-300 border-0 shadow-md">
-                        <CardHeader className="pb-4">
-                          <div className="flex items-start justify-between">
-                            <div className={`p-3 rounded-lg ${tool.color} text-white`}>
+                      <Card key={tool.id} className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-md hover:scale-105 bg-white/80 backdrop-blur-sm hover:bg-white">
+                        <CardHeader className="pb-3">
+                          <div className="flex items-start justify-between mb-3">
+                            <div className={`p-3 rounded-xl bg-gradient-to-br ${tool.gradient} text-white shadow-md group-hover:shadow-lg transition-all duration-300`}>
                               <IconComponent className="h-6 w-6" />
                             </div>
-                            <Badge 
-                              variant={tool.difficulty === 'Facile' ? 'default' : tool.difficulty === 'Moyen' ? 'secondary' : 'destructive'}
-                              className="text-xs"
-                            >
-                              {tool.difficulty}
-                            </Badge>
+                            {tool.popular && (
+                              <div className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                                <Star className="h-3 w-3" />
+                                Populaire
+                              </div>
+                            )}
                           </div>
-                          <CardTitle className="text-lg leading-tight">
+                          <CardTitle className="text-lg leading-tight group-hover:text-blue-600 transition-colors">
                             {tool.title}
                           </CardTitle>
                         </CardHeader>
-                        <CardContent className="pt-0">
-                          <CardDescription className="text-gray-600 mb-4 text-sm leading-relaxed">
+                        <CardContent className="pt-0 space-y-4">
+                          <CardDescription className="text-gray-600 text-sm leading-relaxed line-clamp-3">
                             {tool.description}
                           </CardDescription>
+                          
+                          <div className="flex flex-wrap gap-2">
+                            <Badge className={getDifficultyColor(tool.difficulty)} size="sm">
+                              {tool.difficulty}
+                            </Badge>
+                            {getAccessibilityBadge(tool.accessibility)}
+                          </div>
+                          
                           <Button 
                             onClick={() => onSelectTool(tool.id)}
-                            className="w-full group-hover:bg-blue-600 transition-colors"
+                            className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 text-white font-medium py-2.5 rounded-lg shadow-md hover:shadow-lg"
+                            size="sm"
                           >
-                            Utiliser l'outil
-                            <ArrowRight className="ml-2 h-4 w-4" />
+                            Utiliser
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                           </Button>
                         </CardContent>
                       </Card>
@@ -299,8 +472,22 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
         </div>
 
         {filteredTools.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">Aucun outil trouvé pour votre recherche.</p>
+          <div className="text-center py-16">
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Search className="h-12 w-12 text-gray-400" />
+            </div>
+            <h3 className="text-2xl font-semibold text-gray-900 mb-4">Aucun outil trouvé</h3>
+            <p className="text-gray-600 text-lg mb-6">Essayez de modifier vos critères de recherche</p>
+            <Button 
+              onClick={() => {
+                setSearchTerm('');
+                setSelectedCategory('all');
+              }}
+              variant="outline"
+              className="border-blue-500 text-blue-600 hover:bg-blue-50"
+            >
+              Réinitialiser les filtres
+            </Button>
           </div>
         )}
       </div>
