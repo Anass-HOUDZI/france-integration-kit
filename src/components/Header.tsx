@@ -10,6 +10,7 @@ import {
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import UserMenu from '@/components/UserMenu';
+import CategoriesDropdown from '@/components/CategoriesDropdown';
 import { useI18n } from '@/hooks/useI18n';
 
 interface HeaderProps {
@@ -24,9 +25,9 @@ const Header: React.FC<HeaderProps> = ({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { t } = useI18n();
 
-  const handleAllCategories = () => {
+  const handleCategorySelect = (categoryId: string) => {
     if (onSelectTool) {
-      onSelectTool('home');
+      onSelectTool(categoryId);
     }
   };
 
@@ -68,13 +69,7 @@ const Header: React.FC<HeaderProps> = ({
           </div>
           
           <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              onClick={handleAllCategories}
-              className="text-sm font-medium hover:bg-blue-50 hover:text-blue-600 transition-colors"
-            >
-              {t('home.all_categories')}
-            </Button>
+            <CategoriesDropdown onSelectCategory={handleCategorySelect} />
             <LanguageSelector />
             <ThemeToggle />
             <UserMenu />
