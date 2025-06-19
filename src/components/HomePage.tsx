@@ -373,7 +373,7 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
                           <IconComponent className="h-8 w-8" />
                         </div>
                         <div className="flex flex-col gap-2">
-                          <Badge className={getDiff¡cultyColor(tool.difficulty)}>
+                          <Badge className={getDifficultyColor(tool.difficulty)}>
                             {tool.difficulty}
                           </Badge>
                           {getAccessibilityBadge(tool.accessibility)}
