@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Globe } from "lucide-react";
+import { useI18n } from "@/hooks/useI18n";
 
 interface CultureQuizToolProps {
   userProfile: any;
@@ -23,7 +24,7 @@ const QUESTIONS = [
     explanation: "La devise officielle est bien « Liberté, Égalité, Fraternité »."
   },
   {
-    question: "Quel est l’hymne national de la France ?",
+    question: "Quel est l'hymne national de la France ?",
     options: [
       "La Marseillaise",
       "La Liberté guidant le peuple",
@@ -31,7 +32,7 @@ const QUESTIONS = [
       "Le Chant des Partisans"
     ],
     answer: 0,
-    explanation: "« La Marseillaise » est l’hymne officiel de la France."
+    explanation: "« La Marseillaise » est l'hymne officiel de la France."
   },
   {
     question: "Qui était le premier président de la Ve République française ?",
@@ -39,7 +40,7 @@ const QUESTIONS = [
       "Nicolas Sarkozy",
       "Charles de Gaulle",
       "François Mitterrand",
-      "Valéry Giscard d’Estaing"
+      "Valéry Giscard d'Estaing"
     ],
     answer: 1,
     explanation: "Charles de Gaulle est devenu le premier président en 1959."
@@ -50,25 +51,26 @@ const QUESTIONS = [
       "La Fête du Travail",
       "La Fête de la Musique",
       "La Fête Nationale (Prise de la Bastille)",
-      "L’Ascension"
+      "L'Ascension"
     ],
     answer: 2,
-    explanation: "Le 14 juillet, c’est la fête nationale en mémoire de la prise de la Bastille."
+    explanation: "Le 14 juillet, c'est la fête nationale en mémoire de la prise de la Bastille."
   },
   {
-    question: "La France fait partie :",
+    question: "La France fait partie :",
     options: [
       "Du Commonwealth",
-      "De l’Union Européenne",
-      "De l’ALENA",
-      "De l’Union Africaine"
+      "De l'Union Européenne",
+      "De l'ALENA",
+      "De l'Union Africaine"
     ],
     answer: 1,
-    explanation: "La France est l’un des fondateurs de l’Union Européenne."
+    explanation: "La France est l'un des fondateurs de l'Union Européenne."
   },
 ];
 
 const CultureQuizTool: React.FC<CultureQuizToolProps> = ({ onBack }) => {
+  const { t } = useI18n();
   const [step, setStep] = useState<"quiz" | "result">("quiz");
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -104,14 +106,14 @@ const CultureQuizTool: React.FC<CultureQuizToolProps> = ({ onBack }) => {
     }
   };
 
-  // Rendu d’une question et options QCM
+  // Rendu d'une question et options QCM
   function QuestionBlock() {
     const q = QUESTIONS[current];
     return (
       <div className="space-y-6 animate-fade-in">
         <h2 className="text-xl font-bold mt-6 flex items-center gap-2">
           <Globe className="h-6 w-6 text-indigo-600" />
-          Question {current + 1} / {QUESTIONS.length}
+          {t('quiz.question')} {current + 1} / {QUESTIONS.length}
         </h2>
         <div className="text-lg font-medium">{q.question}</div>
         <div className="space-y-3">
@@ -141,14 +143,14 @@ const CultureQuizTool: React.FC<CultureQuizToolProps> = ({ onBack }) => {
               selected === q.answer ? "bg-green-50 text-green-800" : "bg-red-50 text-red-800"
             }`}
           >
-            {selected === q.answer ? "✅ Bonne réponse !" : "❌ Mauvaise réponse."}
+            {selected === q.answer ? `✅ ${t('quiz.correct')}` : `❌ ${t('quiz.incorrect')}`}
             <div className="italic mt-1 text-sm">{q.explanation}</div>
           </div>
         )}
         <div className="flex gap-2 mt-4">
           {showFeedback && (
             <Button onClick={handleNext} variant="default" className="ml-auto">
-              {current + 1 < QUESTIONS.length ? "Question suivante" : "Voir mon score"}
+              {current + 1 < QUESTIONS.length ? t('quiz.next_question') : t('quiz.see_score')}
             </Button>
           )}
         </div>
@@ -162,23 +164,23 @@ const CultureQuizTool: React.FC<CultureQuizToolProps> = ({ onBack }) => {
     const total = QUESTIONS.length;
     const percent = Math.round((score / total) * 100);
     let message = "";
-    if (percent === 100) message = "Parfait ! 🇫🇷";
-    else if (percent >= 80) message = "Excellent !";
-    else if (percent >= 60) message = "Très bien !";
-    else if (percent >= 40) message = "Pas mal, continuez !";
-    else message = "N’abandonnez pas, c’est en forgeant qu’on devient Français !";
+    if (percent === 100) message = t('quiz.perfect');
+    else if (percent >= 80) message = t('quiz.excellent');
+    else if (percent >= 60) message = t('quiz.very_good');
+    else if (percent >= 40) message = t('quiz.good_continue');
+    else message = t('quiz.keep_trying');
 
     return (
       <div className="space-y-6 text-center animate-fade-in">
-        <h2 className="text-2xl font-bold text-indigo-700 mt-4">Votre score :</h2>
+        <h2 className="text-2xl font-bold text-indigo-700 mt-4">{t('quiz.your_score')}</h2>
         <div className="text-5xl font-bold text-indigo-800">{score} / {total}</div>
         <div className="text-lg text-gray-700 mt-2">{message}</div>
         <Button className="mt-4" variant="outline" onClick={resetQuiz}>
-          Recommencer le quiz
+          {t('quiz.restart')}
         </Button>
         <Button className="mt-4 ml-2" variant="outline" onClick={onBack}>
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Retour
+          {t('common.back')}
         </Button>
       </div>
     );
@@ -190,11 +192,11 @@ const CultureQuizTool: React.FC<CultureQuizToolProps> = ({ onBack }) => {
         <>
           <Button variant="outline" onClick={onBack}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Retour
+            {t('common.back')}
           </Button>
           <h1 className="text-2xl font-bold flex items-center gap-2 mt-6">
             <Globe className="h-7 w-7 text-indigo-600" />
-            Quiz Culture Française
+            {t('quiz.title')}
           </h1>
           <QuestionBlock />
         </>
@@ -205,4 +207,3 @@ const CultureQuizTool: React.FC<CultureQuizToolProps> = ({ onBack }) => {
 };
 
 export default CultureQuizTool;
-

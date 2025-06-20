@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Download, Wand2, Copy, Check } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 interface MotivationLetterToolProps {
   userProfile: any;
@@ -15,6 +16,7 @@ interface MotivationLetterToolProps {
 }
 
 const MotivationLetterTool: React.FC<MotivationLetterToolProps> = ({ userProfile, diagnostic }) => {
+  const { t } = useI18n();
   const [formData, setFormData] = useState({
     company: '',
     position: '',
@@ -87,40 +89,40 @@ ${userProfile?.name || '[Votre nom]'}`;
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <FileText className="h-5 w-5" />
-            Générateur de Lettres de Motivation
+            {t('motivation.title')}
           </CardTitle>
           <CardDescription>
-            Créez une lettre de motivation personnalisée et percutante
+            {t('motivation.description')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="company">Entreprise</Label>
+              <Label htmlFor="company">{t('motivation.company')}</Label>
               <Input
                 id="company"
                 value={formData.company}
                 onChange={(e) => setFormData({...formData, company: e.target.value})}
-                placeholder="Nom de l'entreprise"
+                placeholder={t('motivation.company_placeholder')}
               />
             </div>
             <div>
-              <Label htmlFor="position">Poste visé</Label>
+              <Label htmlFor="position">{t('motivation.position')}</Label>
               <Input
                 id="position"
                 value={formData.position}
                 onChange={(e) => setFormData({...formData, position: e.target.value})}
-                placeholder="Ex: Développeur Full Stack"
+                placeholder={t('motivation.position_placeholder')}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="sector">Secteur d'activité</Label>
+              <Label htmlFor="sector">{t('motivation.sector')}</Label>
               <Select value={formData.sector} onValueChange={(value) => setFormData({...formData, sector: value})}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Choisir un secteur" />
+                  <SelectValue placeholder={t('motivation.select_sector')} />
                 </SelectTrigger>
                 <SelectContent>
                   {sectors.map(sector => (
@@ -130,33 +132,33 @@ ${userProfile?.name || '[Votre nom]'}`;
               </Select>
             </div>
             <div>
-              <Label htmlFor="experience">Expérience</Label>
+              <Label htmlFor="experience">{t('motivation.experience')}</Label>
               <Input
                 id="experience"
                 value={formData.experience}
                 onChange={(e) => setFormData({...formData, experience: e.target.value})}
-                placeholder="Ex: 3 ans"
+                placeholder={t('motivation.experience_placeholder')}
               />
             </div>
           </div>
 
           <div>
-            <Label htmlFor="skills">Compétences clés (séparées par des virgules)</Label>
+            <Label htmlFor="skills">{t('motivation.skills')}</Label>
             <Textarea
               id="skills"
               value={formData.skills}
               onChange={(e) => setFormData({...formData, skills: e.target.value})}
-              placeholder="Ex: JavaScript, React, Node.js, Travail en équipe"
+              placeholder={t('motivation.skills_placeholder')}
             />
           </div>
 
           <div>
-            <Label htmlFor="motivation">Motivation pour ce poste</Label>
+            <Label htmlFor="motivation">{t('motivation.motivation_reason')}</Label>
             <Textarea
               id="motivation"
               value={formData.motivation}
               onChange={(e) => setFormData({...formData, motivation: e.target.value})}
-              placeholder="Expliquez pourquoi ce poste vous intéresse"
+              placeholder={t('motivation.motivation_placeholder')}
             />
           </div>
 
@@ -166,7 +168,7 @@ ${userProfile?.name || '[Votre nom]'}`;
             disabled={!formData.company || !formData.position}
           >
             <Wand2 className="mr-2 h-4 w-4" />
-            Générer la lettre
+            {t('motivation.generate_letter')}
           </Button>
         </CardContent>
       </Card>
@@ -174,15 +176,15 @@ ${userProfile?.name || '[Votre nom]'}`;
       {generatedLetter && (
         <Card>
           <CardHeader>
-            <CardTitle>Votre lettre de motivation</CardTitle>
+            <CardTitle>{t('motivation.your_letter')}</CardTitle>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={copyToClipboard}>
                 {copied ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
-                {copied ? 'Copié' : 'Copier'}
+                {copied ? t('common.copied') : t('common.copy')}
               </Button>
               <Button variant="outline" size="sm" onClick={downloadLetter}>
                 <Download className="mr-2 h-4 w-4" />
-                Télécharger
+                {t('common.download')}
               </Button>
             </div>
           </CardHeader>
