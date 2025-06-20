@@ -1,4 +1,3 @@
-
 /**
  * English translations
  */
@@ -48,6 +47,14 @@ export const enTranslations: Translations = {
   'common.average': 'Average',
   'common.minimum': 'Minimum',
   'common.maximum': 'Maximum',
+  'common.easy': 'Easy',
+  'common.medium': 'Medium',
+  'common.advanced': 'Advanced',
+  'common.excellent': 'Excellent',
+  'common.good': 'Good',
+  'common.basic': 'Basic',
+  'common.popular': 'Popular',
+  'common.use_tool': 'Use Tool',
   
   // Homepage
   'home.title': 'Integration Tools',
@@ -55,6 +62,8 @@ export const enTranslations: Translations = {
   'home.description': 'A complete suite of free tools to help you in France',
   'home.search_placeholder': 'Search for a tool...',
   'home.all_categories': 'All categories',
+  'home.popular_tools_title': 'Popular Tools',
+  'home.tools_count': 'tools',
   
   // Categories
   'category.admin': 'Administrative Procedures',
@@ -67,17 +76,49 @@ export const enTranslations: Translations = {
   
   // Tools
   'tool.letter_generator': 'Administrative Letter Generator',
+  'tool.letter_generator_desc': 'Create official letters compliant with French standards for your administrative procedures',
+  'tool.fee_calculator': 'Fee Calculator',
+  'tool.fee_calculator_desc': 'Precisely estimate the costs of your administrative procedures according to your situation',
+  'tool.receipt_generator': 'Receipt Generator',
+  'tool.receipt_generator_desc': 'Create and track your administrative file deposit receipts',
+  'tool.delay_simulator': 'Delay Simulator',
+  'tool.delay_simulator_desc': 'Estimate processing times for your administrative procedures by prefecture',
   'tool.budget_calculator': 'Housing Budget Calculator',
+  'tool.budget_calculator_desc': 'Estimate your housing budget and check your borrowing capacity by region',
   'tool.motivation_letter': 'Motivation Letter Generator',
   'tool.culture_quiz': 'French Culture Quiz',
+  'tool.culture_quiz_desc': 'Test and improve your knowledge of French culture in a fun way',
   'tool.moving_planner': 'Moving Planner',
   'tool.neighborhood_comparator': 'Neighborhood Comparator',
   'tool.diploma_equivalence': 'Foreign Diploma Equivalence',
-  'tool.delay_simulator': 'Delay Simulator',
   'tool.planning_generator': 'Planning Generator',
   'tool.naturalization_test': 'Naturalization Test',
   'tool.rental_dossier': 'Rental File',
   'tool.cv_translator': 'CV Translator',
+  'tool.cv_translator_desc': 'Adapt your CV to French standards to maximize your recruitment chances',
+  'tool.social_security_guide': 'Social Security Guide',
+  'tool.social_security_guide_desc': 'Understand the French healthcare system and your reimbursement rights',
+  'tool.social_services_locator': 'Social Services Locator',
+  'tool.social_services_locator_desc': 'Find social services and support associations near you',
+  'tool.family_allowances_calculator': 'Family Allowances Calculator',
+  'tool.family_allowances_calculator_desc': 'Estimate your family allowance rights according to your situation',
+  'tool.education_costs_calculator': 'Education Costs Calculator',
+  'tool.education_costs_calculator_desc': 'Budget schooling costs and discover available aid',
+  'tool.traditions_guide': 'Traditions Guide',
+  'tool.traditions_guide_desc': 'Discover French holidays and traditions to better integrate',
+  'tool.french_learning_assistant': 'French Learning Assistant',
+  'tool.french_learning_assistant_desc': 'Improve your French with exercises adapted to your level',
+  'tool.naturalization_simulator': 'Naturalization Simulator',
+  'tool.naturalization_simulator_desc': 'Prepare for the French naturalization test with interactive quizzes',
+  'tool.french_expressions_translator': 'French Expressions Translator',
+  'tool.french_expressions_translator_desc': 'Understand French idiomatic expressions and their usage',
+  'tool.emergency_assistant': 'Emergency Assistant',
+  'tool.emergency_assistant_desc': 'Quickly access emergency numbers and emergency procedures',
+  'tool.planning_generator_desc': 'Organize all your administrative procedures with a personalized schedule',
+  'tool.family_budget_assistant': 'Family Budget Assistant',
+  'tool.family_budget_assistant_desc': 'Manage your family budget and optimize your finances in France',
+  'tool.rights_guide': 'Rights and Appeals Guide',
+  'tool.rights_guide_desc': 'Know your rights and possible appeals against administrations',
   
   // Motivation Letter Tool
   'motivation.title': 'Motivation Letter Generator',

@@ -1,4 +1,3 @@
-
 /**
  * Traductions françaises complètes
  */
@@ -48,6 +47,14 @@ export const frTranslations: Translations = {
   'common.average': 'Moyenne',
   'common.minimum': 'Minimum',
   'common.maximum': 'Maximum',
+  'common.easy': 'Facile',
+  'common.medium': 'Moyen',
+  'common.advanced': 'Avancé',
+  'common.excellent': 'Excellent',
+  'common.good': 'Bon',
+  'common.basic': 'Basique',
+  'common.popular': 'Populaire',
+  'common.use_tool': 'Utiliser l\'outil',
   
   // Homepage
   'home.title': 'Outils d\'Intégration',
@@ -55,6 +62,8 @@ export const frTranslations: Translations = {
   'home.description': 'Une suite complète d\'outils gratuits pour vous accompagner en France',
   'home.search_placeholder': 'Rechercher un outil...',
   'home.all_categories': 'Toutes les catégories',
+  'home.popular_tools_title': 'Outils Populaires',
+  'home.tools_count': 'outils',
   
   // Categories
   'category.admin': 'Démarches Administratives',
@@ -67,17 +76,49 @@ export const frTranslations: Translations = {
   
   // Tools
   'tool.letter_generator': 'Générateur de Lettres Administratives',
+  'tool.letter_generator_desc': 'Créez des lettres officielles conformes aux standards français pour vos démarches administratives',
+  'tool.fee_calculator': 'Calculateur de Frais de Dossier',
+  'tool.fee_calculator_desc': 'Estimez précisément les coûts de vos démarches administratives selon votre situation',
+  'tool.receipt_generator': 'Générateur de Récépissés',
+  'tool.receipt_generator_desc': 'Créez et suivez vos récépissés de dépôt de dossiers administratifs',
+  'tool.delay_simulator': 'Simulateur de Délais',
+  'tool.delay_simulator_desc': 'Estimez les temps de traitement de vos démarches administratives par préfecture',
   'tool.budget_calculator': 'Calculateur de Budget Logement',
+  'tool.budget_calculator_desc': 'Estimez votre budget logement et vérifiez votre capacité d\'emprunt selon votre région',
   'tool.motivation_letter': 'Générateur de Lettres de Motivation',
   'tool.culture_quiz': 'Quiz Culture Française',
+  'tool.culture_quiz_desc': 'Testez et améliorez vos connaissances sur la culture française de manière ludique',
   'tool.moving_planner': 'Planificateur de Déménagement',
   'tool.neighborhood_comparator': 'Comparateur de Quartiers',
   'tool.diploma_equivalence': 'Équivalence de Diplômes Étrangers',
-  'tool.delay_simulator': 'Simulateur de Délais',
   'tool.planning_generator': 'Générateur de Planning',
   'tool.naturalization_test': 'Test de Naturalisation',
   'tool.rental_dossier': 'Dossier Locatif',
   'tool.cv_translator': 'Traducteur de CV',
+  'tool.cv_translator_desc': 'Adaptez votre CV aux standards français pour maximiser vos chances de recrutement',
+  'tool.social_security_guide': 'Guide Sécurité Sociale',
+  'tool.social_security_guide_desc': 'Comprenez le système de santé français et vos droits aux remboursements',
+  'tool.social_services_locator': 'Localisateur de Services Sociaux',
+  'tool.social_services_locator_desc': 'Trouvez les services sociaux et associations d\'aide près de chez vous',
+  'tool.family_allowances_calculator': 'Calculateur d\'Allocations Familiales',
+  'tool.family_allowances_calculator_desc': 'Estimez vos droits aux allocations familiales selon votre situation',
+  'tool.education_costs_calculator': 'Calculateur de Frais de Scolarité',
+  'tool.education_costs_calculator_desc': 'Budgétez les coûts de scolarité et découvrez les aides disponibles',
+  'tool.traditions_guide': 'Guide des Traditions',
+  'tool.traditions_guide_desc': 'Découvrez les fêtes et traditions françaises pour mieux vous intégrer',
+  'tool.french_learning_assistant': 'Assistant d\'Apprentissage du Français',
+  'tool.french_learning_assistant_desc': 'Améliorez votre français avec des exercices adaptés à votre niveau',
+  'tool.naturalization_simulator': 'Simulateur de Naturalisation',
+  'tool.naturalization_simulator_desc': 'Préparez-vous au test de naturalisation française avec des quiz interactifs',
+  'tool.french_expressions_translator': 'Traducteur d\'Expressions Françaises',
+  'tool.french_expressions_translator_desc': 'Comprenez les expressions idiomatiques françaises et leur usage',
+  'tool.emergency_assistant': 'Assistant d\'Urgence',
+  'tool.emergency_assistant_desc': 'Accédez rapidement aux numéros d\'urgence et procédures d\'urgence',
+  'tool.planning_generator_desc': 'Organisez toutes vos démarches administratives avec un planning personnalisé',
+  'tool.family_budget_assistant': 'Assistant Budget Familial',
+  'tool.family_budget_assistant_desc': 'Gérez votre budget familial et optimisez vos finances en France',
+  'tool.rights_guide': 'Guide des Droits et Recours',
+  'tool.rights_guide_desc': 'Connaissez vos droits et les recours possibles face aux administrations',
   
   // Motivation Letter Tool
   'motivation.title': 'Générateur de Lettres de Motivation',
