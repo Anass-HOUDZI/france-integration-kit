@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -62,7 +63,7 @@ const DEFAULT_TIMELINE: TimelineStep[] = [
     period: "1 à 3 mois",
     color: "bg-purple-600",
     tasks: [
-      "Contrôler l’état d’avancement de chaque démarche",
+      "Contrôler l'état d'avancement de chaque démarche",
       "Conserver vos récépissés et attestations",
       "Demander des recours en cas de retard/refus",
       "Mettre à jour votre dossier personnel"
@@ -86,12 +87,6 @@ function generateInitialTasks(): Task[] {
   return tasks;
 }
 
-const STATUS_LABELS = {
-  todo: t('planning.todo'),
-  in_progress: t('planning.in_progress'),
-  done: t('planning.completed')
-};
-
 const STATUS_COLORS = {
   todo: "gray-400",
   in_progress: "blue-500",
@@ -104,7 +99,13 @@ const PlanningGeneratorTool: React.FC<PlanningGeneratorToolProps> = ({ onBack })
   const [newTaskText, setNewTaskText] = useState<string>("");
   const [selectedSection, setSelectedSection] = useState<string>(DEFAULT_TIMELINE[0].period);
 
-  // Ajout d’une tâche personnalisée dans la section timeline choisie
+  const STATUS_LABELS = {
+    todo: t('planning.todo'),
+    in_progress: t('planning.in_progress'),
+    done: t('planning.completed')
+  };
+
+  // Ajout d'une tâche personnalisée dans la section timeline choisie
   function addTask() {
     if (newTaskText.trim().length === 0) return;
     setTasks([
@@ -119,7 +120,7 @@ const PlanningGeneratorTool: React.FC<PlanningGeneratorToolProps> = ({ onBack })
     setNewTaskText("");
   }
 
-  // Statut : todo <-> in_progress <-> done (cercle)
+  // Statut : todo <-> in_progress <-> done (cercle)
   function toggleStatus(task: Task) {
     const newStatus =
       task.status === "todo"
