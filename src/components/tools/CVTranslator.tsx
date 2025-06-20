@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,9 +5,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FileText, Download, Eye, Lightbulb, Globe } from 'lucide-react';
+import { FileText, Download, Lightbulb } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 interface CVTranslatorProps {
   userProfile: any;
@@ -16,6 +15,7 @@ interface CVTranslatorProps {
 }
 
 const CVTranslator: React.FC<CVTranslatorProps> = ({ userProfile, diagnostic }) => {
+  const { t } = useI18n();
   const [cvData, setCvData] = useState({
     personalInfo: {
       firstName: '',
@@ -119,19 +119,19 @@ ${cvData.interests}` : ''}`;
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <FileText className="h-5 w-5" />
-            Traducteur CV Français
+            {t('cv.title')}
           </CardTitle>
           <CardDescription>
-            Adaptez votre CV aux standards français pour maximiser vos chances
+            {t('cv.description')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="space-y-2">
-              <Label htmlFor="targetSector">Secteur d'activité visé</Label>
+              <Label htmlFor="targetSector">{t('cv.target_sector')}</Label>
               <Select value={targetSector} onValueChange={setTargetSector}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionnez votre secteur" />
+                  <SelectValue placeholder={t('cv.select_sector')} />
                 </SelectTrigger>
                 <SelectContent>
                   {sectors.map((sector) => (
@@ -146,17 +146,17 @@ ${cvData.interests}` : ''}`;
 
           <Tabs defaultValue="personal" className="space-y-6">
             <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="personal">Personnel</TabsTrigger>
-              <TabsTrigger value="experience">Expérience</TabsTrigger>
-              <TabsTrigger value="education">Formation</TabsTrigger>
-              <TabsTrigger value="skills">Compétences</TabsTrigger>
+              <TabsTrigger value="personal">{t('cv.personal_info')}</TabsTrigger>
+              <TabsTrigger value="experience">{t('cv.experience')}</TabsTrigger>
+              <TabsTrigger value="education">{t('cv.education')}</TabsTrigger>
+              <TabsTrigger value="skills">{t('cv.skills')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="personal" className="space-y-4">
-              <h3 className="font-semibold">Informations personnelles</h3>
+              <h3 className="font-semibold">{t('cv.personal_info')}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">Prénom</Label>
+                  <Label htmlFor="firstName">{t('cv.first_name')}</Label>
                   <Input
                     id="firstName"
                     value={cvData.personalInfo.firstName}
@@ -167,7 +167,7 @@ ${cvData.interests}` : ''}`;
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">Nom</Label>
+                  <Label htmlFor="lastName">{t('cv.last_name')}</Label>
                   <Input
                     id="lastName"
                     value={cvData.personalInfo.lastName}
@@ -178,7 +178,7 @@ ${cvData.interests}` : ''}`;
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t('cv.email')}</Label>
                   <Input
                     id="email"
                     type="email"
@@ -190,7 +190,7 @@ ${cvData.interests}` : ''}`;
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">Téléphone</Label>
+                  <Label htmlFor="phone">{t('cv.phone')}</Label>
                   <Input
                     id="phone"
                     value={cvData.personalInfo.phone}
@@ -201,7 +201,7 @@ ${cvData.interests}` : ''}`;
                   />
                 </div>
                 <div className="space-y-2 md:col-span-2">
-                  <Label htmlFor="address">Adresse</Label>
+                  <Label htmlFor="address">{t('cv.address')}</Label>
                   <Input
                     id="address"
                     value={cvData.personalInfo.address}
@@ -212,7 +212,7 @@ ${cvData.interests}` : ''}`;
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="birthDate">Date de naissance</Label>
+                  <Label htmlFor="birthDate">{t('cv.birth_date')}</Label>
                   <Input
                     id="birthDate"
                     type="date"
@@ -224,7 +224,7 @@ ${cvData.interests}` : ''}`;
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="nationality">Nationalité</Label>
+                  <Label htmlFor="nationality">{t('cv.nationality')}</Label>
                   <Input
                     id="nationality"
                     value={cvData.personalInfo.nationality}
@@ -237,21 +237,20 @@ ${cvData.interests}` : ''}`;
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="objective">Objectif professionnel</Label>
+                <Label htmlFor="objective">{t('cv.objective')}</Label>
                 <Textarea
                   id="objective"
-                  placeholder="Décrivez brièvement votre objectif professionnel en France"
-                  rows={3}
                   value={cvData.objective}
                   onChange={(e) => setCvData(prev => ({ ...prev, objective: e.target.value }))}
+                  placeholder="Décrivez votre objectif professionnel..."
                 />
               </div>
             </TabsContent>
 
             <TabsContent value="experience" className="space-y-4">
-              <h3 className="font-semibold">Expérience professionnelle</h3>
+              <h3 className="font-semibold">{t('cv.experience')}</h3>
               <div className="space-y-2">
-                <Label htmlFor="experience">Expériences (ordre ante-chronologique)</Label>
+                <Label htmlFor="experience">{t('cv.experience')} (ordre ante-chronologique)</Label>
                 <Textarea
                   id="experience"
                   placeholder="2020-2023 : Poste - Entreprise - Ville, Pays
@@ -270,9 +269,9 @@ ${cvData.interests}` : ''}`;
             </TabsContent>
 
             <TabsContent value="education" className="space-y-4">
-              <h3 className="font-semibold">Formation</h3>
+              <h3 className="font-semibold">{t('cv.education')}</h3>
               <div className="space-y-2">
-                <Label htmlFor="education">Formation et diplômes</Label>
+                <Label htmlFor="education">{t('cv.education')} et diplômes</Label>
                 <Textarea
                   id="education"
                   placeholder="2018 : Master en [Spécialité] - Université - Ville, Pays
@@ -291,7 +290,7 @@ ${cvData.interests}` : ''}`;
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="skills">Compétences techniques</Label>
+                    <Label htmlFor="skills">{t('cv.skills')} techniques</Label>
                     <Textarea
                       id="skills"
                       placeholder="• Compétence 1
@@ -305,7 +304,7 @@ ${cvData.interests}` : ''}`;
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="interests">Centres d'intérêt</Label>
+                    <Label htmlFor="interests">{t('cv.interests')}</Label>
                     <Textarea
                       id="interests"
                       placeholder="Sports, voyages, bénévolat, etc."
@@ -317,7 +316,7 @@ ${cvData.interests}` : ''}`;
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="languages">Langues (niveau CECRL)</Label>
+                  <Label htmlFor="languages">{t('cv.languages')} (niveau CECRL)</Label>
                   <Textarea
                     id="languages"
                     placeholder="Français : B2 (intermédiaire avancé)
@@ -333,14 +332,17 @@ Langue maternelle : [Votre langue]"
             </TabsContent>
           </Tabs>
 
-          <Button 
-            onClick={generateFrenchCV}
-            className="bg-purple-600 hover:bg-purple-700"
-            disabled={!cvData.personalInfo.firstName || !cvData.personalInfo.lastName}
-          >
-            <Eye className="mr-2 h-4 w-4" />
-            Générer le CV français
-          </Button>
+          <div className="flex gap-4 mt-6">
+            <Button onClick={generateFrenchCV} disabled={!cvData.personalInfo.firstName || !cvData.personalInfo.lastName}>
+              {t('cv.generate_cv')}
+            </Button>
+            {translatedCV && (
+              <Button onClick={downloadCV} variant="outline">
+                <Download className="mr-2 h-4 w-4" />
+                {t('cv.download')}
+              </Button>
+            )}
+          </div>
         </CardContent>
       </Card>
 
@@ -372,7 +374,7 @@ Langue maternelle : [Votre langue]"
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Lightbulb className="h-5 w-5 text-yellow-600" />
-            Conseils pour un CV français réussi
+            {t('cv.tips')}
           </CardTitle>
         </CardHeader>
         <CardContent>

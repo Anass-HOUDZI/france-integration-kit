@@ -7,7 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { GraduationCap, Search, FileText, ExternalLink, CheckCircle } from 'lucide-react';
+import { GraduationCap, Search, ExternalLink, CheckCircle } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 interface DiplomaEquivalenceToolProps {
   userProfile: any;
@@ -15,6 +16,7 @@ interface DiplomaEquivalenceToolProps {
 }
 
 const DiplomaEquivalenceTool: React.FC<DiplomaEquivalenceToolProps> = ({ userProfile, diagnostic }) => {
+  const { t } = useI18n();
   const [searchData, setSearchData] = useState({
     country: '',
     diplomaName: '',
@@ -105,13 +107,13 @@ const DiplomaEquivalenceTool: React.FC<DiplomaEquivalenceToolProps> = ({ userPro
   const getRecognitionBadge = (recognition: string) => {
     switch (recognition) {
       case 'Automatique':
-        return <Badge className="bg-green-100 text-green-800">Reconnaissance automatique</Badge>;
+        return <Badge className="bg-green-100 text-green-800">{t('diploma.automatic_recognition')}</Badge>;
       case 'Sur dossier':
-        return <Badge className="bg-orange-100 text-orange-800">Évaluation sur dossier</Badge>;
+        return <Badge className="bg-orange-100 text-orange-800">{t('diploma.file_evaluation')}</Badge>;
       case 'Évaluation nécessaire':
-        return <Badge className="bg-blue-100 text-blue-800">Évaluation nécessaire</Badge>;
+        return <Badge className="bg-blue-100 text-blue-800">{t('diploma.evaluation_needed')}</Badge>;
       default:
-        return <Badge variant="outline">À déterminer</Badge>;
+        return <Badge variant="outline">{t('diploma.to_determine')}</Badge>;
     }
   };
 
@@ -142,19 +144,19 @@ const DiplomaEquivalenceTool: React.FC<DiplomaEquivalenceToolProps> = ({ userPro
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <GraduationCap className="h-5 w-5" />
-            Équivalence Diplômes Étrangers
+            {t('diploma.title')}
           </CardTitle>
           <CardDescription>
-            Trouvez l'équivalence française de vos diplômes étrangers
+            {t('diploma.description')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="country">Pays d'obtention</Label>
+              <Label htmlFor="country">{t('diploma.country_obtained')}</Label>
               <Select value={searchData.country} onValueChange={(value) => setSearchData({...searchData, country: value})}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner un pays" />
+                  <SelectValue placeholder={t('diploma.select_country')} />
                 </SelectTrigger>
                 <SelectContent>
                   {countries.map(country => (
@@ -164,22 +166,22 @@ const DiplomaEquivalenceTool: React.FC<DiplomaEquivalenceToolProps> = ({ userPro
               </Select>
             </div>
             <div>
-              <Label htmlFor="diplomaName">Nom du diplôme</Label>
+              <Label htmlFor="diplomaName">{t('diploma.diploma_name')}</Label>
               <Input
                 id="diplomaName"
                 value={searchData.diplomaName}
                 onChange={(e) => setSearchData({...searchData, diplomaName: e.target.value})}
-                placeholder="Ex: Bachelor of Science"
+                placeholder={t('diploma.diploma_placeholder')}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="field">Domaine d'études</Label>
+              <Label htmlFor="field">{t('diploma.study_field')}</Label>
               <Select value={searchData.field} onValueChange={(value) => setSearchData({...searchData, field: value})}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner un domaine" />
+                  <SelectValue placeholder={t('diploma.select_field')} />
                 </SelectTrigger>
                 <SelectContent>
                   {fields.map(field => (
@@ -189,10 +191,10 @@ const DiplomaEquivalenceTool: React.FC<DiplomaEquivalenceToolProps> = ({ userPro
               </Select>
             </div>
             <div>
-              <Label htmlFor="level">Niveau estimé</Label>
+              <Label htmlFor="level">{t('diploma.estimated_level')}</Label>
               <Select value={searchData.level} onValueChange={(value) => setSearchData({...searchData, level: value})}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Sélectionner un niveau" />
+                  <SelectValue placeholder={t('diploma.select_level')} />
                 </SelectTrigger>
                 <SelectContent>
                   {levels.map(level => (
@@ -209,7 +211,7 @@ const DiplomaEquivalenceTool: React.FC<DiplomaEquivalenceToolProps> = ({ userPro
             disabled={!searchData.country || !searchData.diplomaName}
           >
             <Search className="mr-2 h-4 w-4" />
-            Rechercher l'équivalence
+            {t('diploma.search_equivalence')}
           </Button>
         </CardContent>
       </Card>
@@ -217,7 +219,7 @@ const DiplomaEquivalenceTool: React.FC<DiplomaEquivalenceToolProps> = ({ userPro
       {showResults && (
         <Card>
           <CardHeader>
-            <CardTitle>Résultats de la recherche</CardTitle>
+            <CardTitle>{t('diploma.search_results')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {results.map((result, index) => (
@@ -230,9 +232,9 @@ const DiplomaEquivalenceTool: React.FC<DiplomaEquivalenceToolProps> = ({ userPro
                   {getRecognitionBadge(result.recognition)}
                 </div>
                 <div className="space-y-2">
-                  <p><strong>Équivalence française :</strong> {result.french}</p>
+                  <p><strong>{t('diploma.french_equivalent')} :</strong> {result.french}</p>
                   {result.level > 0 && (
-                    <p><strong>Niveau européen :</strong> Niveau {result.level} du CEC</p>
+                    <p><strong>{t('diploma.european_level')} :</strong> Niveau {result.level} du CEC</p>
                   )}
                 </div>
               </div>
@@ -251,9 +253,9 @@ const DiplomaEquivalenceTool: React.FC<DiplomaEquivalenceToolProps> = ({ userPro
 
       <Card>
         <CardHeader>
-          <CardTitle>Procédures de reconnaissance</CardTitle>
+          <CardTitle>{t('diploma.recognition_procedures')}</CardTitle>
           <CardDescription>
-            Organismes officiels pour faire reconnaître vos diplômes
+            {t('diploma.official_organizations')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -263,12 +265,12 @@ const DiplomaEquivalenceTool: React.FC<DiplomaEquivalenceToolProps> = ({ userPro
                 <div className="flex-1">
                   <h4 className="font-medium">{procedure.title}</h4>
                   <p className="text-sm text-gray-600 mt-1">{procedure.description}</p>
-                  <p className="text-sm font-medium mt-2">Coût : {procedure.cost}</p>
+                  <p className="text-sm font-medium mt-2">{t('diploma.cost')} : {procedure.cost}</p>
                 </div>
                 <Button variant="outline" size="sm" asChild>
                   <a href={procedure.url} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="mr-2 h-4 w-4" />
-                    Visiter
+                    {t('diploma.visit')}
                   </a>
                 </Button>
               </div>
