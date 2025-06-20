@@ -1,3 +1,4 @@
+
 /**
  * English translations
  */
@@ -9,6 +10,7 @@ export const enTranslations: Translations = {
   'nav.tools': 'Tools',
   'nav.profile': 'Profile',
   'nav.help': 'Help',
+  'nav.back_home': 'Back to Home',
   
   // Common
   'common.save': 'Save',
@@ -83,8 +85,6 @@ export const enTranslations: Translations = {
   'tool.cv_translator_desc': 'Adapt your CV to French standards to maximize your hiring chances',
   'tool.culture_quiz': 'French Culture Quiz',
   'tool.culture_quiz_desc': 'Test and improve your knowledge of French culture in a fun way',
-  
-  // Traduzioni complete per tutti gli strumenti...
   'tool.fee_calculator': 'Fee Calculator',
   'tool.fee_calculator_desc': 'Accurately estimate the costs of your administrative procedures according to your situation',
   'tool.receipt_generator': 'Receipt Generator',
@@ -154,10 +154,32 @@ export const enTranslations: Translations = {
   'user.import': 'Import',
   'user.import_desc': 'Import your data',
 
-  // Navigation
-  'nav.home': 'Home',
-  'nav.tools': 'Tools',
-  'nav.profile': 'Profile',
-  'nav.help': 'Help',
-  'nav.back_home': 'Back to Home',
+  // Emergency Assistant
+  'emergency.title': 'Emergency Assistant',
+  'emergency.description': 'Quick access to emergency numbers and procedures in France',
+  'emergency.samu': 'SAMU',
+  'emergency.samu_desc': 'Medical emergencies',
+  'emergency.samu_when': 'Life-threatening medical emergency',
+  'emergency.pompiers': 'Fire Department',
+  'emergency.pompiers_desc': 'Fire, accidents, rescues',
+  'emergency.pompiers_when': 'Fire, accident, person in danger',
+  'emergency.police': 'Police',
+  'emergency.police_desc': 'Security, theft, assault',
+  'emergency.police_when': 'Crime, theft, assault in progress',
+  'emergency.european': 'European Emergency',
+  'emergency.european_desc': 'All emergencies from mobile',
+  'emergency.european_when': 'Any emergency from mobile phone',
+  'emergency.social': 'Social Emergency',
+  'emergency.social_desc': 'Homelessness, extreme cold',
+  'emergency.social_when': 'Person in social distress',
+  'emergency.call': 'Call',
+  'emergency.info': 'Info',
+  'emergency.hide': 'Hide',
+  'emergency.advice_title': 'What to say:',
+  'emergency.advice_1': 'State the nature of the emergency clearly',
+  'emergency.advice_2': 'Give the exact location',
+  'emergency.advice_3': 'Stay calm and follow instructions',
+  'emergency.advice_4': 'Do not hang up until told to do so',
+  'emergency.vital_title': 'Important Information',
+  'emergency.vital_desc': 'Emergency calls are free from all phones. Stay on the line and follow the operator\'s instructions.',
 };
