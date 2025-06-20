@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Award, BookOpen, Flag } from "lucide-react";
+import { useI18n } from "@/hooks/useI18n";
 
 // Types de thèmes disponibles pour le test
 const THEMES = [
@@ -84,6 +84,7 @@ interface NaturalizationTestSimulatorToolProps {
 }
 
 const NaturalizationTestSimulatorTool: React.FC<NaturalizationTestSimulatorToolProps> = ({ onBack }) => {
+  const { t } = useI18n();
   const [step, setStep] = useState<"theme" | "quiz" | "result" | "history">("theme");
   const [theme, setTheme] = useState<string | null>(null);
   const [current, setCurrent] = useState(0);
@@ -149,14 +150,14 @@ const NaturalizationTestSimulatorTool: React.FC<NaturalizationTestSimulatorToolP
       <div className="space-y-6 animate-fade-in">
         <Button variant="outline" onClick={onBack}>
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Retour
+          {t('common.back')}
         </Button>
         <h1 className="text-2xl font-bold flex items-center gap-2 mt-6">
           <Award className="h-7 w-7 text-indigo-600" />
-          Simulateur Test Naturalisation
+          {t('naturalization.title')}
         </h1>
         <div className="mt-5">
-          <div className="text-gray-700 font-semibold mb-1">Choisissez un thème pour commencer :</div>
+          <div className="text-gray-700 font-semibold mb-1">{t('naturalization.choose_theme')}</div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
             {THEMES.map(t => (
               <Button key={t.id} className="flex-1 text-base" variant="default" onClick={() => startQuiz(t.id)}>
@@ -168,7 +169,7 @@ const NaturalizationTestSimulatorTool: React.FC<NaturalizationTestSimulatorToolP
         </div>
         <div className="mt-6">
           <Button size="sm" variant="outline" onClick={()=>setStep("history")} className="text-xs">
-            Voir mon historique de scores
+            {t('naturalization.view_history')}
           </Button>
         </div>
       </div>
@@ -183,11 +184,11 @@ const NaturalizationTestSimulatorTool: React.FC<NaturalizationTestSimulatorToolP
       <div className="space-y-6 animate-fade-in">
         <Button variant="outline" onClick={handleRestart}>
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Changer de thème
+          {t('naturalization.change_theme')}
         </Button>
         <div className="flex items-center gap-3 mt-4">
           <Award className="h-6 w-6 text-indigo-600" />
-          <span className="text-xl font-semibold">{THEMES.find(t=>t.id===theme)?.label} : Question {current+1}/{QUESTIONS_DB[theme].length}</span>
+          <span className="text-xl font-semibold">{THEMES.find(t=>t.id===theme)?.label} : {t('naturalization.question')} {current+1}/{QUESTIONS_DB[theme].length}</span>
         </div>
         <div className="p-4 border rounded-lg bg-indigo-50 dark:bg-indigo-950 dark:text-white text-lg font-medium">{q.question}</div>
         <div className="flex flex-col gap-2">
@@ -213,14 +214,14 @@ const NaturalizationTestSimulatorTool: React.FC<NaturalizationTestSimulatorToolP
         </div>
         {showFeedback && (
           <div className={`rounded-lg p-4 mt-2 ${selected===q.answer?"bg-green-50 text-green-800":"bg-red-50 text-red-800"}`}>
-            {selected === q.answer ? "✅ Bonne réponse !" : "❌ Mauvaise réponse."}
+            {selected === q.answer ? `✅ ${t('naturalization.correct_answer')}` : `❌ ${t('naturalization.wrong_answer')}`}
             <div className="italic mt-1 text-sm">{q.explanation}</div>
           </div>
         )}
         <div className="flex gap-2 mt-4">
           {showFeedback && (
             <Button onClick={handleNext} variant="default" className="ml-auto">
-              {current+1 < QUESTIONS_DB[theme].length ? "Question suivante" : "Voir mon score"}
+              {current+1 < QUESTIONS_DB[theme].length ? t('naturalization.next_question') : t('naturalization.see_score')}
             </Button>
           )}
         </div>
@@ -234,30 +235,30 @@ const NaturalizationTestSimulatorTool: React.FC<NaturalizationTestSimulatorToolP
     const total = QUESTIONS_DB[theme].length;
     const percent = Math.round((score/total)*100);
     let message = "";
-    if (percent===100) message="Félicitations : Vous êtes prêt ! 🇫🇷";
-    else if (percent >=80) message="Excellent ! Encore un effort et c’est parfait !";
-    else if (percent >=60) message="Bon début, continuez à vous entraîner !";
-    else message="N’abandonnez pas, la persévérance mène au succès !";
+    if (percent===100) message=t('naturalization.perfect_score');
+    else if (percent >=80) message=t('naturalization.excellent_score');
+    else if (percent >=60) message=t('naturalization.good_score');
+    else message=t('naturalization.keep_trying');
 
     return (
       <div className="space-y-6 text-center animate-fade-in">
         <h2 className="text-2xl font-bold text-indigo-700 mt-4">
-          Résultat thème {THEMES.find(t=>t.id===theme)?.label}
+          {t('naturalization.result_theme')} {THEMES.find(t=>t.id===theme)?.label}
         </h2>
         <div className="text-5xl font-bold text-indigo-800">{score} / {total}</div>
         <div className="text-lg text-gray-700 mt-2">{message}</div>
         <Button className="mt-4" variant="outline" onClick={handleRestart}>
-          Refaire le test
+          {t('naturalization.retake_test')}
         </Button>
         <Button className="mt-4 ml-2" variant="outline" onClick={()=>setStep("theme")}>
-          Choisir un autre thème
+          {t('naturalization.choose_another_theme')}
         </Button>
         <Button className="mt-4 ml-2" size="sm" variant="outline" onClick={()=>setStep("history")}>
-          Voir mon historique
+          {t('naturalization.view_my_history')}
         </Button>
         <Button className="mt-4 ml-2" size="sm" variant="outline" onClick={onBack}>
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Retour
+          {t('common.back')}
         </Button>
       </div>
     );
@@ -269,21 +270,21 @@ const NaturalizationTestSimulatorTool: React.FC<NaturalizationTestSimulatorToolP
       <div className="max-w-lg mx-auto p-4 animate-fade-in">
         <Button variant="outline" onClick={()=>setStep("theme")}>
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Retour choix du test
+          {t('naturalization.back_to_test')}
         </Button>
         <h2 className="text-xl font-bold mt-5 mb-2 flex items-center gap-2">
           <Award className="h-6 w-6 text-indigo-600" />
-          Historique Simulateur Naturalisation
+          {t('naturalization.score_history')}
         </h2>
         {history.length === 0 ? (
-          <div className="text-gray-500 py-8 text-center">Aucun test encore réalisé.</div>
+          <div className="text-gray-500 py-8 text-center">{t('naturalization.no_tests')}</div>
         ) : (
           <table className="w-full mt-3 text-sm">
             <thead>
               <tr className="text-left text-gray-700">
-                <th className="py-2">Date</th>
-                <th className="py-2">Thème</th>
-                <th className="py-2">Score</th>
+                <th className="py-2">{t('naturalization.date')}</th>
+                <th className="py-2">{t('naturalization.theme')}</th>
+                <th className="py-2">{t('naturalization.score')}</th>
               </tr>
             </thead>
             <tbody>
@@ -312,4 +313,3 @@ const NaturalizationTestSimulatorTool: React.FC<NaturalizationTestSimulatorToolP
 };
 
 export default NaturalizationTestSimulatorTool;
-

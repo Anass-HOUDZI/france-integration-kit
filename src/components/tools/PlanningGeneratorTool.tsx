@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, Calendar, CheckSquare, Plus, Trash2, Clock } from "lucide-react";
+import { useI18n } from "@/hooks/useI18n";
 
 interface PlanningGeneratorToolProps {
   userProfile: any;
@@ -19,7 +19,7 @@ type Task = {
   status: "todo" | "in_progress" | "done";
   section: string; // timeline, personal, autre
   due?: Date;
-}
+};
 
 type TimelineStep = {
   period: string;
@@ -87,9 +87,9 @@ function generateInitialTasks(): Task[] {
 }
 
 const STATUS_LABELS = {
-  todo: "À faire",
-  in_progress: "En cours",
-  done: "Terminé"
+  todo: t('planning.todo'),
+  in_progress: t('planning.in_progress'),
+  done: t('planning.completed')
 };
 
 const STATUS_COLORS = {
@@ -99,6 +99,7 @@ const STATUS_COLORS = {
 };
 
 const PlanningGeneratorTool: React.FC<PlanningGeneratorToolProps> = ({ onBack }) => {
+  const { t } = useI18n();
   const [tasks, setTasks] = useState<Task[]>(generateInitialTasks());
   const [newTaskText, setNewTaskText] = useState<string>("");
   const [selectedSection, setSelectedSection] = useState<string>(DEFAULT_TIMELINE[0].period);
@@ -154,35 +155,35 @@ const PlanningGeneratorTool: React.FC<PlanningGeneratorToolProps> = ({ onBack })
     <div className="max-w-2xl mx-auto p-6 space-y-6">
       <Button variant="outline" onClick={onBack}>
         <ArrowLeft className="mr-2 h-4 w-4" />
-        Retour
+        {t('common.back')}
       </Button>
       <h1 className="text-2xl font-bold flex items-center gap-2 mt-6">
         <Calendar className="h-7 w-7 text-gray-800" />
-        Générateur de Planning d’intégration
+        {t('planning.title')}
       </h1>
       <p className="text-gray-600 mb-2">
-        Organisez étape par étape toutes vos démarches : créez vos propres tâches ou utilisez la timeline guidée proposée.
+        {t('planning.description')}
       </p>
 
       {/* Statistiques */}
       <div className="flex gap-2">
-        <Badge className="bg-gray-200 text-gray-900">{stat.todo} à faire</Badge>
-        <Badge className="bg-blue-200 text-blue-900">{stat.in_progress} en cours</Badge>
-        <Badge className="bg-green-200 text-green-900">{stat.done} terminées</Badge>
+        <Badge className="bg-gray-200 text-gray-900">{stat.todo} {t('planning.todo')}</Badge>
+        <Badge className="bg-blue-200 text-blue-900">{stat.in_progress} {t('planning.in_progress')}</Badge>
+        <Badge className="bg-green-200 text-green-900">{stat.done} {t('planning.completed')}</Badge>
       </div>
 
       {/* Ajout de tâche personnalisée */}
       <Card>
         <CardHeader>
-          <CardTitle>Ajouter une tâche</CardTitle>
+          <CardTitle>{t('planning.add_task')}</CardTitle>
           <CardDescription>
-            Personnalisez votre planning : ajoutez ce que vous voulez suivre (<span className="text-blue-700">action administrative, appel, paiement, etc.</span>)
+            {t('planning.personalize_planning')} (<span className="text-blue-700">action administrative, appel, paiement, etc.</span>)
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col md:flex-row gap-3">
             <div className="flex-1">
-              <Label htmlFor="sectionSelect">Catégorie / étape</Label>
+              <Label htmlFor="sectionSelect">{t('planning.category_step')}</Label>
               <select
                 id="sectionSelect"
                 className="w-full mt-1 rounded-md border px-3 py-2 text-base ring-offset-background focus:ring-2 focus:ring-blue-300 mb-2"
@@ -195,12 +196,12 @@ const PlanningGeneratorTool: React.FC<PlanningGeneratorToolProps> = ({ onBack })
               </select>
             </div>
             <div className="flex-1">
-              <Label htmlFor="taskText">Nouvelle tâche</Label>
+              <Label htmlFor="taskText">{t('planning.new_task')}</Label>
               <Input
                 id="taskText"
                 value={newTaskText}
                 onChange={e => setNewTaskText(e.target.value)}
-                placeholder="Ex : Relancer la CAF"
+                placeholder={t('planning.task_placeholder')}
               />
             </div>
             <div className="flex items-end">
@@ -210,7 +211,7 @@ const PlanningGeneratorTool: React.FC<PlanningGeneratorToolProps> = ({ onBack })
                 onClick={addTask}
                 disabled={newTaskText.trim().length === 0}
               >
-                <Plus className="mr-1" /> Ajouter
+                <Plus className="mr-1" /> {t('planning.add')}
               </Button>
             </div>
           </div>
@@ -228,13 +229,13 @@ const PlanningGeneratorTool: React.FC<PlanningGeneratorToolProps> = ({ onBack })
                 ></span>
                 {sec}
               </CardTitle>
-              <CardDescription>Tâches prévues pour « {sec} »</CardDescription>
+              <CardDescription>Tâches prévues pour « {sec} »</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col gap-2">
                 {tasks.filter(t => t.section === sec).length === 0 ? (
                   <div className="text-gray-400 text-sm">
-                    Aucune tâche enregistrée pour cette période.
+                    {t('planning.no_tasks')}
                   </div>
                 ) : (
                   tasks

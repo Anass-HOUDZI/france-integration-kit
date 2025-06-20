@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Clock, Calendar, MapPin, TrendingUp, AlertTriangle } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
 
 interface DelaySimulatorToolProps {
   userProfile: any;
@@ -12,17 +12,18 @@ interface DelaySimulatorToolProps {
 }
 
 const DelaySimulatorTool: React.FC<DelaySimulatorToolProps> = ({ userProfile, diagnostic }) => {
+  const { t } = useI18n();
   const [selectedProcedure, setSelectedProcedure] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [selectedPeriod, setSelectedPeriod] = useState('');
   const [result, setResult] = useState<any>(null);
 
   const procedures = [
-    { id: 'titre_sejour', name: 'Titre de séjour', baseDelay: 60, variation: 30 },
-    { id: 'naturalisation', name: 'Naturalisation', baseDelay: 540, variation: 180 },
-    { id: 'regroupement_familial', name: 'Regroupement familial', baseDelay: 180, variation: 90 },
-    { id: 'carte_resident', name: 'Carte de résident', baseDelay: 120, variation: 60 },
-    { id: 'visa_long_sejour', name: 'Visa long séjour', baseDelay: 45, variation: 15 }
+    { id: 'titre_sejour', name: t('delay.residence_permit') || 'Titre de séjour', baseDelay: 60, variation: 30 },
+    { id: 'naturalisation', name: t('delay.naturalization') || 'Naturalisation', baseDelay: 540, variation: 180 },
+    { id: 'regroupement_familial', name: t('delay.family_reunification') || 'Regroupement familial', baseDelay: 180, variation: 90 },
+    { id: 'carte_resident', name: t('delay.resident_card') || 'Carte de résident', baseDelay: 120, variation: 60 },
+    { id: 'visa_long_sejour', name: t('delay.long_stay_visa') || 'Visa long séjour', baseDelay: 45, variation: 15 }
   ];
 
   const departments = [
@@ -88,19 +89,19 @@ const DelaySimulatorTool: React.FC<DelaySimulatorToolProps> = ({ userProfile, di
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Clock className="h-5 w-5" />
-            Simulateur de Délais Administratifs
+            {t('delay.title')}
           </CardTitle>
           <CardDescription>
-            Estimez les temps de traitement de vos démarches administratives
+            {t('delay.description')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-2">Type de démarche</label>
+              <label className="block text-sm font-medium mb-2">{t('delay.procedure_type')}</label>
               <Select value={selectedProcedure} onValueChange={setSelectedProcedure}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Choisir une démarche" />
+                  <SelectValue placeholder={t('delay.choose_procedure')} />
                 </SelectTrigger>
                 <SelectContent>
                   {procedures.map(procedure => (
@@ -113,10 +114,10 @@ const DelaySimulatorTool: React.FC<DelaySimulatorToolProps> = ({ userProfile, di
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Département</label>
+              <label className="block text-sm font-medium mb-2">{t('delay.department')}</label>
               <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Choisir un département" />
+                  <SelectValue placeholder={t('delay.choose_department')} />
                 </SelectTrigger>
                 <SelectContent>
                   {departments.map(dept => (
@@ -129,10 +130,10 @@ const DelaySimulatorTool: React.FC<DelaySimulatorToolProps> = ({ userProfile, di
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Période de dépôt</label>
+              <label className="block text-sm font-medium mb-2">{t('delay.deposit_period')}</label>
               <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Choisir une période" />
+                  <SelectValue placeholder={t('delay.choose_period')} />
                 </SelectTrigger>
                 <SelectContent>
                   {periods.map(period => (
@@ -150,7 +151,7 @@ const DelaySimulatorTool: React.FC<DelaySimulatorToolProps> = ({ userProfile, di
             disabled={!selectedProcedure || !selectedDepartment || !selectedPeriod}
             className="w-full"
           >
-            Calculer les délais
+            {t('delay.calculate_delays')}
           </Button>
         </CardContent>
       </Card>
@@ -161,7 +162,7 @@ const DelaySimulatorTool: React.FC<DelaySimulatorToolProps> = ({ userProfile, di
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Calendar className="h-5 w-5" />
-                Estimation des délais
+                {t('delay.estimation')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -169,24 +170,24 @@ const DelaySimulatorTool: React.FC<DelaySimulatorToolProps> = ({ userProfile, di
                 <div className="text-3xl font-bold text-blue-600 mb-2">
                   {formatDelay(result.avgDelay)}
                 </div>
-                <p className="text-gray-600">Délai moyen estimé</p>
+                <p className="text-gray-600">{t('delay.average_delay')}</p>
               </div>
 
               <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                 <div className="text-center">
                   <div className="font-semibold text-green-600">{formatDelay(result.minDelay)}</div>
-                  <div className="text-xs text-gray-500">Minimum</div>
+                  <div className="text-xs text-gray-500">{t('delay.minimum')}</div>
                 </div>
                 <div className="text-center">
                   <div className="font-semibold text-red-600">{formatDelay(result.maxDelay)}</div>
-                  <div className="text-xs text-gray-500">Maximum</div>
+                  <div className="text-xs text-gray-500">{t('delay.maximum')}</div>
                 </div>
               </div>
 
               <div className="p-3 bg-blue-50 rounded-lg">
                 <div className="flex items-center gap-2 mb-2">
                   <Calendar className="h-4 w-4 text-blue-600" />
-                  <span className="font-medium">Date estimée de réponse</span>
+                  <span className="font-medium">{t('delay.estimated_response_date')}</span>
                 </div>
                 <div className="text-lg font-semibold text-blue-900">
                   {result.estimatedDate.toLocaleDateString('fr-FR', {
@@ -203,7 +204,7 @@ const DelaySimulatorTool: React.FC<DelaySimulatorToolProps> = ({ userProfile, di
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <TrendingUp className="h-5 w-5" />
-                Facteurs d'influence
+                {t('delay.influence_factors')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -241,11 +242,11 @@ const DelaySimulatorTool: React.FC<DelaySimulatorToolProps> = ({ userProfile, di
                 <div className="flex items-start gap-2">
                   <AlertTriangle className="h-4 w-4 text-yellow-600 mt-0.5" />
                   <div className="text-sm">
-                    <p className="font-medium text-yellow-900">Conseils pour accélérer</p>
+                    <p className="font-medium text-yellow-900">{t('delay.acceleration_tips')}</p>
                     <ul className="text-yellow-700 mt-1 space-y-1">
-                      <li>• Préparez un dossier complet dès le premier dépôt</li>
-                      <li>• Évitez les périodes de forte affluence</li>
-                      <li>• Prenez rendez-vous le plus tôt possible</li>
+                      <li>• {t('delay.complete_file_tip') || 'Préparez un dossier complet dès le premier dépôt'}</li>
+                      <li>• {t('delay.avoid_peak_periods') || 'Évitez les périodes de forte affluence'}</li>
+                      <li>• {t('delay.book_early') || 'Prenez rendez-vous le plus tôt possible'}</li>
                     </ul>
                   </div>
                 </div>
