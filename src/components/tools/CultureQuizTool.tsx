@@ -1,8 +1,8 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Globe } from "lucide-react";
 import { useI18n } from "@/hooks/useI18n";
+import Header from '@/components/Header';
 
 interface CultureQuizToolProps {
   userProfile: any;
@@ -187,21 +187,26 @@ const CultureQuizTool: React.FC<CultureQuizToolProps> = ({ onBack }) => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6">
-      {step === "quiz" && (
-        <>
-          <Button variant="outline" onClick={onBack}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            {t('common.back')}
-          </Button>
-          <h1 className="text-2xl font-bold flex items-center gap-2 mt-6">
-            <Globe className="h-7 w-7 text-indigo-600" />
-            {t('quiz.title')}
-          </h1>
-          <QuestionBlock />
-        </>
-      )}
-      {step === "result" && <ResultBlock />}
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <Header 
+        onSelectTool={(toolId) => toolId === 'home' ? onBack() : null} 
+        showHomeButton={true}
+        currentTool="culture-quiz"
+        toolTitle={t('quiz.title')}
+      />
+      
+      <div className="max-w-2xl mx-auto p-6 space-y-6">
+        {step === "quiz" && (
+          <>
+            <h1 className="text-2xl font-bold flex items-center gap-2 mt-6">
+              <Globe className="h-7 w-7 text-indigo-600" />
+              {t('quiz.title')}
+            </h1>
+            <QuestionBlock />
+          </>
+        )}
+        {step === "result" && <ResultBlock />}
+      </div>
     </div>
   );
 };

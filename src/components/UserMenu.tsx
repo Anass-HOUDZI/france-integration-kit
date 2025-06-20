@@ -1,8 +1,8 @@
 
 import React from "react";
-import { LogOut, RefreshCcw, Download, Upload, User } from "lucide-react";
+import { RefreshCcw, Download, Upload, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { toast } from "@/hooks/use-toast";
 import { useI18n } from '@/hooks/useI18n';
 
@@ -80,21 +80,13 @@ export default function UserMenu() {
           size="icon" 
           className="rounded-xl hover:scale-105 transition-all duration-200 bg-white/80 backdrop-blur-sm border-gray-200 hover:border-blue-300 hover:bg-blue-50"
         >
-          <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
-            <User className="h-3 w-3 text-white" />
-          </div>
+          <Settings className="h-4 w-4 text-gray-600" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent 
         align="end" 
         className="w-64 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-gray-200/50 mt-2 z-50 p-2"
       >
-        <DropdownMenuLabel className="text-base font-semibold text-gray-900 dark:text-gray-100 px-3 py-2">
-          {t('user.my_account')}
-        </DropdownMenuLabel>
-        
-        <DropdownMenuSeparator className="bg-gray-200/50" />
-
         <DropdownMenuItem 
           onClick={handleRefresh}
           className="rounded-xl px-3 py-3 hover:bg-green-50 hover:text-green-700 transition-all duration-200 cursor-pointer group"
@@ -109,6 +101,8 @@ export default function UserMenu() {
             </div>
           </div>
         </DropdownMenuItem>
+
+        <DropdownMenuSeparator className="bg-gray-200/50" />
 
         <DropdownMenuItem 
           onClick={handleExport}

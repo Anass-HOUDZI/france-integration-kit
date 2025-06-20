@@ -1,15 +1,23 @@
-
 /**
  * Italian translations
  */
 import { Translations } from '../types';
 
 export const itTranslations: Translations = {
+  // User Menu (simplified)
+  'user.refresh': 'Aggiorna',
+  'user.refresh_desc': 'Ricarica la pagina',
+  'user.export': 'Esporta',
+  'user.export_desc': 'Scarica i tuoi dati',
+  'user.import': 'Importa',
+  'user.import_desc': 'Importa i tuoi dati',
+  
   // Navigation
   'nav.home': 'Home',
   'nav.tools': 'Strumenti',
   'nav.profile': 'Profilo',
   'nav.help': 'Aiuto',
+  'nav.back_home': 'Torna alla Home',
   
   // Common
   'common.save': 'Salva',
