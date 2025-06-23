@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import HomePage from '@/components/HomePage';
 import AdminModule from '@/components/modules/AdminModule';
@@ -24,6 +25,7 @@ import EmergencyAssistantTool from '@/components/tools/EmergencyAssistantTool';
 import PlanningGeneratorTool from '@/components/tools/PlanningGeneratorTool';
 import BudgetAssistantTool from '@/components/tools/BudgetAssistantTool';
 import RightsGuideTool from '@/components/tools/RightsGuideTool';
+import ReceiptGeneratorTool from '@/components/tools/ReceiptGeneratorTool';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import OnlineStatusIndicator from '@/components/OnlineStatusIndicator';
