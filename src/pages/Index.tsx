@@ -26,6 +26,7 @@ import PlanningGeneratorTool from '@/components/tools/PlanningGeneratorTool';
 import BudgetAssistantTool from '@/components/tools/BudgetAssistantTool';
 import RightsGuideTool from '@/components/tools/RightsGuideTool';
 import ReceiptGeneratorTool from '@/components/tools/ReceiptGeneratorTool';
+import DelaySimulatorTool from '@/components/tools/DelaySimulatorTool';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import OnlineStatusIndicator from '@/components/OnlineStatusIndicator';
@@ -141,6 +142,9 @@ const Index = () => {
       case 'receipt-generator':
         return <ReceiptGeneratorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
       
+      case 'delay-simulator':
+        return <DelaySimulatorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
       case 'budget-calculator':
         return <BudgetCalculator userProfile={null} diagnostic={null} />;
       
@@ -195,6 +199,8 @@ const Index = () => {
     switch (currentView) {
       case 'receipt-generator':
         return 'Générateur de Récépissés';
+      case 'delay-simulator':
+        return 'Simulateur de Délais';
       // Add other tool titles as needed
       default:
         return '';
