@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import HomePage from '@/components/HomePage';
 import AdminModule from '@/components/modules/AdminModule';
@@ -137,6 +136,9 @@ const Index = () => {
       case 'fee-calculator':
         return <FeeCalculator userProfile={null} diagnostic={null} />;
       
+      case 'receipt-generator':
+        return <ReceiptGeneratorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+      
       case 'budget-calculator':
         return <BudgetCalculator userProfile={null} diagnostic={null} />;
       
@@ -187,12 +189,24 @@ const Index = () => {
     }
   };
 
+  const getToolTitle = () => {
+    switch (currentView) {
+      case 'receipt-generator':
+        return 'Générateur de Récépissés';
+      // Add other tool titles as needed
+      default:
+        return '';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col">
       {currentView !== 'home' && (
         <Header 
           onSelectTool={(toolId) => setCurrentView(toolId as View)}
           showHomeButton={true}
+          currentTool={currentView}
+          toolTitle={getToolTitle()}
         />
       )}
       

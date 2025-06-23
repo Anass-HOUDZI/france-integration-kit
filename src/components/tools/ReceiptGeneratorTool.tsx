@@ -11,9 +11,19 @@ import { Separator } from '@/components/ui/separator';
 import { 
   Receipt, FileText, QrCode, Download, Upload, Calendar, 
   MapPin, User, Phone, Mail, CheckCircle, AlertCircle, Clock,
-  Camera, Trash2, Eye
+  Camera, Trash2, Eye, Home
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useI18n } from '@/hooks/useI18n';
+import jsPDF from 'jspdf';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 interface ReceiptData {
   id: string;
@@ -42,6 +52,7 @@ interface ReceiptGeneratorToolProps {
 
 const ReceiptGeneratorTool: React.FC<ReceiptGeneratorToolProps> = ({ userProfile, diagnostic, onBack }) => {
   const { toast } = useToast();
+  const { t } = useI18n();
   const [activeTab, setActiveTab] = useState<'create' | 'history' | 'track'>('create');
   const [receipts, setReceipts] = useState<ReceiptData[]>([]);
   const [currentReceipt, setCurrentReceipt] = useState<Partial<ReceiptData>>({
@@ -56,6 +67,7 @@ const ReceiptGeneratorTool: React.FC<ReceiptGeneratorToolProps> = ({ userProfile
     status: 'deposited'
   });
   const [trackingId, setTrackingId] = useState('');
+  const [newDocumentName, setNewDocumentName] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const procedureTypes = [
@@ -97,15 +109,13 @@ const ReceiptGeneratorTool: React.FC<ReceiptGeneratorToolProps> = ({ userProfile
   const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
-      const newPhotos: string[] = [];
       Array.from(files).forEach(file => {
         const reader = new FileReader();
         reader.onload = (e) => {
           if (e.target?.result) {
-            newPhotos.push(e.target.result as string);
             setCurrentReceipt(prev => ({
               ...prev,
-              photos: [...(prev.photos || []), ...newPhotos]
+              photos: [...(prev.photos || []), e.target!.result as string]
             }));
           }
         };
@@ -114,12 +124,13 @@ const ReceiptGeneratorTool: React.FC<ReceiptGeneratorToolProps> = ({ userProfile
     }
   };
 
-  const addDocument = (document: string) => {
-    if (document.trim()) {
+  const addDocument = () => {
+    if (newDocumentName.trim()) {
       setCurrentReceipt(prev => ({
         ...prev,
-        documents: [...(prev.documents || []), document]
+        documents: [...(prev.documents || []), newDocumentName.trim()]
       }));
+      setNewDocumentName('');
     }
   };
 
@@ -130,11 +141,18 @@ const ReceiptGeneratorTool: React.FC<ReceiptGeneratorToolProps> = ({ userProfile
     }));
   };
 
+  const removePhoto = (index: number) => {
+    setCurrentReceipt(prev => ({
+      ...prev,
+      photos: prev.photos?.filter((_, i) => i !== index) || []
+    }));
+  };
+
   const generateReceipt = () => {
     if (!currentReceipt.applicantName || !currentReceipt.procedureType || !currentReceipt.organization) {
       toast({
-        title: "Erreur",
-        description: "Veuillez remplir tous les champs obligatoires",
+        title: t('common.error'),
+        description: t('receipt.fill_required'),
         variant: "destructive",
       });
       return;
@@ -167,8 +185,8 @@ const ReceiptGeneratorTool: React.FC<ReceiptGeneratorToolProps> = ({ userProfile
     localStorage.setItem('generated_receipts', JSON.stringify(savedReceipts));
 
     toast({
-      title: "Récépissé généré",
-      description: `Numéro: ${receiptNumber}`,
+      title: t('receipt.generated_success'),
+      description: `${t('receipt.number')}: ${receiptNumber}`,
     });
 
     // Réinitialiser le formulaire
@@ -188,46 +206,47 @@ const ReceiptGeneratorTool: React.FC<ReceiptGeneratorToolProps> = ({ userProfile
   };
 
   const downloadReceiptPDF = (receipt: ReceiptData) => {
-    // Simuler la génération d'un PDF
-    const receiptContent = `
-RÉCÉPISSÉ DE DÉPÔT DE DOSSIER
+    const doc = new jsPDF();
+    
+    // Configuration du PDF
+    doc.setFontSize(20);
+    doc.text('RÉCÉPISSÉ DE DÉPÔT DE DOSSIER', 20, 30);
+    
+    doc.setFontSize(12);
+    doc.text(`Numéro: ${receipt.receiptNumber}`, 20, 50);
+    doc.text(`Date: ${receipt.date} à ${receipt.time}`, 20, 60);
+    
+    doc.text('DEMANDEUR:', 20, 80);
+    doc.text(receipt.applicantName, 20, 90);
+    if (receipt.applicantEmail) doc.text(receipt.applicantEmail, 20, 100);
+    if (receipt.applicantPhone) doc.text(receipt.applicantPhone, 20, 110);
+    
+    doc.text('DÉMARCHE:', 20, 130);
+    doc.text(`Type: ${receipt.procedureType}`, 20, 140);
+    doc.text(`Organisme: ${receipt.organization}`, 20, 150);
+    if (receipt.location) doc.text(`Lieu: ${receipt.location}`, 20, 160);
+    
+    doc.text('DOCUMENTS DÉPOSÉS:', 20, 180);
+    receipt.documents.forEach((doc_name, index) => {
+      doc.text(`- ${doc_name}`, 20, 190 + (index * 10));
+    });
+    
+    if (receipt.notes) {
+      const notesY = 190 + (receipt.documents.length * 10) + 20;
+      doc.text('NOTES:', 20, notesY);
+      doc.text(receipt.notes, 20, notesY + 10);
+    }
+    
+    const footerY = 250;
+    doc.text('Ce récépissé atteste du dépôt de votre dossier.', 20, footerY);
+    doc.text('Conservez-le précieusement.', 20, footerY + 10);
+    doc.text(`QR Code: ${receipt.qrCode}`, 20, footerY + 20);
 
-Numéro: ${receipt.receiptNumber}
-Date: ${receipt.date} à ${receipt.time}
-
-DEMANDEUR:
-${receipt.applicantName}
-${receipt.applicantEmail}
-${receipt.applicantPhone}
-
-DÉMARCHE:
-Type: ${receipt.procedureType}
-Organisme: ${receipt.organization}
-Lieu: ${receipt.location}
-
-DOCUMENTS DÉPOSÉS:
-${receipt.documents.map(doc => `- ${doc}`).join('\n')}
-
-NOTES:
-${receipt.notes}
-
-QR Code: ${receipt.qrCode}
-
-Ce récépissé atteste du dépôt de votre dossier.
-Conservez-le précieusement.
-    `;
-
-    const blob = new Blob([receiptContent], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `recepisse_${receipt.receiptNumber}.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
+    doc.save(`recepisse_${receipt.receiptNumber}.pdf`);
 
     toast({
-      title: "Téléchargement",
-      description: "Récépissé téléchargé avec succès",
+      title: t('receipt.download_success'),
+      description: t('receipt.download_desc'),
     });
   };
 
@@ -235,13 +254,13 @@ Conservez-le précieusement.
     const receipt = receipts.find(r => r.receiptNumber === trackingId);
     if (receipt) {
       toast({
-        title: "Dossier trouvé",
-        description: `Status: ${receipt.status}`,
+        title: t('receipt.file_found'),
+        description: `${t('receipt.status')}: ${getStatusLabel(receipt.status)}`,
       });
     } else {
       toast({
-        title: "Dossier non trouvé",
-        description: "Vérifiez le numéro de récépissé",
+        title: t('receipt.file_not_found'),
+        description: t('receipt.check_number'),
         variant: "destructive",
       });
     }
@@ -265,11 +284,11 @@ Conservez-le précieusement.
 
   const getStatusLabel = (status: string) => {
     switch (status) {
-      case 'deposited': return 'Déposé';
-      case 'in_progress': return 'En cours';
-      case 'completed': return 'Terminé';
-      case 'rejected': return 'Rejeté';
-      default: return 'Inconnu';
+      case 'deposited': return t('status.deposited');
+      case 'in_progress': return t('status.in_progress');
+      case 'completed': return t('status.completed');
+      case 'rejected': return t('status.rejected');
+      default: return status;
     }
   };
 
@@ -280,39 +299,66 @@ Conservez-le précieusement.
         onClick={() => setActiveTab('create')}
       >
         <FileText className="mr-2 h-4 w-4" />
-        Créer
+        {t('receipt.create')}
       </Button>
       <Button 
         variant={activeTab === 'history' ? 'default' : 'outline'} 
         onClick={() => setActiveTab('history')}
       >
         <Receipt className="mr-2 h-4 w-4" />
-        Historique
+        {t('receipt.history')}
       </Button>
       <Button 
         variant={activeTab === 'track' ? 'default' : 'outline'} 
         onClick={() => setActiveTab('track')}
       >
         <QrCode className="mr-2 h-4 w-4" />
-        Suivi
+        {t('receipt.track')}
       </Button>
+    </div>
+  );
+
+  const headerSection = (
+    <div>
+      <div className="flex items-center gap-4 mb-6">
+        {onBack && (
+          <Button variant="ghost" onClick={onBack} className="text-blue-600 hover:bg-blue-50">
+            <Home className="h-4 w-4 mr-2" />
+            {t('nav.back_home')}
+          </Button>
+        )}
+        <div className="flex items-center gap-2">
+          <Receipt className="h-6 w-6 text-blue-600" />
+          <h1 className="text-2xl font-bold text-gray-900">{t('receipt.title')}</h1>
+        </div>
+      </div>
+
+      <div className="mb-6">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink 
+                href="#" 
+                onClick={onBack}
+                className="text-blue-600 hover:text-blue-800"
+              >
+                {t('nav.home')}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{t('receipt.title')}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
     </div>
   );
 
   if (activeTab === 'create') {
     return (
       <div className="max-w-4xl mx-auto p-6 space-y-6">
-        <div className="flex items-center gap-4 mb-6">
-          {onBack && (
-            <Button variant="ghost" onClick={onBack}>
-              ← Retour
-            </Button>
-          )}
-          <div className="flex items-center gap-2">
-            <Receipt className="h-6 w-6 text-blue-600" />
-            <h1 className="text-2xl font-bold text-gray-900">Générateur de Récépissés</h1>
-          </div>
-        </div>
+        {headerSection}
 
         {renderNavButtons()}
 
@@ -320,10 +366,10 @@ Conservez-le précieusement.
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="h-5 w-5" />
-              Nouveau Récépissé
+              {t('receipt.new_receipt')}
             </CardTitle>
             <CardDescription>
-              Créez un récépissé pour votre dépôt de dossier administratif
+              {t('receipt.new_receipt_desc')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -331,11 +377,11 @@ Conservez-le précieusement.
             <div className="space-y-4">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <User className="h-5 w-5" />
-                Informations du demandeur
+                {t('receipt.applicant_info')}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="applicantName">Nom complet *</Label>
+                  <Label htmlFor="applicantName">{t('receipt.full_name')} *</Label>
                   <Input
                     id="applicantName"
                     value={currentReceipt.applicantName || ''}
@@ -344,7 +390,7 @@ Conservez-le précieusement.
                   />
                 </div>
                 <div>
-                  <Label htmlFor="applicantEmail">Email</Label>
+                  <Label htmlFor="applicantEmail">{t('receipt.email')}</Label>
                   <Input
                     id="applicantEmail"
                     type="email"
@@ -354,7 +400,7 @@ Conservez-le précieusement.
                   />
                 </div>
                 <div>
-                  <Label htmlFor="applicantPhone">Téléphone</Label>
+                  <Label htmlFor="applicantPhone">{t('receipt.phone')}</Label>
                   <Input
                     id="applicantPhone"
                     value={currentReceipt.applicantPhone || ''}
@@ -363,7 +409,7 @@ Conservez-le précieusement.
                   />
                 </div>
                 <div>
-                  <Label htmlFor="date">Date de dépôt</Label>
+                  <Label htmlFor="date">{t('receipt.deposit_date')}</Label>
                   <Input
                     id="date"
                     type="date"
@@ -380,11 +426,11 @@ Conservez-le précieusement.
             <div className="space-y-4">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <FileText className="h-5 w-5" />
-                Démarche administrative
+                {t('receipt.procedure_info')}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="procedureType">Type de démarche *</Label>
+                  <Label htmlFor="procedureType">{t('receipt.procedure_type')} *</Label>
                   <Select value={currentReceipt.procedureType || ''} onValueChange={(value) => setCurrentReceipt(prev => ({ ...prev, procedureType: value }))}>
                     <SelectTrigger>
                       <SelectValue placeholder="Sélectionnez une démarche" />
@@ -397,7 +443,7 @@ Conservez-le précieusement.
                   </Select>
                 </div>
                 <div>
-                  <Label htmlFor="organization">Organisme *</Label>
+                  <Label htmlFor="organization">{t('receipt.organization')} *</Label>
                   <Select value={currentReceipt.organization || ''} onValueChange={(value) => setCurrentReceipt(prev => ({ ...prev, organization: value }))}>
                     <SelectTrigger>
                       <SelectValue placeholder="Sélectionnez un organisme" />
@@ -410,7 +456,7 @@ Conservez-le précieusement.
                   </Select>
                 </div>
                 <div className="md:col-span-2">
-                  <Label htmlFor="location">Lieu (adresse complète)</Label>
+                  <Label htmlFor="location">{t('receipt.location')}</Label>
                   <Input
                     id="location"
                     value={currentReceipt.location || ''}
@@ -427,31 +473,22 @@ Conservez-le précieusement.
             <div className="space-y-4">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <FileText className="h-5 w-5" />
-                Documents déposés
+                {t('receipt.documents_deposited')}
               </h3>
               <div className="space-y-2">
                 <div className="flex gap-2">
                   <Input
-                    placeholder="Nom du document"
+                    placeholder={t('receipt.document_name')}
+                    value={newDocumentName}
+                    onChange={(e) => setNewDocumentName(e.target.value)}
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
-                        const target = e.target as HTMLInputElement;
-                        addDocument(target.value);
-                        target.value = '';
+                        addDocument();
                       }
                     }}
                   />
-                  <Button 
-                    type="button"
-                    onClick={(e) => {
-                      const input = (e.target as HTMLElement).parentElement?.querySelector('input') as HTMLInputElement;
-                      if (input) {
-                        addDocument(input.value);
-                        input.value = '';
-                      }
-                    }}
-                  >
-                    Ajouter
+                  <Button type="button" onClick={addDocument}>
+                    {t('receipt.add_document')}
                   </Button>
                 </div>
                 <div className="space-y-2">
@@ -477,7 +514,7 @@ Conservez-le précieusement.
             <div className="space-y-4">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 <Camera className="h-5 w-5" />
-                Photos des documents
+                {t('receipt.document_photos')}
               </h3>
               <div className="space-y-2">
                 <input
@@ -494,7 +531,7 @@ Conservez-le précieusement.
                   onClick={() => fileInputRef.current?.click()}
                 >
                   <Upload className="mr-2 h-4 w-4" />
-                  Ajouter des photos
+                  {t('receipt.add_photos')}
                 </Button>
                 {currentReceipt.photos && currentReceipt.photos.length > 0 && (
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -505,6 +542,14 @@ Conservez-le précieusement.
                           alt={`Document ${index + 1}`}
                           className="w-full h-20 object-cover rounded border"
                         />
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          className="absolute top-1 right-1 h-6 w-6 p-0"
+                          onClick={() => removePhoto(index)}
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
                       </div>
                     ))}
                   </div>
@@ -516,7 +561,7 @@ Conservez-le précieusement.
 
             {/* Notes */}
             <div className="space-y-4">
-              <Label htmlFor="notes">Notes additionnelles</Label>
+              <Label htmlFor="notes">{t('receipt.additional_notes')}</Label>
               <Textarea
                 id="notes"
                 value={currentReceipt.notes || ''}
@@ -529,7 +574,7 @@ Conservez-le précieusement.
             <div className="flex justify-end">
               <Button onClick={generateReceipt} className="bg-blue-600 hover:bg-blue-700">
                 <Receipt className="mr-2 h-4 w-4" />
-                Générer le récépissé
+                {t('receipt.generate_receipt')}
               </Button>
             </div>
           </CardContent>
@@ -541,17 +586,7 @@ Conservez-le précieusement.
   if (activeTab === 'history') {
     return (
       <div className="max-w-6xl mx-auto p-6 space-y-6">
-        <div className="flex items-center gap-4 mb-6">
-          {onBack && (
-            <Button variant="ghost" onClick={onBack}>
-              ← Retour
-            </Button>
-          )}
-          <div className="flex items-center gap-2">
-            <Receipt className="h-6 w-6 text-blue-600" />
-            <h1 className="text-2xl font-bold text-gray-900">Historique des Récépissés</h1>
-          </div>
-        </div>
+        {headerSection}
 
         {renderNavButtons()}
 
@@ -559,10 +594,10 @@ Conservez-le précieusement.
           <Card>
             <CardContent className="p-8 text-center">
               <Receipt className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Aucun récépissé</h3>
-              <p className="text-gray-600 mb-4">Vous n'avez encore créé aucun récépissé.</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{t('receipt.no_receipts')}</h3>
+              <p className="text-gray-600 mb-4">{t('receipt.no_receipts_desc')}</p>
               <Button onClick={() => setActiveTab('create')}>
-                Créer mon premier récépissé
+                {t('receipt.create_first')}
               </Button>
             </CardContent>
           </Card>
@@ -600,8 +635,8 @@ Conservez-le précieusement.
                         onClick={() => {
                           navigator.clipboard.writeText(receipt.qrCode);
                           toast({
-                            title: "Lien copié",
-                            description: "Le lien de suivi a été copié dans le presse-papiers",
+                            title: t('receipt.link_copied'),
+                            description: t('receipt.link_copied_desc'),
                           });
                         }}
                       >
@@ -613,17 +648,17 @@ Conservez-le précieusement.
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                     <div>
-                      <p className="font-medium text-gray-700">Demandeur</p>
+                      <p className="font-medium text-gray-700">{t('receipt.applicant')}</p>
                       <p>{receipt.applicantName}</p>
                       {receipt.applicantEmail && <p>{receipt.applicantEmail}</p>}
                     </div>
                     <div>
-                      <p className="font-medium text-gray-700">Lieu</p>
+                      <p className="font-medium text-gray-700">{t('receipt.place')}</p>
                       <p>{receipt.location || receipt.organization}</p>
                     </div>
                     <div>
                       <p className="font-medium text-gray-700">Documents</p>
-                      <p>{receipt.documents.length} document(s)</p>
+                      <p>{receipt.documents.length} {t('receipt.documents_count')}</p>
                     </div>
                   </div>
 
@@ -644,17 +679,7 @@ Conservez-le précieusement.
   if (activeTab === 'track') {
     return (
       <div className="max-w-2xl mx-auto p-6 space-y-6">
-        <div className="flex items-center gap-4 mb-6">
-          {onBack && (
-            <Button variant="ghost" onClick={onBack}>
-              ← Retour
-            </Button>
-          )}
-          <div className="flex items-center gap-2">
-            <QrCode className="h-6 w-6 text-blue-600" />
-            <h1 className="text-2xl font-bold text-gray-900">Suivi de Dossier</h1>
-          </div>
-        </div>
+        {headerSection}
 
         {renderNavButtons()}
 
@@ -662,10 +687,10 @@ Conservez-le précieusement.
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <QrCode className="h-5 w-5" />
-              Suivre un dossier
+              {t('receipt.track_file')}
             </CardTitle>
             <CardDescription>
-              Entrez le numéro de récépissé pour suivre l'état de votre dossier
+              {t('receipt.track_desc')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -677,7 +702,7 @@ Conservez-le précieusement.
               />
               <Button onClick={trackReceipt}>
                 <Eye className="mr-2 h-4 w-4" />
-                Suivre
+                {t('receipt.track_button')}
               </Button>
             </div>
 
@@ -695,9 +720,9 @@ Conservez-le précieusement.
                           <span className="font-semibold">{getStatusLabel(receipt.status)}</span>
                         </div>
                         <div className="space-y-2 text-sm">
-                          <p><span className="font-medium">Démarche:</span> {receipt.procedureType}</p>
-                          <p><span className="font-medium">Organisme:</span> {receipt.organization}</p>
-                          <p><span className="font-medium">Date de dépôt:</span> {receipt.date}</p>
+                          <p><span className="font-medium">{t('receipt.procedure')}:</span> {receipt.procedureType}</p>
+                          <p><span className="font-medium">{t('receipt.organization')}:</span> {receipt.organization}</p>
+                          <p><span className="font-medium">{t('receipt.deposit_date_label')}:</span> {receipt.date}</p>
                         </div>
                       </CardContent>
                     </Card>
