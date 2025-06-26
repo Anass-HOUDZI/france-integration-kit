@@ -636,7 +636,7 @@ const UnemploymentSimulatorTool: React.FC<UnemploymentSimulatorProps> = ({ userP
                     <Checkbox 
                       id="handicapped" 
                       checked={workSituation.isHandicapped}
-                      onCheckedChange={(checked) => setWorkSituation({...workSituation, isHandicapped: Boolean(checked)})}
+                      onCheckedChange={(checked) => setWorkSituation({...workSituation, isHandicapped: checked === true})}
                     />
                     <Label htmlFor="handicapped">Reconnaissance travailleur handicapé</Label>
                   </div>
@@ -645,7 +645,7 @@ const UnemploymentSimulatorTool: React.FC<UnemploymentSimulatorProps> = ({ userP
                     <Checkbox 
                       id="spouseWorking" 
                       checked={familySituation.spouseWorking}
-                      onCheckedChange={(checked) => setFamilySituation({...familySituation, spouseWorking: Boolean(checked)})}
+                      onCheckedChange={(checked) => setFamilySituation({...familySituation, spouseWorking: checked === true})}
                     />
                     <Label htmlFor="spouseWorking">Conjoint en activité</Label>
                   </div>
