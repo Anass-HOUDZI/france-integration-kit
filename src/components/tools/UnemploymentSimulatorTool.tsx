@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -637,7 +636,7 @@ const UnemploymentSimulatorTool: React.FC<UnemploymentSimulatorProps> = ({ userP
                     <Checkbox 
                       id="handicapped" 
                       checked={workSituation.isHandicapped}
-                      onCheckedChange={(checked) => setWorkSituation({...workSituation, isHandicapped: checked === true})}
+                      onCheckedChange={(checked) => setWorkSituation({...workSituation, isHandicapped: Boolean(checked)})}
                     />
                     <Label htmlFor="handicapped">Reconnaissance travailleur handicapé</Label>
                   </div>
@@ -646,7 +645,7 @@ const UnemploymentSimulatorTool: React.FC<UnemploymentSimulatorProps> = ({ userP
                     <Checkbox 
                       id="spouseWorking" 
                       checked={familySituation.spouseWorking}
-                      onCheckedChange={(checked) => setFamilySituation({...familySituation, spouseWorking: checked === true})}
+                      onCheckedChange={(checked) => setFamilySituation({...familySituation, spouseWorking: Boolean(checked)})}
                     />
                     <Label htmlFor="spouseWorking">Conjoint en activité</Label>
                   </div>
