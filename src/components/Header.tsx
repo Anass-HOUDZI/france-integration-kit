@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Menu, X, Home, ArrowLeft } from 'lucide-react';
+import { Menu, X, Home, ArrowLeft, Sparkles } from 'lucide-react';
 import { LanguageSelector } from '@/components/LanguageSelector';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import UserMenu from '@/components/UserMenu';
@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({
               <Button 
                 variant="ghost" 
                 onClick={() => onSelectTool && onSelectTool('home')} 
-                className="flex items-center gap-2 text-blue-600 hover:bg-blue-50 flex-shrink-0 px-2 sm:px-3"
+                className="flex items-center gap-2 text-purple-600 hover:bg-purple-50 flex-shrink-0 px-2 sm:px-3"
               >
                 <Home className="h-4 w-4" />
                 {!isMobile && <span className="text-sm font-medium">{t('nav.back_home')}</span>}
@@ -62,14 +62,14 @@ const Header: React.FC<HeaderProps> = ({
             {/* Logo */}
             <button 
               onClick={() => onSelectTool && onSelectTool('home')} 
-              className="flex items-center gap-2 sm:gap-3 font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 flex-shrink-0"
+              className="flex items-center gap-2 sm:gap-3 font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 flex-shrink-0"
             >
-              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg sm:rounded-xl flex items-center justify-center text-white font-bold text-xs sm:text-sm shadow-lg">
-                🇫🇷
+              <div className="w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg sm:rounded-xl flex items-center justify-center text-white font-bold text-xs sm:text-sm shadow-lg">
+                <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
               </div>
               {!isMobile && (
                 <span className="hidden sm:block text-lg sm:text-xl truncate">
-                  IntégrationFrance.org
+                  IntégraTech Suite
                 </span>
               )}
             </button>
@@ -105,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({
                   <BreadcrumbLink 
                     href="#" 
                     onClick={() => onSelectTool && onSelectTool('home')}
-                    className="text-blue-600 hover:text-blue-800"
+                    className="text-purple-600 hover:text-purple-800"
                   >
                     {t('nav.home')}
                   </BreadcrumbLink>
