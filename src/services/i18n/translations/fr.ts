@@ -1,4 +1,3 @@
-
 /**
  * Traductions françaises
  */
@@ -57,6 +56,20 @@ export const frTranslations: Translations = {
   'common.basic': 'Basique',
   'common.popular': 'Populaire',
   'common.use_tool': 'Utiliser l\'outil',
+  
+  // Planning Generator
+  'planning.title': 'Générateur de Planning',
+  'planning.description': 'Organisez toutes vos démarches administratives avec un planning personnalisé',
+  'planning.todo': 'À faire',
+  'planning.in_progress': 'En cours',
+  'planning.completed': 'Terminé',
+  'planning.add_task': 'Ajouter une tâche',
+  'planning.personalize_planning': 'Personnalisez votre planning',
+  'planning.category_step': 'Catégorie/Étape',
+  'planning.new_task': 'Nouvelle tâche',
+  'planning.task_placeholder': 'Ex: Appeler la préfecture',
+  'planning.add': 'Ajouter',
+  'planning.no_tasks': 'Aucune tâche pour cette période',
   
   // Homepage
   'home.title': 'Outils d\'Intégration',

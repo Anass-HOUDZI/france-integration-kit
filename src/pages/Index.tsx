@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import HomePage from '@/components/HomePage';
 import AdminModule from '@/components/modules/AdminModule';
 import LogementModule from '@/components/modules/LogementModule';
@@ -27,46 +27,17 @@ import BudgetAssistantTool from '@/components/tools/BudgetAssistantTool';
 import RightsGuideTool from '@/components/tools/RightsGuideTool';
 import ReceiptGeneratorTool from '@/components/tools/ReceiptGeneratorTool';
 import DelaySimulatorTool from '@/components/tools/DelaySimulatorTool';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import OnlineStatusIndicator from '@/components/OnlineStatusIndicator';
-
-type View = 
-  | 'home'
-  | 'admin'
-  | 'logement'
-  | 'emploi'
-  | 'sante'
-  | 'education'
-  | 'culture'
-  | 'transversal'
-  | 'letter-generator'
-  | 'fee-calculator'
-  | 'receipt-generator'
-  | 'delay-simulator'
-  | 'budget-calculator'
-  | 'cv-translator'
-  | 'social-security-guide'
-  | 'social-services-locator'
-  | 'family-allowances-calculator'
-  | 'education-costs-calculator'
-  | 'culture-quiz'
-  | 'traditions-guide'
-  | 'french-learning-assistant'
-  | 'naturalization-simulator'
-  | 'french-expressions-translator'
-  | 'emergency-assistant'
-  | 'planning-generator'
-  | 'family-budget-assistant'
-  | 'rights-guide';
+import AppLayout from '@/components/layout/AppLayout';
+import ErrorBoundary from '@/components/common/ErrorBoundary';
+import { useToolNavigation } from '@/hooks/useToolNavigation';
 
 const Index = () => {
-  const [currentView, setCurrentView] = useState<View>('home');
+  const { currentView, navigateToTool, navigateHome } = useToolNavigation();
 
   const renderContent = () => {
     switch (currentView) {
       case 'home':
-        return <HomePage onSelectTool={(toolId) => setCurrentView(toolId as View)} />;
+        return <HomePage onSelectTool={navigateToTool} />;
       
       // Module views
       case 'admin':
@@ -74,7 +45,7 @@ const Index = () => {
           <AdminModule 
             userProfile={null}
             diagnostic={null}
-            onBack={() => setCurrentView('home')}
+            onBack={navigateHome}
           />
         );
       
@@ -83,7 +54,7 @@ const Index = () => {
           <LogementModule 
             userProfile={null}
             diagnostic={null}
-            onBack={() => setCurrentView('home')}
+            onBack={navigateHome}
           />
         );
       
@@ -92,7 +63,7 @@ const Index = () => {
           <EmploiModule 
             userProfile={null}
             diagnostic={null}
-            onBack={() => setCurrentView('home')}
+            onBack={navigateHome}
           />
         );
       
@@ -101,7 +72,7 @@ const Index = () => {
           <SanteModule 
             userProfile={null}
             diagnostic={null}
-            onBack={() => setCurrentView('home')}
+            onBack={navigateHome}
           />
         );
       
@@ -110,7 +81,7 @@ const Index = () => {
           <EducationModule 
             userProfile={null}
             diagnostic={null}
-            onBack={() => setCurrentView('home')}
+            onBack={navigateHome}
           />
         );
       
@@ -119,7 +90,7 @@ const Index = () => {
           <CultureModule 
             userProfile={null}
             diagnostic={null}
-            onBack={() => setCurrentView('home')}
+            onBack={navigateHome}
           />
         );
       
@@ -128,7 +99,7 @@ const Index = () => {
           <TransversalModule 
             userProfile={null}
             diagnostic={null}
-            onBack={() => setCurrentView('home')}
+            onBack={navigateHome}
           />
         );
 
@@ -140,10 +111,10 @@ const Index = () => {
         return <FeeCalculator userProfile={null} diagnostic={null} />;
       
       case 'receipt-generator':
-        return <ReceiptGeneratorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <ReceiptGeneratorTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'delay-simulator':
-        return <DelaySimulatorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <DelaySimulatorTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'budget-calculator':
         return <BudgetCalculator userProfile={null} diagnostic={null} />;
@@ -152,80 +123,59 @@ const Index = () => {
         return <CVTranslator userProfile={null} diagnostic={null} />;
       
       case 'social-security-guide':
-        return <SocialSecurityGuideTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <SocialSecurityGuideTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'social-services-locator':
-        return <SocialServicesLocatorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <SocialServicesLocatorTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'family-allowances-calculator':
-        return <FamilyAllowancesTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <FamilyAllowancesTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'education-costs-calculator':
-        return <EducationCostsTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <EducationCostsTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'culture-quiz':
-        return <CultureQuizTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <CultureQuizTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'traditions-guide':
-        return <TraditionsGuideTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <TraditionsGuideTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'french-learning-assistant':
-        return <FrenchLearningAssistantTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <FrenchLearningAssistantTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'naturalization-simulator':
-        return <NaturalizationTestSimulatorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <NaturalizationTestSimulatorTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'french-expressions-translator':
-        return <ExpressionsTranslatorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <ExpressionsTranslatorTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'emergency-assistant':
-        return <EmergencyAssistantTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <EmergencyAssistantTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'planning-generator':
-        return <PlanningGeneratorTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <PlanningGeneratorTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'family-budget-assistant':
-        return <BudgetAssistantTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <BudgetAssistantTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'rights-guide':
-        return <RightsGuideTool userProfile={null} diagnostic={null} onBack={() => setCurrentView('home')} />;
+        return <RightsGuideTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       default:
-        return <HomePage onSelectTool={(toolId) => setCurrentView(toolId as View)} />;
-    }
-  };
-
-  const getToolTitle = () => {
-    switch (currentView) {
-      case 'receipt-generator':
-        return 'Générateur de Récépissés';
-      case 'delay-simulator':
-        return 'Simulateur de Délais';
-      // Add other tool titles as needed
-      default:
-        return '';
+        return <HomePage onSelectTool={navigateToTool} />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col">
-      {currentView !== 'home' && (
-        <Header 
-          onSelectTool={(toolId) => setCurrentView(toolId as View)}
-          showHomeButton={true}
-          currentTool={currentView}
-          toolTitle={getToolTitle()}
-        />
-      )}
-      
-      <main className="flex-1 relative">
+    <ErrorBoundary>
+      <AppLayout 
+        currentView={currentView}
+        onSelectTool={navigateToTool}
+        showHeader={currentView !== 'home'}
+      >
         {renderContent()}
-      </main>
-      
-      <div id="notifications" className="fixed top-4 right-4 z-50" />
-      <OnlineStatusIndicator />
-      <Footer />
-    </div>
+      </AppLayout>
+    </ErrorBoundary>
   );
 };
 
