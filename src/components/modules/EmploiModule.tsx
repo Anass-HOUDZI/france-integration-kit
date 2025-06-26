@@ -13,21 +13,21 @@ interface EmploiModuleProps {
 }
 
 const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, onBack }) => {
-  const [activeTab, setActiveTab] = useState('overview');
+  const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const tools = useEmploymentTools();
 
-  // Trouver l'outil actif
-  const activeTool = tools.find(t => t.id === activeTab);
+  // Trouver l'outil sélectionné
+  const activeTool = selectedTool ? tools.find(t => t.id === selectedTool) : null;
 
-  // Si un outil est sélectionné et qu'il a un composant, l'afficher
+  // Si un outil est sélectionné et actif, l'afficher
   if (activeTool && activeTool.component && activeTool.status === 'active') {
     const ToolComponent = activeTool.component;
     return (
-      <div>
+      <div className="max-w-7xl mx-auto p-6">
         <div className="flex items-center gap-4 mb-6">
           <Button 
             variant="ghost" 
-            onClick={() => setActiveTab('overview')}
+            onClick={() => setSelectedTool(null)}
             className="text-purple-600 hover:bg-purple-50"
           >
             ← Retour aux outils
@@ -42,13 +42,13 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
     );
   }
 
-  // Afficher la vue d'ensemble avec tous les outils
+  // Afficher la vue d'ensemble
   const recommendations = userProfile?.title 
     ? `En tant que ${userProfile.title}, nous recommandons de commencer par l'adaptation de votre CV puis la simulation de votre salaire net et vos droits Pôle Emploi.`
     : 'Commencez par l\'adaptation de votre CV puis explorez les outils de simulation salariale et de droits Pôle Emploi.';
 
   return (
-    <div>
+    <div className="max-w-7xl mx-auto p-6">
       <ModuleHeader
         title="Emploi & Formation"
         description={`${tools.length} outils IA pour votre carrière en France`}
@@ -65,7 +65,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
           <ToolCard 
             key={tool.id}
             tool={tool}
-            onToolClick={setActiveTab}
+            onToolClick={setSelectedTool}
           />
         ))}
       </div>

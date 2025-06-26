@@ -30,34 +30,39 @@ export type View =
   | 'family-budget-assistant'
   | 'rights-guide'
   | 'medical-translator'
-  | 'salary_calculator'
-  | 'unemployment_simulator'
+  | 'cv_translator'
+  | 'salaryCalculator'
+  | 'unemploymentSimulator'
   | 'motivation_letter'
   | 'interview_assistant'
-  | 'diploma_equivalence'
-  | 'salaryCalculator'
-  | 'unemploymentSimulator';
+  | 'diploma_equivalence';
 
 export function useToolNavigation() {
   const [currentView, setCurrentView] = useState<View>('home');
 
   const navigateToTool = useCallback((toolId: string) => {
-    // Gérer les outils du module emploi
+    // Convertir les anciens IDs vers les nouveaux si nécessaire
+    const toolMapping: { [key: string]: string } = {
+      'salary_calculator': 'salaryCalculator',
+      'unemployment_simulator': 'unemploymentSimulator'
+    };
+    
+    const mappedToolId = toolMapping[toolId] || toolId;
+    
+    // Outils du module emploi
     const employmentTools = [
-      'cv_translator', 
-      'salary_calculator', 
-      'unemployment_simulator', 
-      'motivation_letter', 
-      'interview_assistant', 
-      'diploma_equivalence',
-      'salaryCalculator',
-      'unemploymentSimulator'
+      'cv_translator',
+      'salaryCalculator', 
+      'unemploymentSimulator',
+      'motivation_letter',
+      'interview_assistant',
+      'diploma_equivalence'
     ];
     
-    if (employmentTools.includes(toolId)) {
+    if (employmentTools.includes(mappedToolId)) {
       setCurrentView('emploi');
     } else {
-      setCurrentView(toolId as View);
+      setCurrentView(mappedToolId as View);
     }
   }, []);
 
