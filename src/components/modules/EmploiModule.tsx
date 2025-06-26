@@ -16,8 +16,10 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
   const [activeTab, setActiveTab] = useState('overview');
   const tools = useEmploymentTools();
 
+  // Trouver l'outil actif
   const activeTool = tools.find(t => t.id === activeTab);
 
+  // Si un outil est sélectionné et qu'il a un composant, l'afficher
   if (activeTool && activeTool.component && activeTool.status === 'active') {
     const ToolComponent = activeTool.component;
     return (
@@ -40,6 +42,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
     );
   }
 
+  // Afficher la vue d'ensemble avec tous les outils
   const recommendations = userProfile?.title 
     ? `En tant que ${userProfile.title}, nous recommandons de commencer par l'adaptation de votre CV puis la simulation de votre salaire net et vos droits Pôle Emploi.`
     : 'Commencez par l\'adaptation de votre CV puis explorez les outils de simulation salariale et de droits Pôle Emploi.';

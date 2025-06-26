@@ -34,14 +34,27 @@ export type View =
   | 'unemployment_simulator'
   | 'motivation_letter'
   | 'interview_assistant'
-  | 'diploma_equivalence';
+  | 'diploma_equivalence'
+  | 'salaryCalculator'
+  | 'unemploymentSimulator';
 
 export function useToolNavigation() {
   const [currentView, setCurrentView] = useState<View>('home');
 
   const navigateToTool = useCallback((toolId: string) => {
     // Gérer les outils du module emploi
-    if (['cv_translator', 'salary_calculator', 'unemployment_simulator', 'motivation_letter', 'interview_assistant', 'diploma_equivalence'].includes(toolId)) {
+    const employmentTools = [
+      'cv_translator', 
+      'salary_calculator', 
+      'unemployment_simulator', 
+      'motivation_letter', 
+      'interview_assistant', 
+      'diploma_equivalence',
+      'salaryCalculator',
+      'unemploymentSimulator'
+    ];
+    
+    if (employmentTools.includes(toolId)) {
       setCurrentView('emploi');
     } else {
       setCurrentView(toolId as View);

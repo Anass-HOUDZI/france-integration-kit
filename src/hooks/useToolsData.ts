@@ -20,7 +20,7 @@ export const useEmploymentTools = () => {
       component: CVTranslatorTool
     },
     {
-      id: 'salary_calculator',
+      id: 'salaryCalculator',
       title: 'Calculateur Salaire Net',
       description: 'Convertissez brut en net, charges sociales et prélèvements détaillés',
       icon: Calculator,
@@ -30,7 +30,7 @@ export const useEmploymentTools = () => {
       component: SalaryCalculatorTool
     },
     {
-      id: 'unemployment_simulator',
+      id: 'unemploymentSimulator',
       title: 'Simulateur Droits Pôle Emploi',
       description: 'Calculez vos droits aux allocations chômage et conditions',
       icon: TrendingUp,
