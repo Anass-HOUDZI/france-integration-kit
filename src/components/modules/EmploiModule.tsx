@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -23,7 +24,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
     {
       id: 'cv_translator',
       title: 'Traducteur de CV Français',
-      description: 'Adaptez votre CV aux standards français',
+      description: 'Adaptez votre CV aux standards français avec IA',
       icon: FileText,
       color: 'bg-blue-500',
       category: 'CV',
@@ -33,7 +34,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
     {
       id: 'salary_calculator',
       title: 'Calculateur Salaire Net',
-      description: 'Convertissez brut en net et comprenez votre fiche de paie',
+      description: 'Convertissez brut en net, charges sociales et prélèvements détaillés',
       icon: Calculator,
       color: 'bg-teal-500',
       category: 'Salaire',
@@ -41,9 +42,19 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
       component: SalaryCalculatorTool
     },
     {
+      id: 'unemployment_simulator',
+      title: 'Simulateur Droits Pôle Emploi',
+      description: 'Calculez vos droits aux allocations chômage et conditions',
+      icon: TrendingUp,
+      color: 'bg-orange-500',
+      category: 'Droits',
+      status: 'active',
+      component: UnemploymentSimulatorTool
+    },
+    {
       id: 'motivation_letter',
       title: 'Générateur Lettres de Motivation',
-      description: 'Créez des lettres de motivation percutantes',
+      description: 'Créez des lettres de motivation percutantes par secteur',
       icon: Mail,
       color: 'bg-green-500',
       category: 'Candidature',
@@ -53,7 +64,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
     {
       id: 'diploma_equivalence',
       title: 'Équivalence Diplômes Étrangers',
-      description: 'Trouvez les équivalences de vos diplômes',
+      description: 'Trouvez les équivalences officielles de vos diplômes',
       icon: GraduationCap,
       color: 'bg-purple-500',
       category: 'Diplômes',
@@ -63,7 +74,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
     {
       id: 'interview_assistant',
       title: 'Assistant Entretien d\'Embauche',
-      description: 'Préparez vos entretiens efficacement',
+      description: 'Préparez vos entretiens avec simulation et conseils',
       icon: Users,
       color: 'bg-indigo-500',
       category: 'Entretien',
@@ -71,19 +82,9 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
       component: InterviewAssistantTool
     },
     {
-      id: 'unemployment_simulator',
-      title: 'Simulateur Droits Pôle Emploi',
-      description: 'Calculez vos droits aux allocations',
-      icon: TrendingUp,
-      color: 'bg-orange-500',
-      category: 'Droits',
-      status: 'active',
-      component: UnemploymentSimulatorTool
-    },
-    {
       id: 'training_guide',
       title: 'Guide Formation Professionnelle',
-      description: 'Naviguer dans le système de formation français',
+      description: 'CPF, formations éligibles et financement',
       icon: GraduationCap,
       color: 'bg-pink-500',
       category: 'Formation',
@@ -92,7 +93,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
     {
       id: 'portfolio_creator',
       title: 'Créateur Portfolio Professionnel',
-      description: 'Mettez en valeur vos compétences',
+      description: 'Mettez en valeur vos compétences et projets',
       icon: LayoutGrid,
       color: 'bg-cyan-500',
       category: 'Portfolio',
@@ -138,7 +139,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
           <Briefcase className="h-8 w-8 text-purple-600" />
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Emploi & Formation</h1>
-            <p className="text-gray-600">8 outils pour votre carrière en France</p>
+            <p className="text-gray-600">8 outils IA pour votre carrière en France</p>
           </div>
         </div>
 
@@ -151,7 +152,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
               </div>
               <p className="text-purple-800 text-sm">
                 En tant que <strong>{userProfile?.title}</strong>, nous recommandons de commencer par 
-                l'adaptation de votre CV puis la simulation de votre salaire net.
+                l'adaptation de votre CV puis la simulation de votre salaire net et vos droits Pôle Emploi.
               </p>
             </CardContent>
           </Card>
@@ -164,14 +165,14 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
             key={tool.id}
             className={`transition-all duration-300 ${
               tool.status === 'active' 
-                ? 'hover:shadow-lg cursor-pointer' 
+                ? 'hover:shadow-lg cursor-pointer hover:scale-105' 
                 : 'opacity-75'
             }`}
             onClick={() => tool.status === 'active' && setActiveTab(tool.id)}
           >
             <CardHeader className="pb-4">
               <div className="flex items-center justify-between">
-                <div className={`w-12 h-12 ${tool.color} rounded-xl flex items-center justify-center`}>
+                <div className={`w-12 h-12 ${tool.color} rounded-xl flex items-center justify-center shadow-lg`}>
                   <tool.icon className="h-6 w-6 text-white" />
                 </div>
                 <div className="flex gap-2">
@@ -185,15 +186,15 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
                   )}
                 </div>
               </div>
-              <CardTitle className="text-lg">{tool.title}</CardTitle>
+              <CardTitle className="text-lg leading-tight">{tool.title}</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="mb-4">
+              <CardDescription className="mb-4 leading-relaxed">
                 {tool.description}
               </CardDescription>
               
               {tool.status === 'active' ? (
-                <Button className="w-full bg-purple-600 hover:bg-purple-700">
+                <Button className="w-full bg-purple-600 hover:bg-purple-700 transition-all duration-200">
                   Utiliser cet outil
                 </Button>
               ) : (
@@ -205,6 +206,28 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
             </CardContent>
           </Card>
         ))}
+      </div>
+
+      <div className="mt-12 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-6">
+        <h3 className="text-xl font-bold text-gray-900 mb-4">Pourquoi ces outils ?</h3>
+        <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+          <div>
+            <h4 className="font-medium mb-2">🎯 Recherche d'emploi optimisée</h4>
+            <p>CV adapté aux standards français, lettres de motivation personnalisées et préparation d'entretiens.</p>
+          </div>
+          <div>
+            <h4 className="font-medium mb-2">💰 Transparence salariale</h4>
+            <p>Comprenez votre fiche de paie, négociez en connaissance de cause et simulez vos droits.</p>
+          </div>
+          <div>
+            <h4 className="font-medium mb-2">🎓 Reconnaissance de compétences</h4>
+            <p>Faites reconnaître vos diplômes étrangers et accédez aux formations professionnelles.</p>
+          </div>
+          <div>
+            <h4 className="font-medium mb-2">🤖 Intelligence artificielle</h4>
+            <p>Tous nos outils utilisent l'IA pour des résultats personnalisés et actualisés.</p>
+          </div>
+        </div>
       </div>
     </div>
   );
