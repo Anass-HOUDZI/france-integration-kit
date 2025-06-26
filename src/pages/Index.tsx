@@ -27,6 +27,7 @@ import BudgetAssistantTool from '@/components/tools/BudgetAssistantTool';
 import RightsGuideTool from '@/components/tools/RightsGuideTool';
 import ReceiptGeneratorTool from '@/components/tools/ReceiptGeneratorTool';
 import DelaySimulatorTool from '@/components/tools/DelaySimulatorTool';
+import MedicalTranslatorTool from '@/components/tools/MedicalTranslatorTool';
 import AppLayout from '@/components/layout/AppLayout';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 import { useToolNavigation } from '@/hooks/useToolNavigation';
@@ -160,6 +161,9 @@ const Index = () => {
       
       case 'rights-guide':
         return <RightsGuideTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
+      
+      case 'medical-translator':
+        return <MedicalTranslatorTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       default:
         return <HomePage onSelectTool={navigateToTool} />;

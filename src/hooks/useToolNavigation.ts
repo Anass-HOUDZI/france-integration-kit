@@ -28,7 +28,8 @@ export type View =
   | 'emergency-assistant'
   | 'planning-generator'
   | 'family-budget-assistant'
-  | 'rights-guide';
+  | 'rights-guide'
+  | 'medical-translator';
 
 export function useToolNavigation() {
   const [currentView, setCurrentView] = useState<View>('home');

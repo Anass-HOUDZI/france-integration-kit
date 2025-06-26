@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -102,7 +101,7 @@ const SanteModule: React.FC<SanteModuleProps> = ({ userProfile, diagnostic, onBa
             <h2 className="text-2xl font-bold text-gray-900">{activeTool.title}</h2>
           </div>
         </div>
-        <ToolComponent userProfile={userProfile} diagnostic={diagnostic} />
+        <ToolComponent userProfile={userProfile} diagnostic={diagnostic} onBack={() => setActiveTab('overview')} />
       </div>
     );
   }

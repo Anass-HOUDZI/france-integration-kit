@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -105,6 +104,16 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
       gradient: 'from-pink-500 to-pink-600',
       difficulty: t('common.easy'),
       accessibility: 'good'
+    },
+    {
+      id: 'medical-translator',
+      title: 'Traducteur Médical',
+      description: 'Facilitez la communication avec les professionnels de santé',
+      category: t('category.sante'),
+      icon: Globe,
+      gradient: 'from-blue-500 to-green-500',
+      difficulty: t('common.medium'),
+      accessibility: 'excellent'
     },
     // ÉDUCATION & FAMILLE
     {
