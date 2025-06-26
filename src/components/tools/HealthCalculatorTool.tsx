@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,9 +11,10 @@ import { useUserProfile } from '@/hooks/useUserProfile';
 interface HealthCalculatorProps {
   userProfile: any;
   diagnostic: any;
+  onBack: () => void;
 }
 
-const HealthCalculatorTool: React.FC<HealthCalculatorProps> = ({ userProfile }) => {
+const HealthCalculatorTool: React.FC<HealthCalculatorProps> = ({ userProfile, onBack }) => {
   const { saveToolData } = useUserProfile();
   const [consultationType, setConsultationType] = useState('');
   const [consultationCost, setConsultationCost] = useState('');
