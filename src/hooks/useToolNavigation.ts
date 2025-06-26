@@ -29,22 +29,38 @@ export type View =
   | 'planning-generator'
   | 'family-budget-assistant'
   | 'rights-guide'
-  | 'medical-translator';
+  | 'medical-translator'
+  | 'salary_calculator'
+  | 'unemployment_simulator'
+  | 'motivation_letter'
+  | 'interview_assistant'
+  | 'diploma_equivalence';
 
 export function useToolNavigation() {
   const [currentView, setCurrentView] = useState<View>('home');
 
   const navigateToTool = useCallback((toolId: string) => {
-    setCurrentView(toolId as View);
+    // Gérer les outils du module emploi
+    if (['cv_translator', 'salary_calculator', 'unemployment_simulator', 'motivation_letter', 'interview_assistant', 'diploma_equivalence'].includes(toolId)) {
+      setCurrentView('emploi');
+    } else {
+      setCurrentView(toolId as View);
+    }
   }, []);
 
   const navigateHome = useCallback(() => {
     setCurrentView('home');
   }, []);
 
+  const navigateToModule = useCallback((moduleId: string) => {
+    setCurrentView(moduleId as View);
+  }, []);
+
   return {
     currentView,
     navigateToTool,
-    navigateHome
+    navigateHome,
+    navigateToModule,
+    setCurrentView
   };
 }
