@@ -37,9 +37,10 @@ interface RecommendationAnalysis {
 interface MutualAssistantProps {
   userProfile: any;
   diagnostic: any;
+  onBack: () => void;
 }
 
-const MutualAssistantTool: React.FC<MutualAssistantProps> = ({ userProfile }) => {
+const MutualAssistantTool: React.FC<MutualAssistantProps> = ({ userProfile, onBack }) => {
   const { saveToolData } = useUserProfile();
   const [age, setAge] = useState('');
   const [budget, setBudget] = useState('');
