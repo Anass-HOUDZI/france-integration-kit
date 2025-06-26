@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,9 +9,10 @@ import { useUserProfile } from '@/hooks/useUserProfile';
 interface EmergencyGuideProps {
   userProfile: any;
   diagnostic: any;
+  onBack: () => void;
 }
 
-const EmergencyGuideTool: React.FC<EmergencyGuideProps> = ({ userProfile }) => {
+const EmergencyGuideTool: React.FC<EmergencyGuideProps> = ({ userProfile, onBack }) => {
   const { saveToolData } = useUserProfile();
   const [activeEmergency, setActiveEmergency] = useState<string | null>(null);
 
