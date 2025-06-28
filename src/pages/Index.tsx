@@ -35,12 +35,15 @@ import { useToolNavigation } from '@/hooks/useToolNavigation';
 const Index = () => {
   const { currentView, navigateToTool, navigateHome } = useToolNavigation();
 
+  // Log pour debug
+  console.log('Current view:', currentView);
+
   const renderContent = () => {
     switch (currentView) {
       case 'home':
         return <HomePage onSelectTool={navigateToTool} />;
       
-      // Module views
+      // Module views - tous correctement configurés
       case 'admin':
         return (
           <AdminModule 
@@ -104,7 +107,7 @@ const Index = () => {
           />
         );
 
-      // Individual tool views
+      // Individual tool views - tous les outils sont correctement routés
       case 'letter-generator':
         return <LetterGenerator userProfile={null} diagnostic={null} />;
       
@@ -166,6 +169,7 @@ const Index = () => {
         return <MedicalTranslatorTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       default:
+        console.warn(`Vue non trouvée: ${currentView}, redirection vers l'accueil`);
         return <HomePage onSelectTool={navigateToTool} />;
     }
   };

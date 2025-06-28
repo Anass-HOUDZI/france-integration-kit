@@ -1,236 +1,283 @@
 
-import { FileText, Calculator, Home, Heart, GraduationCap, Briefcase, Globe, Users } from 'lucide-react';
+import { FileText, Calculator, Home, Heart, GraduationCap, Briefcase, Globe, Users, TrendingUp, Mail } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 
-export function useHomePageData() {
+export interface HomePageTool {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  icon: React.ComponentType<any>;
+  gradient: string;
+  difficulty: string;
+  accessibility: string;
+}
+
+export function useHomePageData(): HomePageTool[] {
   const { t } = useI18n();
 
   return [
     // DÉMARCHES ADMINISTRATIVES
     {
       id: 'letter-generator',
-      title: t('tool.letter_generator'),
-      description: t('tool.letter_generator_desc'),
-      category: t('category.admin'),
+      title: 'Générateur de Lettres Administratives',
+      description: 'Créez des lettres officielles conformes aux standards français',
+      category: 'Démarches Administratives',
       icon: FileText,
       gradient: 'from-blue-500 to-blue-600',
-      difficulty: t('common.easy'),
+      difficulty: 'Facile',
       accessibility: 'excellent'
     },
     {
       id: 'fee-calculator',
-      title: t('tool.fee_calculator'),
-      description: t('tool.fee_calculator_desc'),
-      category: t('category.admin'),
+      title: 'Calculateur de Frais de Dossier',
+      description: 'Estimez les coûts de vos démarches administratives',
+      category: 'Démarches Administratives',
       icon: Calculator,
       gradient: 'from-green-500 to-green-600',
-      difficulty: t('common.easy'),
+      difficulty: 'Facile',
       accessibility: 'good'
     },
     {
       id: 'receipt-generator',
-      title: t('tool.receipt_generator'),
-      description: t('tool.receipt_generator_desc'),
-      category: t('category.admin'),
+      title: 'Générateur de Récépissés',
+      description: 'Suivez vos dépôts de dossiers et démarches',
+      category: 'Démarches Administratives',
       icon: FileText,
       gradient: 'from-purple-500 to-purple-600',
-      difficulty: t('common.easy'),
+      difficulty: 'Facile',
       accessibility: 'good'
     },
     {
       id: 'delay-simulator',
-      title: t('tool.delay_simulator'),
-      description: t('tool.delay_simulator_desc'),
-      category: t('category.admin'),
+      title: 'Simulateur de Délais',
+      description: 'Estimez les temps de traitement des dossiers',
+      category: 'Démarches Administratives',
       icon: Calculator,
       gradient: 'from-orange-500 to-orange-600',
-      difficulty: t('common.easy'),
+      difficulty: 'Facile',
       accessibility: 'excellent'
     },
+
     // LOGEMENT & VIE QUOTIDIENNE
     {
       id: 'budget-calculator',
-      title: t('tool.budget_calculator'),
-      description: t('tool.budget_calculator_desc'),
-      category: t('category.logement'),
+      title: 'Calculateur Budget Logement',
+      description: 'Estimez le coût total de votre logement',
+      category: 'Logement & Vie Quotidienne',
       icon: Home,
       gradient: 'from-teal-500 to-teal-600',
-      difficulty: t('common.easy'),
+      difficulty: 'Facile',
       accessibility: 'excellent'
     },
-    // EMPLOI & FORMATION
+
+    // EMPLOI & FORMATION - Tous les 8 outils
     {
-      id: 'cv-translator',
-      title: t('tool.cv_translator'),
-      description: t('tool.cv_translator_desc'),
-      category: t('category.emploi'),
+      id: 'cv_translator',
+      title: 'Traducteur de CV Français',
+      description: 'Adaptez votre CV aux standards français avec IA',
+      category: 'Emploi & Formation',
       icon: Briefcase,
       gradient: 'from-indigo-500 to-indigo-600',
-      difficulty: t('common.medium'),
+      difficulty: 'Moyen',
       accessibility: 'good'
     },
     {
       id: 'salaryCalculator',
       title: 'Calculateur Salaire Net',
       description: 'Convertissez brut en net, charges sociales et prélèvements',
-      category: t('category.emploi'),
+      category: 'Emploi & Formation',
       icon: Calculator,
       gradient: 'from-teal-500 to-teal-600',
-      difficulty: t('common.easy'),
+      difficulty: 'Facile',
       accessibility: 'excellent'
     },
     {
       id: 'unemploymentSimulator',
       title: 'Simulateur Droits Pôle Emploi',
       description: 'Calculez vos droits aux allocations chômage',
-      category: t('category.emploi'),
-      icon: Calculator,
+      category: 'Emploi & Formation',
+      icon: TrendingUp,
       gradient: 'from-orange-500 to-orange-600',
-      difficulty: t('common.medium'),
+      difficulty: 'Moyen',
       accessibility: 'good'
     },
+    {
+      id: 'motivation_letter',
+      title: 'Générateur Lettres de Motivation',
+      description: 'Créez des lettres de motivation percutantes',
+      category: 'Emploi & Formation',
+      icon: Mail,
+      gradient: 'from-green-500 to-green-600',
+      difficulty: 'Moyen',
+      accessibility: 'good'
+    },
+    {
+      id: 'interview_assistant',
+      title: 'Assistant Entretien d\'Embauche',
+      description: 'Préparez vos entretiens avec simulation et conseils',
+      category: 'Emploi & Formation',
+      icon: Users,
+      gradient: 'from-indigo-500 to-indigo-600',
+      difficulty: 'Moyen',
+      accessibility: 'good'
+    },
+    {
+      id: 'diploma_equivalence',
+      title: 'Équivalence Diplômes Étrangers',
+      description: 'Trouvez les équivalences officielles de vos diplômes',
+      category: 'Emploi & Formation',
+      icon: GraduationCap,
+      gradient: 'from-purple-500 to-purple-600',
+      difficulty: 'Moyen',
+      accessibility: 'good'
+    },
+
     // SANTÉ & SOCIAL
     {
       id: 'social-security-guide',
-      title: t('tool.social_security_guide'),
-      description: t('tool.social_security_guide_desc'),
-      category: t('category.sante'),
+      title: 'Guide Sécurité Sociale',
+      description: 'Comprenez le système de santé français',
+      category: 'Santé & Social',
       icon: Heart,
       gradient: 'from-red-500 to-red-600',
-      difficulty: t('common.medium'),
+      difficulty: 'Moyen',
       accessibility: 'excellent'
     },
     {
       id: 'social-services-locator',
-      title: t('tool.social_services_locator'),
-      description: t('tool.social_services_locator_desc'),
-      category: t('category.sante'),
+      title: 'Localisateur Services Sociaux',
+      description: 'Trouvez l\'aide sociale près de chez vous',
+      category: 'Santé & Social',
       icon: Users,
       gradient: 'from-pink-500 to-pink-600',
-      difficulty: t('common.easy'),
+      difficulty: 'Facile',
       accessibility: 'good'
     },
     {
       id: 'medical-translator',
       title: 'Traducteur Médical',
       description: 'Facilitez la communication avec les professionnels de santé',
-      category: t('category.sante'),
+      category: 'Santé & Social',
       icon: Globe,
       gradient: 'from-blue-500 to-green-500',
-      difficulty: t('common.medium'),
+      difficulty: 'Moyen',
       accessibility: 'excellent'
     },
+
     // ÉDUCATION & FAMILLE
     {
       id: 'family-allowances-calculator',
-      title: t('tool.family_allowances_calculator'),
-      description: t('tool.family_allowances_calculator_desc'),
-      category: t('category.education'),
+      title: 'Calculateur Allocations Familiales',
+      description: 'Estimez vos aides familiales',
+      category: 'Éducation & Famille',
       icon: GraduationCap,
       gradient: 'from-yellow-500 to-yellow-600',
-      difficulty: t('common.easy'),
+      difficulty: 'Facile',
       accessibility: 'excellent'
     },
     {
       id: 'education-costs-calculator',
-      title: t('tool.education_costs_calculator'),
-      description: t('tool.education_costs_calculator_desc'),
-      category: t('category.education'),
+      title: 'Calculateur Frais Scolarité',
+      description: 'Budgétez les coûts de scolarité',
+      category: 'Éducation & Famille',
       icon: Calculator,
       gradient: 'from-cyan-500 to-cyan-600',
-      difficulty: t('common.easy'),
+      difficulty: 'Facile',
       accessibility: 'good'
     },
+
     // INTÉGRATION CULTURELLE
     {
       id: 'culture-quiz',
-      title: t('tool.culture_quiz'),
-      description: t('tool.culture_quiz_desc'),
-      category: t('category.culture'),
+      title: 'Quiz Culture Française',
+      description: 'Apprenez la culture française de manière ludique',
+      category: 'Intégration Culturelle',
       icon: Globe,
       gradient: 'from-violet-500 to-violet-600',
-      difficulty: t('common.medium'),
+      difficulty: 'Moyen',
       accessibility: 'excellent'
     },
     {
       id: 'traditions-guide',
-      title: t('tool.traditions_guide'),
-      description: t('tool.traditions_guide_desc'),
-      category: t('category.culture'),
+      title: 'Guide Fêtes et Traditions',
+      description: 'Comprenez le calendrier culturel français',
+      category: 'Intégration Culturelle',
       icon: Heart,
       gradient: 'from-rose-500 to-rose-600',
-      difficulty: t('common.easy'),
+      difficulty: 'Facile',
       accessibility: 'good'
     },
     {
       id: 'french-learning-assistant',
-      title: t('tool.french_learning_assistant'),
-      description: t('tool.french_learning_assistant_desc'),
-      category: t('category.culture'),
+      title: 'Assistant Apprentissage Français',
+      description: 'Améliorez votre français au quotidien',
+      category: 'Intégration Culturelle',
       icon: GraduationCap,
       gradient: 'from-emerald-500 to-emerald-600',
-      difficulty: t('common.medium'),
+      difficulty: 'Moyen',
       accessibility: 'excellent'
     },
     {
       id: 'naturalization-simulator',
-      title: t('tool.naturalization_simulator'),
-      description: t('tool.naturalization_simulator_desc'),
-      category: t('category.culture'),
+      title: 'Simulateur Test Naturalisation',
+      description: 'Préparez l\'entretien de naturalisation',
+      category: 'Intégration Culturelle',
       icon: FileText,
       gradient: 'from-amber-500 to-amber-600',
-      difficulty: t('common.advanced'),
+      difficulty: 'Avancé',
       accessibility: 'good'
     },
     {
       id: 'french-expressions-translator',
-      title: t('tool.french_expressions_translator'),
-      description: t('tool.french_expressions_translator_desc'),
-      category: t('category.culture'),
+      title: 'Traducteur Expressions Françaises',
+      description: 'Maîtrisez les expressions idiomatiques',
+      category: 'Intégration Culturelle',
       icon: Globe,
       gradient: 'from-lime-500 to-lime-600',
-      difficulty: t('common.medium'),
+      difficulty: 'Moyen',
       accessibility: 'excellent'
     },
+
     // OUTILS TRANSVERSAUX
     {
       id: 'emergency-assistant',
-      title: t('tool.emergency_assistant'),
-      description: t('tool.emergency_assistant_desc'),
-      category: t('category.transversal'),
+      title: 'Assistant Urgences',
+      description: 'Réagissez efficacement en cas d\'urgence',
+      category: 'Outils Transversaux',
       icon: Heart,
       gradient: 'from-red-600 to-red-700',
-      difficulty: t('common.easy'),
+      difficulty: 'Facile',
       accessibility: 'excellent'
     },
     {
       id: 'planning-generator',
-      title: t('tool.planning_generator'),
-      description: t('tool.planning_generator_desc'),
-      category: t('category.transversal'),
+      title: 'Générateur Planning',
+      description: 'Organisez toutes vos démarches',
+      category: 'Outils Transversaux',
       icon: Calculator,
       gradient: 'from-blue-600 to-blue-700',
-      difficulty: t('common.easy'),
+      difficulty: 'Facile',
       accessibility: 'good'
     },
     {
       id: 'family-budget-assistant',
-      title: t('tool.family_budget_assistant'),
-      description: t('tool.family_budget_assistant_desc'),
-      category: t('category.transversal'),
+      title: 'Assistant Budget Familial',
+      description: 'Gérez vos finances en France',
+      category: 'Outils Transversaux',
       icon: Calculator,
       gradient: 'from-green-600 to-green-700',
-      difficulty: t('common.medium'),
+      difficulty: 'Moyen',
       accessibility: 'excellent'
     },
     {
       id: 'rights-guide',
-      title: t('tool.rights_guide'),
-      description: t('tool.rights_guide_desc'),
-      category: t('category.transversal'),
+      title: 'Guide Droits et Recours',
+      description: 'Connaissez vos droits et recours',
+      category: 'Outils Transversaux',
       icon: FileText,
       gradient: 'from-purple-600 to-purple-700',
-      difficulty: t('common.advanced'),
+      difficulty: 'Avancé',
       accessibility: 'good'
     }
   ];

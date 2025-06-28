@@ -1,10 +1,10 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Briefcase } from 'lucide-react';
+import { Briefcase, ArrowLeft, Sparkles } from 'lucide-react';
 import ToolCard from '@/components/common/ToolCard';
 import ModuleHeader from '@/components/common/ModuleHeader';
-import { useEmploymentTools } from '@/hooks/useToolsData';
+import { useEmploymentTools, ToolData } from '@/hooks/useToolsData';
 
 interface EmploiModuleProps {
   userProfile: any;
@@ -30,7 +30,8 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
             onClick={() => setSelectedTool(null)}
             className="text-purple-600 hover:bg-purple-50"
           >
-            ← Retour aux outils
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Retour aux outils
           </Button>
           <div className="flex items-center gap-2">
             <activeTool.icon className="h-6 w-6 text-purple-600" />
@@ -42,7 +43,7 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
     );
   }
 
-  // Afficher la vue d'ensemble
+  // Afficher la vue d'ensemble avec tous les outils
   const recommendations = userProfile?.title 
     ? `En tant que ${userProfile.title}, nous recommandons de commencer par l'adaptation de votre CV puis la simulation de votre salaire net et vos droits Pôle Emploi.`
     : 'Commencez par l\'adaptation de votre CV puis explorez les outils de simulation salariale et de droits Pôle Emploi.';
@@ -60,7 +61,28 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
         recommendations={recommendations}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Statistiques du module */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg text-center">
+          <div className="text-2xl font-bold text-blue-600">{tools.filter(t => t.status === 'active').length}</div>
+          <div className="text-sm text-blue-700">Outils Actifs</div>
+        </div>
+        <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg text-center">
+          <div className="text-2xl font-bold text-green-600">{tools.filter(t => t.category === 'CV & Candidature').length}</div>
+          <div className="text-sm text-green-700">CV & Candidature</div>
+        </div>
+        <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg text-center">
+          <div className="text-2xl font-bold text-purple-600">{tools.filter(t => t.category === 'Salaire & Finances').length}</div>
+          <div className="text-sm text-purple-700">Salaire & Finances</div>
+        </div>
+        <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-lg text-center">
+          <div className="text-2xl font-bold text-orange-600">{tools.filter(t => t.category === 'Droits & Allocations').length}</div>
+          <div className="text-sm text-orange-700">Droits & Allocations</div>
+        </div>
+      </div>
+
+      {/* Grille des outils */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {tools.map((tool) => (
           <ToolCard 
             key={tool.id}
@@ -70,24 +92,32 @@ const EmploiModule: React.FC<EmploiModuleProps> = ({ userProfile, diagnostic, on
         ))}
       </div>
 
-      <div className="mt-12 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-4">Pourquoi ces outils ?</h3>
-        <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
-          <div>
-            <h4 className="font-medium mb-2">🎯 Recherche d'emploi optimisée</h4>
-            <p>CV adapté aux standards français, lettres de motivation personnalisées et préparation d'entretiens.</p>
+      {/* Section informative */}
+      <div className="mt-12 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl p-8">
+        <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <Sparkles className="h-6 w-6 text-purple-600" />
+          Pourquoi ces outils ?
+        </h3>
+        <div className="grid md:grid-cols-2 gap-6 text-sm text-gray-700">
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-semibold mb-2 text-purple-700">🎯 Recherche d'emploi optimisée</h4>
+              <p>CV adapté aux standards français, lettres de motivation personnalisées et préparation d'entretiens avec IA.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2 text-purple-700">💰 Transparence salariale</h4>
+              <p>Comprenez votre fiche de paie, négociez en connaissance de cause et simulez vos droits sociaux.</p>
+            </div>
           </div>
-          <div>
-            <h4 className="font-medium mb-2">💰 Transparence salariale</h4>
-            <p>Comprenez votre fiche de paie, négociez en connaissance de cause et simulez vos droits.</p>
-          </div>
-          <div>
-            <h4 className="font-medium mb-2">🎓 Reconnaissance de compétences</h4>
-            <p>Faites reconnaître vos diplômes étrangers et accédez aux formations professionnelles.</p>
-          </div>
-          <div>
-            <h4 className="font-medium mb-2">🤖 Intelligence artificielle</h4>
-            <p>Tous nos outils utilisent l'IA pour des résultats personnalisés et actualisés.</p>
+          <div className="space-y-4">
+            <div>
+              <h4 className="font-semibold mb-2 text-purple-700">🎓 Reconnaissance de compétences</h4>
+              <p>Faites reconnaître vos diplômes étrangers et accédez aux formations professionnelles disponibles.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2 text-purple-700">🤖 Intelligence artificielle</h4>
+              <p>Tous nos outils utilisent l'IA pour des résultats personnalisés, actualisés et conformes aux standards français.</p>
+            </div>
           </div>
         </div>
       </div>

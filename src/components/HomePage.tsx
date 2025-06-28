@@ -14,11 +14,17 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
   const tools = useHomePageData();
 
   const scrollToTools = () => {
-    toolsSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+    toolsSectionRef.current?.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    });
   };
 
+  // Vérifier que les outils sont correctement chargés
+  console.log('HomePage tools loaded:', tools.length);
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Header onSelectTool={onSelectTool} />
       <HeroSection onScrollToTools={scrollToTools} />
       <div ref={toolsSectionRef}>
