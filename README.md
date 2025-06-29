@@ -1,4 +1,4 @@
-# Suite d'Outils d'Intégration en France
+# Suite d'outils d'intégration en France
 
 La Suite d'Outils d'Intégration en France est une collection de 50 outils gratuits et 100% fonctionnant côté client, conçus pour aider les étrangers à s'intégrer en France. Ces outils couvrent divers aspects de l'intégration, allant des démarches administratives à la vie quotidienne, en passant par l'emploi, la santé, l'éducation, et bien plus encore.
 
