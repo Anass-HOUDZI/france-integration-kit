@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 
@@ -296,7 +297,7 @@ const generateDefaultAddressChanges = (): AddressChange[] => {
       id: 'caf',
       organization: 'CAF',
       type: 'administrative',
-      priority: 'high',
+      priority: 'high' as const,
       completed: false,
       contact: 'www.caf.fr'
     },
@@ -304,7 +305,7 @@ const generateDefaultAddressChanges = (): AddressChange[] => {
       id: 'cpam',
       organization: 'CPAM',
       type: 'health',
-      priority: 'high',
+      priority: 'high' as const,
       completed: false,
       contact: 'www.ameli.fr'
     },
@@ -312,7 +313,7 @@ const generateDefaultAddressChanges = (): AddressChange[] => {
       id: 'pole-emploi',
       organization: 'Pôle Emploi',
       type: 'administrative',
-      priority: 'high',
+      priority: 'high' as const,
       completed: false,
       contact: 'www.pole-emploi.fr'
     },
@@ -320,7 +321,7 @@ const generateDefaultAddressChanges = (): AddressChange[] => {
       id: 'impots',
       organization: 'Centre des Impôts',
       type: 'administrative',
-      priority: 'high',
+      priority: 'high' as const,
       completed: false,
       contact: 'www.impots.gouv.fr'
     },
@@ -328,28 +329,28 @@ const generateDefaultAddressChanges = (): AddressChange[] => {
       id: 'banque',
       organization: 'Banque principale',
       type: 'financial',
-      priority: 'high',
+      priority: 'high' as const,
       completed: false
     },
     {
       id: 'assurance',
       organization: 'Assurance auto/habitation',
       type: 'financial',
-      priority: 'high',
+      priority: 'high' as const,
       completed: false
     },
     {
       id: 'mutuelle',
       organization: 'Mutuelle santé',
       type: 'health',
-      priority: 'medium',
+      priority: 'medium' as const,
       completed: false
     },
     {
       id: 'employeur',
       organization: 'Employeur/RH',
       type: 'administrative',
-      priority: 'high',
+      priority: 'high' as const,
       completed: false
     }
   ];
