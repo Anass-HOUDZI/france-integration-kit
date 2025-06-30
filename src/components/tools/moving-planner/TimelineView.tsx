@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Calendar, Clock, AlertTriangle } from 'lucide-react';
-import { MovingTask } from '@/hooks/useMovingPlanner';
+import { MovingTask } from '@/types/movingPlanner';
 
 interface TimelineViewProps {
   tasks: MovingTask[];

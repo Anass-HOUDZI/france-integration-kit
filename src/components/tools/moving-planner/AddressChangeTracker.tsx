@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { MapPin, Plus, ExternalLink, AlertCircle } from 'lucide-react';
-import { AddressChange } from '@/hooks/useMovingPlanner';
+import { AddressChange } from '@/types/movingPlanner';
 
 interface AddressChangeTrackerProps {
   addressChanges: AddressChange[];
@@ -221,7 +221,7 @@ const AddressChangeTracker: React.FC<AddressChangeTrackerProps> = ({
         </div>
 
         {/* Liste par catégorie */}
-        {Object.entries(groupedChanges).map(([type, changes]) => (
+        {Object.entries(groupedChanges).map(([type, changes]: [string, AddressChange[]]) => (
           <div key={type} className="space-y-3">
             <h3 className="font-medium capitalize flex items-center gap-2">
               <Badge className={getTypeColor(type)}>

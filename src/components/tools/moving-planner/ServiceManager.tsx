@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Users, Plus, Phone, Mail, Calendar, Euro } from 'lucide-react';
-import { ServiceProvider } from '@/hooks/useMovingPlanner';
+import { ServiceProvider } from '@/types/movingPlanner';
 
 interface ServiceManagerProps {
   serviceProviders: ServiceProvider[];
@@ -251,7 +251,7 @@ const ServiceManager: React.FC<ServiceManagerProps> = ({
         </div>
 
         {/* Liste par catégorie */}
-        {Object.entries(groupedProviders).map(([type, providers]) => (
+        {Object.entries(groupedProviders).map(([type, providers]: [string, ServiceProvider[]]) => (
           <div key={type} className="space-y-3">
             <h3 className="font-medium flex items-center gap-2">
               <span className="text-lg">{getTypeIcon(type)}</span>

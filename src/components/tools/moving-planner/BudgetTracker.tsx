@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Wallet, TrendingUp, TrendingDown, AlertTriangle, PieChart } from 'lucide-react';
-import { MovingTask, ServiceProvider } from '@/hooks/useMovingPlanner';
+import { MovingTask, ServiceProvider } from '@/types/movingPlanner';
 
 interface BudgetTrackerProps {
   budget: number;

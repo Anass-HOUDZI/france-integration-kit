@@ -105,61 +105,61 @@ export const generateDefaultAddressChanges = (): AddressChange[] => {
     {
       id: 'caf',
       organization: 'CAF',
-      type: 'administrative',
-      priority: 'high',
+      type: 'administrative' as const,
+      priority: 'high' as const,
       completed: false,
       contact: 'www.caf.fr'
     },
     {
       id: 'cpam',
       organization: 'CPAM',
-      type: 'health',
-      priority: 'high',
+      type: 'health' as const,
+      priority: 'high' as const,
       completed: false,
       contact: 'www.ameli.fr'
     },
     {
       id: 'pole-emploi',
       organization: 'Pôle Emploi',
-      type: 'administrative',
-      priority: 'high',
+      type: 'administrative' as const,  
+      priority: 'high' as const,
       completed: false,
       contact: 'www.pole-emploi.fr'
     },
     {
       id: 'impots',
       organization: 'Centre des Impôts',
-      type: 'administrative',
-      priority: 'high',
+      type: 'administrative' as const,
+      priority: 'high' as const,
       completed: false,
       contact: 'www.impots.gouv.fr'
     },
     {
       id: 'banque',
       organization: 'Banque principale',
-      type: 'financial',
-      priority: 'high',
+      type: 'financial' as const,
+      priority: 'high' as const,
       completed: false
     },
     {
       id: 'assurance',
       organization: 'Assurance auto/habitation',
-      type: 'financial',
-      priority: 'high',
+      type: 'financial' as const,
+      priority: 'high' as const,
       completed: false
     },
     {
       id: 'mutuelle',
       organization: 'Mutuelle santé',
-      type: 'health',
-      priority: 'medium',
+      type: 'health' as const,
+      priority: 'medium' as const,
       completed: false
     },
     {
       id: 'employeur',
       organization: 'Employeur/RH',
-      type: 'administrative',
-      priority: 'high',
+      type: 'administrative' as const,
+      priority: 'high' as const,
       completed: false
     }
   ];
