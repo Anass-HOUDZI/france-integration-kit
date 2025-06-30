@@ -1,3 +1,4 @@
+
 import { MovingTask, ServiceProvider, AddressChange, MovingPlan } from '@/types/movingPlanner';
 
 export const generateDefaultTasks = (planData: Partial<MovingPlan>): MovingTask[] => {
