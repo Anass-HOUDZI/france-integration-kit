@@ -33,7 +33,7 @@ export interface AddressChange {
   id: string;
   organization: string;
   type: 'administrative' | 'financial' | 'subscription' | 'health' | 'other';
-  priority: 'high' | 'medium' | 'low';
+  priority: 'low' | 'medium' | 'high';
   completed: boolean;
   dueDate?: string;
   contact?: string;
