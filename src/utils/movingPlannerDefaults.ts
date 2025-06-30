@@ -77,24 +77,24 @@ export const generateDefaultProviders = (): ServiceProvider[] => {
     {
       id: 'mover-1',
       name: 'Déménageurs professionnels',
-      type: 'mover',
+      type: 'mover' as const,
       contact: 'À contacter',
-      status: 'pending',
+      status: 'pending' as const,
       estimatedCost: 800
     },
     {
       id: 'utility-1',
       name: 'EDF/Engie',
-      type: 'utility',
+      type: 'utility' as const,
       contact: 'Service client',
-      status: 'pending'
+      status: 'pending' as const
     },
     {
       id: 'internet-1',
       name: 'Fournisseur Internet',
-      type: 'internet',
+      type: 'internet' as const,
       contact: 'À contacter',
-      status: 'pending',
+      status: 'pending' as const,
       estimatedCost: 50
     }
   ];
@@ -121,7 +121,7 @@ export const generateDefaultAddressChanges = (): AddressChange[] => {
     {
       id: 'pole-emploi',
       organization: 'Pôle Emploi',
-      type: 'administrative' as const,  
+      type: 'administrative' as const,
       priority: 'high' as const,
       completed: false,
       contact: 'www.pole-emploi.fr'
