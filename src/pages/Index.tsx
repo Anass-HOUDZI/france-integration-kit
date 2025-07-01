@@ -1,5 +1,7 @@
+
 import React from 'react';
 import HomePage from '@/components/HomePage';
+import CategoryPage from '@/components/pages/CategoryPage';
 import AdminModule from '@/components/modules/AdminModule';
 import LogementModule from '@/components/modules/LogementModule';
 import EmploiModule from '@/components/modules/EmploiModule';
@@ -41,79 +43,34 @@ import { useToolNavigation } from '@/hooks/useToolNavigation';
 const Index = () => {
   const { currentView, navigateToTool, navigateHome } = useToolNavigation();
 
-  // Log pour debug
-  console.log('Current view:', currentView);
-
   const renderContent = () => {
     switch (currentView) {
       case 'home':
         return <HomePage onSelectTool={navigateToTool} />;
       
-      // Module views - tous correctement configurés
+      // Category pages - nouvelles pages pour chaque catégorie
       case 'admin':
-        return (
-          <AdminModule 
-            userProfile={null}
-            diagnostic={null}
-            onBack={navigateHome}
-          />
-        );
+        return <CategoryPage categoryId="admin" onSelectTool={navigateToTool} onBack={navigateHome} />;
       
       case 'logement':
-        return (
-          <LogementModule 
-            userProfile={null}
-            diagnostic={null}
-            onBack={navigateHome}
-          />
-        );
+        return <CategoryPage categoryId="logement" onSelectTool={navigateToTool} onBack={navigateHome} />;
       
       case 'emploi':
-        return (
-          <EmploiModule 
-            userProfile={null}
-            diagnostic={null}
-            onBack={navigateHome}
-          />
-        );
+        return <CategoryPage categoryId="emploi" onSelectTool={navigateToTool} onBack={navigateHome} />;
       
       case 'sante':
-        return (
-          <SanteModule 
-            userProfile={null}
-            diagnostic={null}
-            onBack={navigateHome}
-          />
-        );
+        return <CategoryPage categoryId="sante" onSelectTool={navigateToTool} onBack={navigateHome} />;
       
       case 'education':
-        return (
-          <EducationModule 
-            userProfile={null}
-            diagnostic={null}
-            onBack={navigateHome}
-          />
-        );
+        return <CategoryPage categoryId="education" onSelectTool={navigateToTool} onBack={navigateHome} />;
       
       case 'culture':
-        return (
-          <CultureModule 
-            userProfile={null}
-            diagnostic={null}
-            onBack={navigateHome}
-          />
-        );
+        return <CategoryPage categoryId="culture" onSelectTool={navigateToTool} onBack={navigateHome} />;
       
       case 'transversal':
-        return (
-          <TransversalModule 
-            userProfile={null}
-            diagnostic={null}
-            onBack={navigateHome}
-          />
-        );
+        return <CategoryPage categoryId="transversal" onSelectTool={navigateToTool} onBack={navigateHome} />;
 
-      // Individual tool views - Props corrigées
+      // Individual tool views
       case 'letter-generator':
         return <LetterGenerator userProfile={null} diagnostic={null} />;
       
