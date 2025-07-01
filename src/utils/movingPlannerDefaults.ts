@@ -1,165 +1,169 @@
+
 import { MovingTask, ServiceProvider, AddressChange, MovingPlan } from '@/types/movingPlanner';
 
 export const generateDefaultTasks = (planData: Partial<MovingPlan>): MovingTask[] => {
-  const movingDate = new Date(planData.movingDate || Date.now());
-  
-  const baseTasks = [
+  const tasks: MovingTask[] = [
     {
-      title: 'Rechercher et réserver déménageurs',
-      description: 'Comparer les devis et choisir une entreprise',
-      category: 'Déménageurs',
-      dueDate: new Date(movingDate.getTime() - 56 * 24 * 60 * 60 * 1000).toISOString(),
-      priority: 'high' as const,
-      estimatedCost: 800
-    },
-    {
-      title: 'Commander cartons et matériel',
-      description: 'Papier bulle, adhésif, étiquettes',
-      category: 'Matériel',
-      dueDate: new Date(movingDate.getTime() - 42 * 24 * 60 * 60 * 1000).toISOString(),
-      priority: 'high' as const,
-      estimatedCost: 150
-    },
-    {
-      title: 'Résilier contrats actuels',
-      description: 'Électricité, gaz, internet, assurances',
+      id: '1',
+      title: 'Résilier ancien logement',
+      description: 'Donner congé au propriétaire (préavis de 3 mois pour location vide, 1 mois meublé)',
       category: 'Administratif',
-      dueDate: new Date(movingDate.getTime() - 42 * 24 * 60 * 60 * 1000).toISOString(),
-      priority: 'high' as const
-    },
-    {
-      title: 'Souscrire contrats nouveau logement',
-      description: 'Services essentiels nouveau domicile',
-      category: 'Administratif',
-      dueDate: new Date(movingDate.getTime() - 35 * 24 * 60 * 60 * 1000).toISOString(),
-      priority: 'high' as const
-    },
-    {
-      title: 'Faire état des lieux sortant',
-      description: 'Avec propriétaire ou agent',
-      category: 'Logement',
-      dueDate: new Date(movingDate.getTime() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-      priority: 'high' as const
-    }
-  ];
-
-  // Ajout tâches spécifiques selon profil
-  if (planData.hasKids) {
-    baseTasks.push({
-      title: 'Inscrire enfants nouvelle école',
-      description: 'Transfert dossiers scolaires',
-      category: 'Famille',
-      dueDate: new Date(movingDate.getTime() - 28 * 24 * 60 * 60 * 1000).toISOString(),
-      priority: 'high' as const
-    });
-  }
-
-  if (planData.hasPets) {
-    baseTasks.push({
-      title: 'Organiser transport animaux',
-      description: 'Cage de transport, documents vétérinaires',
-      category: 'Animaux',
-      dueDate: new Date(movingDate.getTime() - 14 * 24 * 60 * 60 * 1000).toISOString(),
-      priority: 'medium' as const
-    });
-  }
-
-  return baseTasks.map((task, index) => ({
-    ...task,
-    id: `default-${index}`,
-    completed: false
-  }));
-};
-
-export const generateDefaultProviders = (): ServiceProvider[] => {
-  return [
-    {
-      id: 'mover-1',
-      name: 'Déménageurs professionnels',
-      type: 'mover' as const,
-      contact: 'À contacter',
-      status: 'pending' as const,
-      estimatedCost: 800
-    },
-    {
-      id: 'utility-1',
-      name: 'EDF/Engie',
-      type: 'utility' as const,
-      contact: 'Service client',
-      status: 'pending' as const
-    },
-    {
-      id: 'internet-1',
-      name: 'Fournisseur Internet',
-      type: 'internet' as const,
-      contact: 'À contacter',
-      status: 'pending' as const,
-      estimatedCost: 50
-    }
-  ];
-};
-
-export const generateDefaultAddressChanges = (): AddressChange[] => {
-  return [
-    {
-      id: 'caf',
-      organization: 'CAF',
-      type: 'administrative' as const,
-      priority: 'high' as const,
-      completed: false,
-      contact: 'www.caf.fr'
-    },
-    {
-      id: 'cpam',
-      organization: 'CPAM',
-      type: 'health' as const,
-      priority: 'high' as const,
-      completed: false,
-      contact: 'www.ameli.fr'
-    },
-    {
-      id: 'pole-emploi',
-      organization: 'Pôle Emploi',
-      type: 'administrative' as const,
-      priority: 'high' as const,
-      completed: false,
-      contact: 'www.pole-emploi.fr'
-    },
-    {
-      id: 'impots',
-      organization: 'Centre des Impôts',
-      type: 'administrative' as const,
-      priority: 'high' as const,
-      completed: false,
-      contact: 'www.impots.gouv.fr'
-    },
-    {
-      id: 'banque',
-      organization: 'Banque principale',
-      type: 'financial' as const,
+      dueDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       priority: 'high' as const,
       completed: false
     },
     {
-      id: 'assurance',
-      organization: 'Assurance auto/habitation',
-      type: 'financial' as const,
+      id: '2',
+      title: 'Rechercher nouveau logement',
+      description: 'Visites, constitution du dossier locatif, négociation',
+      category: 'Recherche',
+      dueDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       priority: 'high' as const,
       completed: false
     },
     {
-      id: 'mutuelle',
-      organization: 'Mutuelle santé',
-      type: 'health' as const,
+      id: '3',
+      title: 'Souscrire assurance habitation',
+      description: 'Obligatoire avant remise des clés',
+      category: 'Assurance',
+      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      priority: 'high' as const,
+      completed: false,
+      estimatedCost: 200
+    },
+    {
+      id: '4',
+      title: 'Organiser déménagement',
+      description: 'Réserver déménageurs ou location camion',
+      category: 'Logistique',
+      dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      priority: 'high' as const,
+      completed: false,
+      estimatedCost: 800
+    },
+    {
+      id: '5',
+      title: 'État des lieux sortant',
+      description: 'Avec le propriétaire ou agence, photos à l\'appui',
+      category: 'Administratif',
+      dueDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       priority: 'medium' as const,
       completed: false
     },
     {
-      id: 'employeur',
-      organization: 'Employeur/RH',
-      type: 'administrative' as const,
-      priority: 'high' as const,
-      completed: false
+      id: '6',
+      title: 'Faire les cartons',
+      description: 'Trier, emballer, étiqueter par pièce',
+      category: 'Préparation',
+      dueDate: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      priority: 'medium' as const,
+      completed: false,
+      estimatedCost: 50
     }
   ];
+
+  // Ajouter des tâches spécifiques selon le profil
+  if (planData.hasKids) {
+    tasks.push({
+      id: '7',
+      title: 'Inscrire les enfants dans nouvelle école',
+      description: 'Certificat de radiation, inscription, fournitures',
+      category: 'Famille',
+      dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      priority: 'high' as const,
+      completed: false
+    });
+  }
+
+  if (planData.hasPets) {
+    tasks.push({
+      id: '8',
+      title: 'Préparer transport animaux',
+      description: 'Cage de transport, documents vétérinaires, stress',
+      category: 'Animaux',
+      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      priority: 'medium' as const,
+      completed: false
+    });
+  }
+
+  return tasks;
 };
+
+export const generateDefaultProviders = (): ServiceProvider[] => [
+  {
+    id: '1',
+    name: 'Déménageurs Pros',
+    type: 'mover',
+    contact: '01 23 45 67 89',
+    email: 'contact@demenageurs-pros.fr',
+    estimatedCost: 800,
+    status: 'pending'
+  },
+  {
+    id: '2',
+    name: 'EDF',
+    type: 'utility',
+    contact: '09 69 32 15 15',
+    status: 'pending'
+  },
+  {
+    id: '3',
+    name: 'Veolia Eau',
+    type: 'utility',
+    contact: '09 69 32 35 29',
+    status: 'pending'
+  },
+  {
+    id: '4',
+    name: 'Orange/SFR/Free',
+    type: 'internet',
+    contact: 'Service client',
+    status: 'pending'
+  }
+];
+
+export const generateDefaultAddressChanges = (): AddressChange[] => [
+  {
+    id: '1',
+    organization: 'Impôts',
+    type: 'administrative',
+    priority: 'high',
+    completed: false
+  },
+  {
+    id: '2',
+    organization: 'CAF',
+    type: 'administrative',
+    priority: 'high',
+    completed: false
+  },
+  {
+    id: '3',
+    organization: 'Sécurité Sociale',
+    type: 'health',
+    priority: 'high',
+    completed: false
+  },
+  {
+    id: '4',
+    organization: 'Banque',
+    type: 'financial',
+    priority: 'high',
+    completed: false
+  },
+  {
+    id: '5',
+    organization: 'Employeur',
+    type: 'other',
+    priority: 'medium',
+    completed: false
+  },
+  {
+    id: '6',
+    organization: 'Assurance auto',
+    type: 'other',
+    priority: 'medium',
+    completed: false
+  }
+];

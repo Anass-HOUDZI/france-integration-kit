@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,7 +9,7 @@ import RentalDossier from '@/components/tools/RentalDossier';
 import StateOfPlayTool from '@/components/tools/StateOfPlayTool';
 import NeighborhoodComparator from '@/components/tools/NeighborhoodComparator';
 import RentNegotiator from '@/components/tools/RentNegotiator';
-import InsuranceAssistant from '@/components/tools/InsuranceAssistant';
+import InsuranceAssistantComplete from '@/components/tools/InsuranceAssistantComplete';
 import MovingCalculatorTool from '@/components/tools/MovingCalculatorTool';
 import MovingPlannerTool from '@/components/tools/MovingPlannerTool';
 
@@ -75,12 +76,12 @@ const LogementModule: React.FC<LogementModuleProps> = ({ userProfile, diagnostic
     {
       id: 'insurance_assistant',
       title: 'Assistant Assurance Habitation',
-      description: 'Trouvez la meilleure assurance pour votre logement',
+      description: 'Comparaison complète, gestion sinistres et résiliation simplifiée',
       icon: Shield,
       color: 'bg-teal-500',
       category: 'Assurance',
       status: 'active',
-      component: InsuranceAssistant
+      component: InsuranceAssistantComplete
     },
     {
       id: 'moving_calculator',
