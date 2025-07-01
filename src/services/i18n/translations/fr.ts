@@ -308,6 +308,48 @@ export const frTranslations: Translations = {
   'delay.normal_delay': 'Délai normal',
   'delay.fast_processing': 'Traitement rapide',
 
+  // Theme and UI elements
+  'ui.theme_toggle': 'Changer le thème',
+  'ui.online_status': 'En ligne',
+  'ui.offline_status': 'Hors ligne',
+  'ui.connecting': 'Connexion...',
+  
+  // Tool-specific content
+  'tool.form.title': 'Titre',
+  'tool.form.description': 'Description',
+  'tool.form.submit': 'Valider',
+  'tool.form.reset': 'Réinitialiser',
+  'tool.form.clear': 'Effacer',
+  'tool.form.placeholder': 'Saisissez votre texte ici...',
+  'tool.result.success': 'Opération réussie',
+  'tool.result.error': 'Une erreur s\'est produite',
+  'tool.result.loading': 'Traitement en cours...',
+  'tool.result.no_data': 'Aucune donnée disponible',
+  
+  // Instructions and help
+  'tool.instructions.title': 'Instructions d\'utilisation',
+  'tool.help.title': 'Aide',
+  'tool.help.contact': 'Nous contacter',
+  'tool.help.faq': 'Questions fréquentes',
+  
+  // Calculator specific
+  'calculator.income': 'Revenus',
+  'calculator.expenses': 'Dépenses',
+  'calculator.result': 'Résultat',
+  'calculator.percentage': 'Pourcentage',
+  'calculator.amount': 'Montant',
+  'calculator.monthly': 'Mensuel',
+  'calculator.yearly': 'Annuel',
+  'calculator.budget_recommendation': 'Recommandation budgétaire',
+  
+  // Form validation
+  'validation.required': 'Ce champ est obligatoire',
+  'validation.email': 'Email invalide',
+  'validation.phone': 'Numéro de téléphone invalide',
+  'validation.number': 'Veuillez saisir un nombre valide',
+  'validation.min_length': 'Minimum {{min}} caractères requis',
+  'validation.max_length': 'Maximum {{max}} caractères autorisés',
+
   // Footer
   'footer.copyright': '© 2025 Anas Houdzi – Tous droits réservés.',
   'footer.linkedin': 'LinkedIn',

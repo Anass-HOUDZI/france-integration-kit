@@ -23,13 +23,15 @@ interface HeaderProps {
   showHomeButton?: boolean;
   currentTool?: string;
   toolTitle?: string;
+  toolCategory?: string;
 }
 
 const Header: React.FC<HeaderProps> = ({
   onSelectTool,
   showHomeButton = false,
   currentTool,
-  toolTitle
+  toolTitle,
+  toolCategory
 }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { t } = useI18n();
@@ -97,17 +99,33 @@ const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Breadcrumb for tool pages */}
-        {showHomeButton && toolTitle && (
+        {showHomeButton && toolTitle && toolCategory && (
           <div className="mt-3 border-t pt-3">
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbLink 
                     href="#" 
-                    onClick={() => onSelectTool && onSelectTool('home')}
-                    className="text-purple-600 hover:text-purple-800"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSelectTool && onSelectTool('home');
+                    }}
+                    className="text-purple-600 hover:text-purple-800 cursor-pointer"
                   >
                     {t('nav.home')}
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink 
+                    href="#" 
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onSelectTool && onSelectTool(toolCategory);
+                    }}
+                    className="text-purple-600 hover:text-purple-800 cursor-pointer"
+                  >
+                    {t(`category.${toolCategory}`)}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />

@@ -158,6 +158,48 @@ export const enTranslations: Translations = {
   'budget.select_type': 'Select a type',
   'budget.calculate_budget': 'Calculate budget',
   
+  // Theme and UI elements
+  'ui.theme_toggle': 'Toggle theme',
+  'ui.online_status': 'Online',
+  'ui.offline_status': 'Offline',
+  'ui.connecting': 'Connecting...',
+  
+  // Tool-specific content
+  'tool.form.title': 'Title',
+  'tool.form.description': 'Description',
+  'tool.form.submit': 'Submit',
+  'tool.form.reset': 'Reset',
+  'tool.form.clear': 'Clear',
+  'tool.form.placeholder': 'Enter your text here...',
+  'tool.result.success': 'Operation successful',
+  'tool.result.error': 'An error occurred',
+  'tool.result.loading': 'Processing...',
+  'tool.result.no_data': 'No data available',
+  
+  // Instructions and help
+  'tool.instructions.title': 'Usage Instructions',
+  'tool.help.title': 'Help',
+  'tool.help.contact': 'Contact us',
+  'tool.help.faq': 'Frequently Asked Questions',
+  
+  // Calculator specific
+  'calculator.income': 'Income',
+  'calculator.expenses': 'Expenses',
+  'calculator.result': 'Result',
+  'calculator.percentage': 'Percentage',
+  'calculator.amount': 'Amount',
+  'calculator.monthly': 'Monthly',
+  'calculator.yearly': 'Yearly',
+  'calculator.budget_recommendation': 'Budget recommendation',
+  
+  // Form validation
+  'validation.required': 'This field is required',
+  'validation.email': 'Invalid email',
+  'validation.phone': 'Invalid phone number',
+  'validation.number': 'Please enter a valid number',
+  'validation.min_length': 'Minimum {{min}} characters required',
+  'validation.max_length': 'Maximum {{max}} characters allowed',
+
   // Status labels
   'status.pending': 'Pending',
   'status.in_progress': 'In progress',

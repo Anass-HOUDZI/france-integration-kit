@@ -311,4 +311,46 @@ export const arTranslations: Translations = {
   // Footer
   'footer.copyright': '© 2025 أناس هودزي – جميع الحقوق محفوظة.',
   'footer.linkedin': 'لينكد إن',
+
+  // Theme and UI elements
+  'ui.theme_toggle': 'تغيير المظهر',
+  'ui.online_status': 'متصل',
+  'ui.offline_status': 'غير متصل',
+  'ui.connecting': 'جاري الاتصال...',
+  
+  // Tool-specific content
+  'tool.form.title': 'العنوان',
+  'tool.form.description': 'الوصف',
+  'tool.form.submit': 'إرسال',
+  'tool.form.reset': 'إعادة تعيين',
+  'tool.form.clear': 'مسح',
+  'tool.form.placeholder': 'أدخل النص هنا...',
+  'tool.result.success': 'تمت العملية بنجاح',
+  'tool.result.error': 'حدث خطأ',
+  'tool.result.loading': 'جاري المعالجة...',
+  'tool.result.no_data': 'لا توجد بيانات متاحة',
+  
+  // Instructions and help
+  'tool.instructions.title': 'تعليمات الاستخدام',
+  'tool.help.title': 'المساعدة',
+  'tool.help.contact': 'اتصل بنا',
+  'tool.help.faq': 'الأسئلة الشائعة',
+  
+  // Calculator specific
+  'calculator.income': 'الدخل',
+  'calculator.expenses': 'المصروفات',
+  'calculator.result': 'النتيجة',
+  'calculator.percentage': 'النسبة المئوية',
+  'calculator.amount': 'المبلغ',
+  'calculator.monthly': 'شهري',
+  'calculator.yearly': 'سنوي',
+  'calculator.budget_recommendation': 'توصية الميزانية',
+  
+  // Form validation
+  'validation.required': 'هذا الحقل مطلوب',
+  'validation.email': 'بريد إلكتروني غير صالح',
+  'validation.phone': 'رقم هاتف غير صالح',
+  'validation.number': 'يرجى إدخال رقم صالح',
+  'validation.min_length': 'الحد الأدنى {{min}} أحرف مطلوب',
+  'validation.max_length': 'الحد الأقصى {{max}} أحرف مسموح',
 };

@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import OnlineStatusIndicator from '@/components/OnlineStatusIndicator';
 import { View } from '@/hooks/useToolNavigation';
+import { useI18n } from '@/hooks/useI18n';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -18,50 +19,56 @@ const AppLayout: React.FC<AppLayoutProps> = ({
   onSelectTool, 
   showHeader = true 
 }) => {
-  const getToolTitle = () => {
+  const { t } = useI18n();
+
+  const getToolInfo = () => {
     switch (currentView) {
       case 'receipt-generator':
-        return 'Générateur de Récépissés';
+        return { title: t('tool.receipt-generator'), category: 'admin' };
       case 'delay-simulator':
-        return 'Simulateur de Délais';
+        return { title: t('tool.delay-simulator'), category: 'admin' };
       case 'letter-generator':
-        return 'Générateur de Lettres Administratives';
+        return { title: t('tool.letter-generator'), category: 'admin' };
       case 'fee-calculator':
-        return 'Calculateur de Frais';
+        return { title: t('tool.fee-calculator'), category: 'admin' };
       case 'budget-calculator':
-        return 'Calculateur de Budget Logement';
+        return { title: t('tool.budget-calculator'), category: 'logement' };
       case 'cv-translator':
-        return 'Traducteur de CV';
+        return { title: t('tool.cv-translator'), category: 'emploi' };
       case 'social-security-guide':
-        return 'Guide Sécurité Sociale';
+        return { title: t('tool.social-security-guide'), category: 'sante' };
       case 'social-services-locator':
-        return 'Localisateur de Services Sociaux';
+        return { title: t('tool.social-services-locator'), category: 'sante' };
+      case 'medical-translator':
+        return { title: t('tool.medical-translator'), category: 'sante' };
       case 'family-allowances-calculator':
-        return 'Calculateur d\'Allocations Familiales';
+        return { title: t('tool.family-allowances-calculator'), category: 'education' };
       case 'education-costs-calculator':
-        return 'Calculateur de Frais de Scolarité';
+        return { title: t('tool.education-costs-calculator'), category: 'education' };
       case 'culture-quiz':
-        return 'Quiz Culture Française';
+        return { title: t('tool.culture-quiz'), category: 'culture' };
       case 'traditions-guide':
-        return 'Guide des Traditions';
+        return { title: t('tool.traditions-guide'), category: 'culture' };
       case 'french-learning-assistant':
-        return 'Assistant d\'Apprentissage du Français';
+        return { title: t('tool.french-learning-assistant'), category: 'culture' };
       case 'naturalization-simulator':
-        return 'Simulateur de Naturalisation';
+        return { title: t('tool.naturalization-simulator'), category: 'culture' };
       case 'french-expressions-translator':
-        return 'Traducteur d\'Expressions Françaises';
+        return { title: t('tool.french-expressions-translator'), category: 'culture' };
       case 'emergency-assistant':
-        return 'Assistant d\'Urgence';
+        return { title: t('tool.emergency-assistant'), category: 'transversal' };
       case 'planning-generator':
-        return 'Générateur de Planning';
+        return { title: t('tool.planning-generator'), category: 'transversal' };
       case 'family-budget-assistant':
-        return 'Assistant Budget Familial';
+        return { title: t('tool.family-budget-assistant'), category: 'transversal' };
       case 'rights-guide':
-        return 'Guide des Droits et Recours';
+        return { title: t('tool.rights-guide'), category: 'transversal' };
       default:
-        return '';
+        return { title: '', category: '' };
     }
   };
+
+  const toolInfo = getToolInfo();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col">
@@ -70,7 +77,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({
           onSelectTool={onSelectTool}
           showHomeButton={true}
           currentTool={currentView}
-          toolTitle={getToolTitle()}
+          toolTitle={toolInfo.title}
+          toolCategory={toolInfo.category}
         />
       )}
       
