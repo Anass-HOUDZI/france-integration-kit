@@ -5,7 +5,7 @@ export interface MovingTask {
   description: string;
   category: string;
   dueDate: string;
-  priority: 'high' | 'medium' | 'low';
+  priority: 'low' | 'medium' | 'high';
   completed: boolean;
   estimatedCost?: number;
   actualCost?: number;
@@ -19,9 +19,9 @@ export interface ServiceProvider {
   contact: string;
   email?: string;
   phone?: string;
-  status: 'pending' | 'contacted' | 'booked' | 'completed';
   estimatedCost?: number;
   actualCost?: number;
+  status: 'pending' | 'contacted' | 'booked' | 'completed';
   appointmentDate?: string;
   notes?: string;
 }
@@ -29,9 +29,10 @@ export interface ServiceProvider {
 export interface AddressChange {
   id: string;
   organization: string;
-  type: 'administrative' | 'financial' | 'health' | 'subscription' | 'other';
-  priority: 'high' | 'medium' | 'low';
+  type: 'administrative' | 'financial' | 'subscription' | 'health' | 'other';
+  priority: 'low' | 'medium' | 'high';
   completed: boolean;
+  dueDate?: string;
   contact?: string;
   notes?: string;
 }
@@ -49,6 +50,8 @@ export interface MovingPlan {
   tasks: MovingTask[];
   serviceProviders: ServiceProvider[];
   addressChanges: AddressChange[];
+  totalEstimatedCost: number;
+  totalActualCost: number;
   createdAt: string;
   updatedAt: string;
 }

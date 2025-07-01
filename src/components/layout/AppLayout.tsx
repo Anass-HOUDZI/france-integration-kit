@@ -3,11 +3,11 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import OnlineStatusIndicator from '@/components/OnlineStatusIndicator';
-import { ViewType } from '@/hooks/useToolNavigation';
+import { View } from '@/hooks/useToolNavigation';
 
 interface AppLayoutProps {
   children: React.ReactNode;
-  currentView: ViewType;
+  currentView: View;
   onSelectTool: (toolId: string) => void;
   showHeader?: boolean;
 }
@@ -32,12 +32,6 @@ const AppLayout: React.FC<AppLayoutProps> = ({
         return 'Calculateur de Budget Logement';
       case 'cv-translator':
         return 'Traducteur de CV';
-      case 'moving-planner':
-        return 'Planificateur de Déménagement';
-      case 'moving-calculator':
-        return 'Calculateur de Déménagement';
-      case 'state-of-play':
-        return 'Assistant État des Lieux';
       case 'social-security-guide':
         return 'Guide Sécurité Sociale';
       case 'social-services-locator':
@@ -64,8 +58,6 @@ const AppLayout: React.FC<AppLayoutProps> = ({
         return 'Assistant Budget Familial';
       case 'rights-guide':
         return 'Guide des Droits et Recours';
-      case 'medical-translator':
-        return 'Traducteur Médical';
       default:
         return '';
     }

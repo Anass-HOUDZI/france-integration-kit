@@ -28,9 +28,6 @@ import RightsGuideTool from '@/components/tools/RightsGuideTool';
 import ReceiptGeneratorTool from '@/components/tools/ReceiptGeneratorTool';
 import DelaySimulatorTool from '@/components/tools/DelaySimulatorTool';
 import MedicalTranslatorTool from '@/components/tools/MedicalTranslatorTool';
-import MovingPlannerTool from '@/components/tools/MovingPlannerTool';
-import MovingCalculatorTool from '@/components/tools/MovingCalculatorTool';
-import StateOfPlayTool from '@/components/tools/StateOfPlayTool';
 import AppLayout from '@/components/layout/AppLayout';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 import { useToolNavigation } from '@/hooks/useToolNavigation';
@@ -128,16 +125,6 @@ const Index = () => {
       
       case 'cv-translator':
         return <CVTranslator userProfile={null} diagnostic={null} />;
-      
-      // Outils de logement ajoutés
-      case 'moving-planner':
-        return <MovingPlannerTool userProfile={null} diagnostic={null} />;
-      
-      case 'moving-calculator':
-        return <MovingCalculatorTool userProfile={null} diagnostic={null} />;
-      
-      case 'state-of-play':
-        return <StateOfPlayTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'social-security-guide':
         return <SocialSecurityGuideTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
