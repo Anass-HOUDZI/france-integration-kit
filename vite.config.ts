@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => ({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.png', 'robots.txt'],
       workbox: {
-        maximumFileSizeToCacheInBytes: 3000000, // 3MB limit
+        maximumFileSizeToCacheInBytes: 5000000, // 5MB limit instead of 2MB
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         runtimeCaching: [
           {
@@ -90,9 +90,17 @@ export default defineConfig(({ mode }) => ({
           router: ['react-router-dom'],
           query: ['@tanstack/react-query'],
           icons: ['lucide-react'],
+          pdf: ['jspdf'], // Separate chunk for jsPDF
+          tools: [
+            // Group similar tools together
+            './src/components/tools/StateOfPlayTool',
+            './src/components/tools/InsuranceAssistantComplete',
+            './src/components/tools/ChildcareAssistantTool',
+            './src/components/tools/RentNegotiator'
+          ]
         }
       }
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 2000, // Increase warning limit to 2MB
   },
 }));
