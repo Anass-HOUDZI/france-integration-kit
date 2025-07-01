@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,6 +25,7 @@ interface InsuranceOffer {
   cons: string[];
   contractConditions: string[];
   exclusions: string[];
+  recommended?: boolean;
   contactInfo: {
     phone: string;
     email: string;
@@ -58,7 +58,12 @@ interface InsuranceProfile {
   preferredLanguage: string;
 }
 
-const InsuranceAssistantComplete: React.FC = () => {
+interface InsuranceAssistantCompleteProps {
+  userProfile?: any;
+  diagnostic?: any;
+}
+
+const InsuranceAssistantComplete: React.FC<InsuranceAssistantCompleteProps> = ({ userProfile, diagnostic }) => {
   const { t, currentLanguage } = useI18n();
   const [activeTab, setActiveTab] = useState('simulation');
   const [profile, setProfile] = useLocalStorage<InsuranceProfile>('insurance_profile', {
