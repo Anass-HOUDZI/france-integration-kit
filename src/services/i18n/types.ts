@@ -8,38 +8,23 @@ export interface Language {
   name: string;
   nativeName: string;
   flag: string;
+  direction: 'ltr' | 'rtl';
 }
 
 export const SUPPORTED_LANGUAGES: Language[] = [
   {
-    code: 'fr',
-    name: 'French',
-    nativeName: 'Français',
-    flag: '🇫🇷'
-  },
-  {
     code: 'en',
     name: 'English',
     nativeName: 'English',
-    flag: '🇬🇧'
+    flag: '🇬🇧',
+    direction: 'ltr'
   },
   {
-    code: 'es',
-    name: 'Spanish',
-    nativeName: 'Español',
-    flag: '🇪🇸'
-  },
-  {
-    code: 'de',
-    name: 'German',
-    nativeName: 'Deutsch',
-    flag: '🇩🇪'
-  },
-  {
-    code: 'it',
-    name: 'Italian',
-    nativeName: 'Italiano',
-    flag: '🇮🇹'
+    code: 'ar',
+    name: 'Arabic',
+    nativeName: 'العربية',
+    flag: '🇸🇦',
+    direction: 'rtl'
   }
 ];
 

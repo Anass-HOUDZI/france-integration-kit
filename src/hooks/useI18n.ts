@@ -35,6 +35,10 @@ export function useI18n() {
   const formatNumber = (value: number, options?: Intl.NumberFormatOptions) => 
     i18n.formatNumber(value, options);
 
+  const isRTL = () => i18n.isRTL();
+
+  const getCurrentLanguageInfo = () => i18n.getCurrentLanguageInfo();
+
   return {
     t,
     currentLanguage,
@@ -42,6 +46,8 @@ export function useI18n() {
     supportedLanguages: i18n.getSupportedLanguages(),
     formatCurrency,
     formatDate,
-    formatNumber
+    formatNumber,
+    isRTL,
+    getCurrentLanguageInfo
   };
 }

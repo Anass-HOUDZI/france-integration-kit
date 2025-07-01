@@ -1,103 +1,262 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
+/* Variables CSS globales pour les couleurs */
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2 84% 4.9%;
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222.2 84% 4.9%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 210 40% 96%;
+  --accent-foreground: 222.2 84% 4.9%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  --radius: 0.75rem;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
+}
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222.2 84% 4.9%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 84% 4.9%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 224.3 76.3% 94.1%;
+  --chart-1: 220 70% 50%;
+  --chart-2: 160 60% 45%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+}
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+/* Configuration des polices */
+* {
+  border-color: hsl(var(--border));
+}
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+body {
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+/* Police pour les langues LTR (anglais, français) */
+body:not(.rtl) {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+/* Police pour l'arabe (RTL) */
+.rtl {
+  font-family: 'Noto Sans Arabic', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+/* Support RTL global */
+.rtl {
+  direction: rtl;
+}
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+.rtl .text-left {
+  text-align: right;
+}
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+.rtl .text-right {
+  text-align: left;
+}
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+/* Adaptation des flexbox pour RTL */
+.rtl .flex-row {
+  flex-direction: row-reverse;
+}
 
-    --radius: 0.5rem;
+.rtl .justify-start {
+  justify-content: flex-end;
+}
 
-    --sidebar-background: 0 0% 98%;
+.rtl .justify-end {
+  justify-content: flex-start;
+}
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+/* Adaptation des marges et paddings pour RTL */
+.rtl .ml-auto {
+  margin-left: unset;
+  margin-right: auto;
+}
 
-    --sidebar-primary: 240 5.9% 10%;
+.rtl .mr-auto {
+  margin-right: unset;
+  margin-left: auto;
+}
 
-    --sidebar-primary-foreground: 0 0% 98%;
+.rtl .pl-3 {
+  padding-left: unset;
+  padding-right: 0.75rem;
+}
 
-    --sidebar-accent: 240 4.8% 95.9%;
+.rtl .pr-3 {
+  padding-right: unset;
+  padding-left: 0.75rem;
+}
 
-    --sidebar-accent-foreground: 240 5.9% 10%;
+.rtl .pl-4 {
+  padding-left: unset;
+  padding-right: 1rem;
+}
 
-    --sidebar-border: 220 13% 91%;
+.rtl .pr-4 {
+  padding-right: unset;
+  padding-left: 1rem;
+}
 
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+/* Adaptation des bordures pour RTL */
+.rtl .border-l {
+  border-left: none;
+  border-right: 1px solid hsl(var(--border));
+}
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+.rtl .border-r {
+  border-right: none;
+  border-left: 1px solid hsl(var(--border));
+}
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+/* Adaptation des ombres pour RTL */
+.rtl .shadow-lg {
+  box-shadow: -0 10px 15px -3px rgb(0 0 0 / 0.1), -0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+/* Adaptation des icônes pour RTL */
+.rtl .rotate-180 {
+  transform: rotate(0deg);
+}
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+.rtl .group-hover\:translate-x-1:hover {
+  transform: translateX(-0.25rem);
+}
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+/* Animation des éléments en RTL */
+.rtl .transition-transform {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+/* Scrollbar pour RTL */
+.rtl ::-webkit-scrollbar {
+  width: 8px;
+}
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+.rtl ::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+.rtl ::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 4px;
+}
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+/* Formulaires en RTL */
+.rtl input[type="text"],
+.rtl input[type="email"],
+.rtl input[type="tel"],
+.rtl textarea {
+  text-align: right;
+}
+
+.rtl input[type="text"]:focus,
+.rtl input[type="email"]:focus,
+.rtl input[type="tel"]:focus,
+.rtl textarea:focus {
+  text-align: right;
+}
+
+/* Responsive design pour RTL */
+@media (max-width: 768px) {
+  .rtl .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 
+/* Animation et transitions globales */
 @layer base {
   * {
     @apply border-border;
   }
-
+  
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Classes utilitaires personnalisées */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .rtl-flip {
+    transform: scaleX(-1);
+  }
+  
+  .rtl .rtl-flip {
+    transform: scaleX(1);
+  }
+}
+
+/* Amélioration de l'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Support des couleurs forcées (contraste élevé) */
+@media (prefers-contrast: high) {
+  .card {
+    border: 2px solid hsl(var(--border));
+  }
+}
+
+/* Mode sombre amélioré */
+@media (prefers-color-scheme: dark) {
+  .dark-auto {
+    color-scheme: dark;
   }
 }

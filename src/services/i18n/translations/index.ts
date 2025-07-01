@@ -4,23 +4,17 @@
  */
 import { frTranslations } from './fr';
 import { enTranslations } from './en';
-import { esTranslations } from './es';
-import { deTranslations } from './de';
-import { itTranslations } from './it';
+import { arTranslations } from './ar';
 import type { Translations } from '../types';
 
 export const ALL_TRANSLATIONS: Record<string, Translations> = {
   fr: frTranslations,
   en: enTranslations,
-  es: esTranslations,
-  de: deTranslations,
-  it: itTranslations,
+  ar: arTranslations,
 };
 
 export {
   frTranslations,
   enTranslations,
-  esTranslations,
-  deTranslations,
-  itTranslations,
+  arTranslations,
 };
