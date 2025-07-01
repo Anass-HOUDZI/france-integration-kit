@@ -50,13 +50,17 @@ export const enTranslations: Translations = {
   'common.minimum': 'Minimum',
   'common.maximum': 'Maximum',
   'common.easy': 'Easy',
+  'common.facile': 'Easy',
   'common.medium': 'Medium',
+  'common.moyen': 'Medium',
   'common.advanced': 'Advanced',
+  'common.difficile': 'Difficult',
   'common.excellent': 'Excellent',
   'common.good': 'Good',
   'common.basic': 'Basic',
   'common.popular': 'Popular',
   'common.use_tool': 'Use Tool',
+  'common.no_tools_available': 'No tools available',
   
   // Homepage
   'home.title': 'Integration Tools',
@@ -300,4 +304,8 @@ export const enTranslations: Translations = {
   'delay.delay_exceeded': 'Delay exceeded',
   'delay.normal_delay': 'Normal delay',
   'delay.fast_processing': 'Fast processing',
+
+  // Footer
+  'footer.copyright': '© 2025 Anas Houdzi – All rights reserved.',
+  'footer.linkedin': 'LinkedIn',
 };
