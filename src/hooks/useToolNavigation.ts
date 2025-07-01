@@ -1,4 +1,3 @@
-
 import { useState, useCallback } from 'react';
 
 export type View = 
@@ -15,6 +14,7 @@ export type View =
   | 'receipt-generator'
   | 'delay-simulator'
   | 'budget-calculator'
+  | 'childcare_assistant'
   | 'cv-translator'
   | 'social-security-guide'
   | 'social-services-locator'
@@ -47,6 +47,7 @@ const TOOL_TO_MODULE_MAP: Record<string, View> = {
   
   // Outils logement
   'budget-calculator': 'logement',
+  'childcare_assistant': 'logement', // Ajout de l'Assistant Garde d'Enfants
   
   // Outils emploi
   'cv-translator': 'emploi',
@@ -124,7 +125,7 @@ function isValidView(view: string): view is View {
   const validViews = [
     'home', 'admin', 'logement', 'emploi', 'sante', 'education', 'culture', 'transversal',
     'letter-generator', 'fee-calculator', 'receipt-generator', 'delay-simulator',
-    'budget-calculator', 'cv-translator', 'social-security-guide', 'social-services-locator',
+    'budget-calculator', 'childcare_assistant', 'cv-translator', 'social-security-guide', 'social-services-locator',
     'family-allowances-calculator', 'education-costs-calculator', 'culture-quiz',
     'traditions-guide', 'french-learning-assistant', 'naturalization-simulator',
     'french-expressions-translator', 'emergency-assistant', 'planning-generator',

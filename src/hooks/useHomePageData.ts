@@ -1,5 +1,4 @@
-
-import { FileText, Calculator, Home, Heart, GraduationCap, Briefcase, Globe, Users, TrendingUp, Mail } from 'lucide-react';
+import { FileText, Calculator, Home, Heart, GraduationCap, Briefcase, Globe, Users, TrendingUp, Mail, Baby } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 
 export interface HomePageTool {
@@ -59,7 +58,7 @@ export function useHomePageData(): HomePageTool[] {
       accessibility: 'excellent'
     },
 
-    // LOGEMENT & VIE QUOTIDIENNE
+    // LOGEMENT & VIE QUOTIDIENNE - Ajout de l'Assistant Garde d'Enfants
     {
       id: 'budget-calculator',
       title: 'Calculateur Budget Logement',
@@ -68,6 +67,16 @@ export function useHomePageData(): HomePageTool[] {
       icon: Home,
       gradient: 'from-teal-500 to-teal-600',
       difficulty: 'Facile',
+      accessibility: 'excellent'
+    },
+    {
+      id: 'childcare_assistant',
+      title: 'Assistant Garde d\'Enfants',
+      description: 'Trouvez le mode de garde optimal selon votre budget et besoins',
+      category: 'Logement & Vie Quotidienne',
+      icon: Baby,
+      gradient: 'from-pink-500 to-pink-600',
+      difficulty: 'Moyen',
       accessibility: 'excellent'
     },
 

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import HomePage from '@/components/HomePage';
 import AdminModule from '@/components/modules/AdminModule';
@@ -12,6 +11,7 @@ import LetterGenerator from '@/components/tools/LetterGenerator';
 import FeeCalculator from '@/components/tools/FeeCalculator';
 import BudgetCalculator from '@/components/tools/BudgetCalculator';
 import CVTranslator from '@/components/tools/CVTranslator';
+import ChildcareAssistantTool from '@/components/tools/ChildcareAssistantTool';
 import SocialSecurityGuideTool from '@/components/tools/SocialSecurityGuideTool';
 import SocialServicesLocatorTool from '@/components/tools/SocialServicesLocatorTool';
 import FamilyAllowancesTool from '@/components/tools/FamilyAllowancesTool';
@@ -107,7 +107,7 @@ const Index = () => {
           />
         );
 
-      // Individual tool views - tous les outils sont correctement routés
+      // Individual tool views - avec l'Assistant Garde d'Enfants ajouté
       case 'letter-generator':
         return <LetterGenerator userProfile={null} diagnostic={null} />;
       
@@ -122,6 +122,9 @@ const Index = () => {
       
       case 'budget-calculator':
         return <BudgetCalculator userProfile={null} diagnostic={null} />;
+      
+      case 'childcare_assistant':
+        return <ChildcareAssistantTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'cv-translator':
         return <CVTranslator userProfile={null} diagnostic={null} />;
