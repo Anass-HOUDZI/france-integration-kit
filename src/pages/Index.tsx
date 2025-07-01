@@ -111,7 +111,7 @@ const Index = () => {
           />
         );
 
-      // Individual tool views - Tous les outils logement intégrés
+      // Individual tool views - Props corrigées
       case 'letter-generator':
         return <LetterGenerator userProfile={null} diagnostic={null} />;
       
@@ -134,13 +134,13 @@ const Index = () => {
         return <StateOfPlayTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'rent-negotiator':
-        return <RentNegotiator userProfile={null} diagnostic={null} onBack={navigateHome} />;
+        return <RentNegotiator userProfile={null} diagnostic={null} />;
       
       case 'insurance-assistant':
-        return <InsuranceAssistantComplete userProfile={null} diagnostic={null} onBack={navigateHome} />;
+        return <InsuranceAssistantComplete userProfile={null} diagnostic={null} />;
       
       case 'moving-planner':
-        return <MovingPlannerTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
+        return <MovingPlannerTool userProfile={null} diagnostic={null} />;
       
       case 'cv-translator':
         return <CVTranslator userProfile={null} diagnostic={null} />;

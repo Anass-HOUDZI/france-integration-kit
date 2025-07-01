@@ -1,4 +1,4 @@
-import { FileText, Calculator, Home, Heart, GraduationCap, Briefcase, Globe, Users, TrendingUp, Mail, Baby, Shield, CheckSquare, Truck } from 'lucide-react';
+import { FileText, Calculator, Home, Heart, GraduationCap, Briefcase, Globe, Users, TrendingUp, Mail, Baby, Shield, CheckSquare, Truck, TrendingDown } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 
 export interface HomePageTool {
