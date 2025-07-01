@@ -1,3 +1,4 @@
+
 /**
  * English translations
  */
@@ -603,4 +604,79 @@ export const enTranslations: Translations = {
   'universal.to_date': 'To date',
   'universal.select_unit': 'Select unit',
   'universal.select_currency': 'Select currency',
+
+  // CV Translator additional
+  'cv.title': 'French CV Translator',
+  'cv.description': 'Adapt your CV to French standards and optimize your presentation',
+  'cv.upload_cv': 'Upload your CV',
+  'cv.personal_info': 'Personal Information',
+  'cv.first_name': 'First Name',
+  'cv.last_name': 'Last Name',
+  'cv.phone': 'Phone',
+  'cv.address': 'Address',
+  'cv.birth_date': 'Birth Date',
+  'cv.nationality': 'Nationality',
+  'cv.professional_experience': 'Professional Experience',
+  'cv.education': 'Education',
+  'cv.skills': 'Skills',
+  'cv.languages': 'Languages',
+  'cv.interests': 'Interests',
+  'cv.generate_french_cv': 'Generate French CV',
+  'cv.download_pdf': 'Download PDF',
+  'cv.preview': 'Preview',
+
+  // Forms common
+  'form.save_draft': 'Save Draft',
+  'form.load_draft': 'Load Draft',
+  'form.clear_form': 'Clear Form',
+  'form.required_field': 'Required field',
+  'form.optional_field': 'Optional field',
+  'form.choose_file': 'Choose file',
+  'form.upload': 'Upload',
+  'form.remove_file': 'Remove file',
+
+  // Error messages
+  'error.network': 'Network error',
+  'error.file_too_large': 'File too large',
+  'error.invalid_file_type': 'Invalid file type',
+  'error.generic': 'An error occurred',
+  'error.try_again': 'Try again',
+
+  // Success messages
+  'success.saved': 'Successfully saved',
+  'success.generated': 'Successfully generated',
+  'success.uploaded': 'Successfully uploaded',
+  'success.downloaded': 'Successfully downloaded',
+
+  // Buttons and actions
+  'action.view': 'View',
+  'action.modify': 'Modify',
+  'action.duplicate': 'Duplicate',
+  'action.share': 'Share',
+  'action.print': 'Print',
+  'action.export_pdf': 'Export PDF',
+  'action.copy_link': 'Copy Link',
+  'action.full_screen': 'Full Screen',
+  'action.minimize': 'Minimize',
+  'action.refresh': 'Refresh',
+  'action.settings': 'Settings',
+
+  // Time and dates
+  'time.today': 'Today',
+  'time.yesterday': 'Yesterday',
+  'time.tomorrow': 'Tomorrow',
+  'time.this_week': 'This week',
+  'time.next_week': 'Next week',
+  'time.this_month': 'This month',
+  'time.next_month': 'Next month',
+  
+  // Units
+  'unit.days': 'days',
+  'unit.weeks': 'weeks',
+  'unit.months': 'months',
+  'unit.years': 'years',
+  'unit.euros': 'euros',
+  'unit.percent': 'percent',
+  'unit.square_meters': 'square meters',
+  'unit.kilometers': 'kilometers'
 };
