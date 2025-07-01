@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { LayoutGrid, User, Briefcase, MessageSquare, Share2, BarChart3, Eye, Download, Settings, Plus, Trash2, Edit, Star, Globe, Github, Linkedin } from 'lucide-react';
+import { LayoutGrid, User, Briefcase, MessageSquare, Share2, BarChart3, Eye, Download, Settings, Plus, Trash2, Edit, Star, Globe, Github, Linkedin, AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import ToolContainer from './ToolContainer';
 
