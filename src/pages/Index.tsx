@@ -32,6 +32,8 @@ import RightsGuideTool from '@/components/tools/RightsGuideTool';
 import ReceiptGeneratorTool from '@/components/tools/ReceiptGeneratorTool';
 import DelaySimulatorTool from '@/components/tools/DelaySimulatorTool';
 import MedicalTranslatorTool from '@/components/tools/MedicalTranslatorTool';
+import TrainingGuideTool from '@/components/tools/TrainingGuideTool';
+import PortfolioCreatorTool from '@/components/tools/PortfolioCreatorTool';
 import AppLayout from '@/components/layout/AppLayout';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 import { useToolNavigation } from '@/hooks/useToolNavigation';
@@ -186,6 +188,12 @@ const Index = () => {
       
       case 'medical-translator':
         return <MedicalTranslatorTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
+      
+      case 'training_guide':
+        return <TrainingGuideTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
+      
+      case 'portfolio_creator':
+        return <PortfolioCreatorTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       default:
         console.warn(`Vue non trouvée: ${currentView}, redirection vers l'accueil`);

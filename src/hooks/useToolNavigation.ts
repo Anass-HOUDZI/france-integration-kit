@@ -39,7 +39,9 @@ export type View =
   | 'unemploymentSimulator'
   | 'motivation_letter'
   | 'interview_assistant'
-  | 'diploma_equivalence';
+  | 'diploma_equivalence'
+  | 'training_guide'
+  | 'portfolio_creator';
 
 // Mapping des outils vers leurs modules
 const TOOL_TO_MODULE_MAP: Record<string, View> = {
@@ -57,7 +59,7 @@ const TOOL_TO_MODULE_MAP: Record<string, View> = {
   'insurance-assistant': 'logement',
   'moving-planner': 'logement',
   
-  // Outils emploi
+  // Outils emploi - Tous les 8 outils
   'cv-translator': 'emploi',
   'cv_translator': 'emploi',
   'salaryCalculator': 'emploi',
@@ -65,6 +67,8 @@ const TOOL_TO_MODULE_MAP: Record<string, View> = {
   'motivation_letter': 'emploi',
   'interview_assistant': 'emploi',
   'diploma_equivalence': 'emploi',
+  'training_guide': 'emploi',
+  'portfolio_creator': 'emploi',
   
   // Outils santé
   'social-security-guide': 'sante',
@@ -140,7 +144,7 @@ function isValidView(view: string): view is View {
     'french-expressions-translator', 'emergency-assistant', 'planning-generator',
     'family-budget-assistant', 'rights-guide', 'medical-translator', 'cv_translator',
     'salaryCalculator', 'unemploymentSimulator', 'motivation_letter', 'interview_assistant',
-    'diploma_equivalence'
+    'diploma_equivalence', 'training_guide', 'portfolio_creator'
   ];
   
   return validViews.includes(view as View);

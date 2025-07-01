@@ -1,11 +1,13 @@
 
-import { FileText, Calculator, TrendingUp, Mail, GraduationCap, Users, LayoutGrid, Clock } from 'lucide-react';
+import { FileText, Calculator, TrendingUp, Mail, GraduationCap, Users, LayoutGrid, BookOpen } from 'lucide-react';
 import CVTranslatorTool from '@/components/tools/CVTranslatorTool';
 import SalaryCalculatorTool from '@/components/tools/SalaryCalculatorTool';
 import MotivationLetterTool from '@/components/tools/MotivationLetterTool';
 import InterviewAssistantTool from '@/components/tools/InterviewAssistantTool';
 import DiplomaEquivalenceTool from '@/components/tools/DiplomaEquivalenceTool';
 import UnemploymentSimulatorTool from '@/components/tools/UnemploymentSimulatorTool';
+import TrainingGuideTool from '@/components/tools/TrainingGuideTool';
+import PortfolioCreatorTool from '@/components/tools/PortfolioCreatorTool';
 
 export interface ToolData {
   id: string;
@@ -18,7 +20,7 @@ export interface ToolData {
   component?: React.ComponentType<any>;
 }
 
-// Hook pour les outils d'emploi - complètement refactorisé
+// Hook pour les outils d'emploi - Tous les 8 outils actifs
 export const useEmploymentTools = (): ToolData[] => {
   return [
     {
@@ -85,10 +87,11 @@ export const useEmploymentTools = (): ToolData[] => {
       id: 'training_guide',
       title: 'Guide Formation Professionnelle',
       description: 'CPF, formations éligibles, financement et parcours de reconversion professionnelle',
-      icon: GraduationCap,
+      icon: BookOpen,
       color: 'bg-pink-500',
       category: 'Diplômes & Formation',
-      status: 'coming_soon'
+      status: 'active',
+      component: TrainingGuideTool
     },
     {
       id: 'portfolio_creator',
@@ -97,7 +100,8 @@ export const useEmploymentTools = (): ToolData[] => {
       icon: LayoutGrid,
       color: 'bg-cyan-500',
       category: 'CV & Candidature',
-      status: 'coming_soon'
+      status: 'active',
+      component: PortfolioCreatorTool
     }
   ];
 };

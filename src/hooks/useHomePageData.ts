@@ -1,4 +1,4 @@
-import { FileText, Calculator, Home, Heart, GraduationCap, Briefcase, Globe, Users, TrendingUp, Mail, Baby, Shield, CheckSquare, Truck, TrendingDown } from 'lucide-react';
+import { FileText, Calculator, Home, Heart, GraduationCap, Briefcase, Globe, Users, TrendingUp, Mail, Baby, Shield, CheckSquare, Truck, TrendingDown, BookOpen, LayoutGrid } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 
 export interface HomePageTool {
@@ -120,7 +120,7 @@ export function useHomePageData(): HomePageTool[] {
       accessibility: 'good'
     },
 
-    // EMPLOI & FORMATION - Tous les 8 outils
+    // EMPLOI & FORMATION - Tous les 8 outils complets
     {
       id: 'cv_translator',
       title: 'Traducteur de CV Français',
@@ -178,6 +178,26 @@ export function useHomePageData(): HomePageTool[] {
       category: 'Emploi & Formation',
       icon: GraduationCap,
       gradient: 'from-purple-500 to-purple-600',
+      difficulty: 'Moyen',
+      accessibility: 'good'
+    },
+    {
+      id: 'training_guide',
+      title: 'Guide Formation Professionnelle',
+      description: 'CPF, formations éligibles, financement et parcours de reconversion',
+      category: 'Emploi & Formation',
+      icon: BookOpen,
+      gradient: 'from-pink-500 to-pink-600',
+      difficulty: 'Moyen',
+      accessibility: 'excellent'
+    },
+    {
+      id: 'portfolio_creator',
+      title: 'Créateur Portfolio Professionnel',
+      description: 'Mettez en valeur vos compétences et projets avec des templates modernes',
+      category: 'Emploi & Formation',
+      icon: LayoutGrid,
+      gradient: 'from-cyan-500 to-cyan-600',
       difficulty: 'Moyen',
       accessibility: 'good'
     },
