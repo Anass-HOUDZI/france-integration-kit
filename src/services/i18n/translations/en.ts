@@ -1,4 +1,3 @@
-
 /**
  * English translations
  */
@@ -150,10 +149,6 @@ export const enTranslations: Translations = {
   'tool.training_guide_desc': 'Navigate the French training system and discover your CPF rights',
   'tool.portfolio_creator': 'Professional Portfolio Creator',
   'tool.portfolio_creator_desc': 'Highlight your skills with a professional and attractive portfolio',
-  
-  // Footer
-  'footer.copyright': '© 2025 Anas Houdzi – All rights reserved.',
-  'footer.linkedin': 'LinkedIn',
   
   // Status labels
   'status.pending': 'Pending',

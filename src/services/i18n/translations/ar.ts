@@ -1,4 +1,3 @@
-
 /**
  * Traductions arabes
  */
@@ -150,10 +149,6 @@ export const arTranslations: Translations = {
   'tool.training_guide_desc': 'تنقل في نظام التكوين الفرنسي واكتشف حقوقك في CPF',
   'tool.portfolio_creator': 'منشئ الحافظة المهنية',
   'tool.portfolio_creator_desc': 'أبرز مهاراتك بحافظة مهنية احترافية وجذابة',
-  
-  // Footer
-  'footer.copyright': '© 2025 أناس هودزي – جميع الحقوق محفوظة.',
-  'footer.linkedin': 'لينكد إن',
   
   // Status labels
   'status.pending': 'في الانتظار',
