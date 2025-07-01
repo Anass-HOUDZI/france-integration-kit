@@ -1,3 +1,4 @@
+
 /**
  * English translations
  */
@@ -467,7 +468,6 @@ export const enTranslations: Translations = {
   'neighborhood.name': 'Name',
   'neighborhood.arrondissement': 'Arrondissement',
   'neighborhood.price_per_m2': 'Price per m2',
-  'neighborhood.description': 'Description',
   'neighborhood.pros': 'Pros',
   'neighborhood.cons': 'Cons',
   'neighborhood.score': 'Score',
