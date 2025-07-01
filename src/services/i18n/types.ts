@@ -20,6 +20,13 @@ export const SUPPORTED_LANGUAGES: Language[] = [
     direction: 'ltr'
   },
   {
+    code: 'fr',
+    name: 'French',
+    nativeName: 'Français',
+    flag: '🇫🇷',
+    direction: 'ltr'
+  },
+  {
     code: 'ar',
     name: 'Arabic',
     nativeName: 'العربية',

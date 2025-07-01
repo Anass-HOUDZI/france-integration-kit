@@ -8,8 +8,8 @@ import { arTranslations } from './ar';
 import type { Translations } from '../types';
 
 export const ALL_TRANSLATIONS: Record<string, Translations> = {
-  fr: frTranslations,
   en: enTranslations,
+  fr: frTranslations,
   ar: arTranslations,
 };
 

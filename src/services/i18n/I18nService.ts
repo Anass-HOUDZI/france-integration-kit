@@ -6,8 +6,8 @@ import { SUPPORTED_LANGUAGES, type Language, type Translations } from './types';
 import { ALL_TRANSLATIONS } from './translations';
 
 export class I18nService {
-  private currentLanguage: string = 'en'; // Anglais par défaut
-  private fallbackLanguage: string = 'en';
+  private currentLanguage: string = 'fr'; // Français par défaut
+  private fallbackLanguage: string = 'fr';
 
   constructor() {
     // Détecter la langue du navigateur
