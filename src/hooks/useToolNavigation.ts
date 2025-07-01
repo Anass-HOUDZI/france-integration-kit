@@ -15,6 +15,10 @@ export type View =
   | 'delay-simulator'
   | 'budget-calculator'
   | 'childcare_assistant'
+  | 'state-of-play'
+  | 'rent-negotiator'
+  | 'insurance-assistant'
+  | 'moving-planner'
   | 'cv-translator'
   | 'social-security-guide'
   | 'social-services-locator'
@@ -45,9 +49,13 @@ const TOOL_TO_MODULE_MAP: Record<string, View> = {
   'receipt-generator': 'admin',
   'delay-simulator': 'admin',
   
-  // Outils logement
+  // Outils logement - Tous les outils intégrés
   'budget-calculator': 'logement',
-  'childcare_assistant': 'logement', // Ajout de l'Assistant Garde d'Enfants
+  'childcare_assistant': 'logement',
+  'state-of-play': 'logement',
+  'rent-negotiator': 'logement',
+  'insurance-assistant': 'logement',
+  'moving-planner': 'logement',
   
   // Outils emploi
   'cv-translator': 'emploi',
@@ -125,9 +133,10 @@ function isValidView(view: string): view is View {
   const validViews = [
     'home', 'admin', 'logement', 'emploi', 'sante', 'education', 'culture', 'transversal',
     'letter-generator', 'fee-calculator', 'receipt-generator', 'delay-simulator',
-    'budget-calculator', 'childcare_assistant', 'cv-translator', 'social-security-guide', 'social-services-locator',
-    'family-allowances-calculator', 'education-costs-calculator', 'culture-quiz',
-    'traditions-guide', 'french-learning-assistant', 'naturalization-simulator',
+    'budget-calculator', 'childcare_assistant', 'state-of-play', 'rent-negotiator', 
+    'insurance-assistant', 'moving-planner', 'cv-translator', 'social-security-guide', 
+    'social-services-locator', 'family-allowances-calculator', 'education-costs-calculator', 
+    'culture-quiz', 'traditions-guide', 'french-learning-assistant', 'naturalization-simulator',
     'french-expressions-translator', 'emergency-assistant', 'planning-generator',
     'family-budget-assistant', 'rights-guide', 'medical-translator', 'cv_translator',
     'salaryCalculator', 'unemploymentSimulator', 'motivation_letter', 'interview_assistant',

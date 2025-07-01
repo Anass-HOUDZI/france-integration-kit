@@ -12,6 +12,10 @@ import FeeCalculator from '@/components/tools/FeeCalculator';
 import BudgetCalculator from '@/components/tools/BudgetCalculator';
 import CVTranslator from '@/components/tools/CVTranslator';
 import ChildcareAssistantTool from '@/components/tools/ChildcareAssistantTool';
+import StateOfPlayTool from '@/components/tools/StateOfPlayTool';
+import RentNegotiator from '@/components/tools/RentNegotiator';
+import InsuranceAssistantComplete from '@/components/tools/InsuranceAssistantComplete';
+import MovingPlannerTool from '@/components/tools/MovingPlannerTool';
 import SocialSecurityGuideTool from '@/components/tools/SocialSecurityGuideTool';
 import SocialServicesLocatorTool from '@/components/tools/SocialServicesLocatorTool';
 import FamilyAllowancesTool from '@/components/tools/FamilyAllowancesTool';
@@ -107,7 +111,7 @@ const Index = () => {
           />
         );
 
-      // Individual tool views - avec l'Assistant Garde d'Enfants ajouté
+      // Individual tool views - Tous les outils logement intégrés
       case 'letter-generator':
         return <LetterGenerator userProfile={null} diagnostic={null} />;
       
@@ -125,6 +129,18 @@ const Index = () => {
       
       case 'childcare_assistant':
         return <ChildcareAssistantTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
+      
+      case 'state-of-play':
+        return <StateOfPlayTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
+      
+      case 'rent-negotiator':
+        return <RentNegotiator userProfile={null} diagnostic={null} onBack={navigateHome} />;
+      
+      case 'insurance-assistant':
+        return <InsuranceAssistantComplete userProfile={null} diagnostic={null} onBack={navigateHome} />;
+      
+      case 'moving-planner':
+        return <MovingPlannerTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'cv-translator':
         return <CVTranslator userProfile={null} diagnostic={null} />;

@@ -1,4 +1,4 @@
-import { FileText, Calculator, Home, Heart, GraduationCap, Briefcase, Globe, Users, TrendingUp, Mail, Baby } from 'lucide-react';
+import { FileText, Calculator, Home, Heart, GraduationCap, Briefcase, Globe, Users, TrendingUp, Mail, Baby, Shield, CheckSquare, Truck } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
 
 export interface HomePageTool {
@@ -58,7 +58,7 @@ export function useHomePageData(): HomePageTool[] {
       accessibility: 'excellent'
     },
 
-    // LOGEMENT & VIE QUOTIDIENNE - Ajout de l'Assistant Garde d'Enfants
+    // LOGEMENT & VIE QUOTIDIENNE - Tous les outils intégrés
     {
       id: 'budget-calculator',
       title: 'Calculateur Budget Logement',
@@ -78,6 +78,46 @@ export function useHomePageData(): HomePageTool[] {
       gradient: 'from-pink-500 to-pink-600',
       difficulty: 'Moyen',
       accessibility: 'excellent'
+    },
+    {
+      id: 'state-of-play',
+      title: 'Assistant État des Lieux',
+      description: 'Réalisez un état des lieux précis avec photos géolocalisées',
+      category: 'Logement & Vie Quotidienne',
+      icon: CheckSquare,
+      gradient: 'from-purple-500 to-purple-600',
+      difficulty: 'Moyen',
+      accessibility: 'good'
+    },
+    {
+      id: 'rent-negotiator',
+      title: 'Guide Négociation Loyer',
+      description: 'Arguments juridiques et outils pour négocier votre loyer',
+      category: 'Logement & Vie Quotidienne',
+      icon: TrendingDown,
+      gradient: 'from-orange-500 to-orange-600',
+      difficulty: 'Moyen',
+      accessibility: 'good'
+    },
+    {
+      id: 'insurance-assistant',
+      title: 'Assistant Assurance Habitation',
+      description: 'Comparaison complète, gestion sinistres et résiliation simplifiée',
+      category: 'Logement & Vie Quotidienne',
+      icon: Shield,
+      gradient: 'from-teal-500 to-teal-600',
+      difficulty: 'Moyen',
+      accessibility: 'excellent'
+    },
+    {
+      id: 'moving-planner',
+      title: 'Planificateur Emménagement',
+      description: 'Organisez votre emménagement étape par étape sans stress',
+      category: 'Logement & Vie Quotidienne',
+      icon: Truck,
+      gradient: 'from-yellow-500 to-yellow-600',
+      difficulty: 'Facile',
+      accessibility: 'good'
     },
 
     // EMPLOI & FORMATION - Tous les 8 outils
