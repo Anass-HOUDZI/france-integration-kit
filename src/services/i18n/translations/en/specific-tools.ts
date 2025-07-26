@@ -3,6 +3,19 @@
  * Specific tool features English translations
  */
 export const specificToolsTranslations = {
+  // Expressions translator
+  'expressions.instructions': 'Type a French idiomatic expression (e.g. "Donner sa langue au chat") or a keyword, choose your language, then click the stars to add to favorites.',
+  'expressions.search_placeholder': 'Search for an expression...',
+  'expressions.translation': 'Translation',
+  'expressions.example': 'Example',
+  'expressions.not_available': 'Not available',
+  'expressions.favorites': 'Favorites',
+  'expressions.show_all': 'Show all',
+  'expressions.no_expressions_found': 'No expressions found...',
+  'expressions.added_to_favorites': 'Expression added to favorites!',
+  'expressions.removed_from_favorites': 'Expression removed from favorites!',
+  'expressions.footer_note': 'More than 500 expressions coming soon, suggestions possible – Your favorites are stored on this device.',
+
   // Medical translator
   'medical.dictionary': 'Medical Dictionary',
   'medical.emergency_phrases': 'Emergency Phrases',

@@ -297,6 +297,19 @@ export const arTranslations: Translations = {
   'delay.maximum': 'الحد الأقصى',
   'delay.estimated_response_date': 'تاريخ الرد المتوقع',
 
+  // Expressions translator
+  'expressions.instructions': 'اكتب تعبيرًا اصطلاحيًا فرنسيًا (مثل "Donner sa langue au chat") أو كلمة مفتاحية، اختر لغتك، ثم انقر على النجوم لإضافة إلى المفضلة.',
+  'expressions.search_placeholder': 'ابحث عن تعبير...',
+  'expressions.translation': 'الترجمة',
+  'expressions.example': 'مثال',
+  'expressions.not_available': 'غير متوفر',
+  'expressions.favorites': 'المفضلة',
+  'expressions.show_all': 'إظهار الكل',
+  'expressions.no_expressions_found': 'لم يتم العثور على تعبيرات...',
+  'expressions.added_to_favorites': 'تم إضافة التعبير إلى المفضلة!',
+  'expressions.removed_from_favorites': 'تم إزالة التعبير من المفضلة!',
+  'expressions.footer_note': 'أكثر من 500 تعبير قريبًا، اقتراحات ممكنة - يتم حفظ مفضلاتك على هذا الجهاز.',
+
   // Emergency Assistant specific
   'emergency.title': 'مساعد الطوارئ',
   'emergency.description': 'وصول سريع لأرقام الطوارئ والإجراءات في فرنسا',

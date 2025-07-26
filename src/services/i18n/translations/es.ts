@@ -147,6 +147,19 @@ export const esTranslations: Translations = {
   'cv.download': 'Descargar CV',
   'cv.tips': 'Consejos para el CV francés',
   
+  // Expressions translator
+  'expressions.instructions': 'Escribe una expresión idiomática francesa (ej: "Donner sa langue au chat") o una palabra clave, elige tu idioma, luego haz clic en las estrellas para añadir a favoritos.',
+  'expressions.search_placeholder': 'Buscar una expresión...',
+  'expressions.translation': 'Traducción',
+  'expressions.example': 'Ejemplo',
+  'expressions.not_available': 'No disponible',
+  'expressions.favorites': 'Favoritos',
+  'expressions.show_all': 'Mostrar todos',
+  'expressions.no_expressions_found': 'No se encontraron expresiones...',
+  'expressions.added_to_favorites': '¡Expresión añadida a favoritos!',
+  'expressions.removed_from_favorites': '¡Expresión eliminada de favoritos!',
+  'expressions.footer_note': 'Más de 500 expresiones próximamente, sugerencias posibles – Tus favoritos se almacenan en este dispositivo.',
+
   // Status labels
   'status.pending': 'Pendiente',
   'status.in_progress': 'En progreso',
@@ -154,4 +167,14 @@ export const esTranslations: Translations = {
   'status.cancelled': 'Cancelado',
   'status.approved': 'Aprobado',
   'status.rejected': 'Rechazado',
+
+  // UI elements
+  'ui.theme_toggle': 'Cambiar tema',
+  'ui.online_status': 'En línea',
+  'ui.offline_status': 'Fuera de línea',
+  'ui.connecting': 'Conectando...',
+
+  // Footer
+  'footer.copyright': '© 2025 Anas Houdzi – Todos los derechos reservados.',
+  'footer.linkedin': 'LinkedIn',
 };

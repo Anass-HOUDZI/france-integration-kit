@@ -167,6 +167,19 @@ export const frTranslations: Translations = {
   'tool.naturalization-simulator_desc': 'Préparez l\'examen de naturalisation française avec des quiz interactifs',
   'tool.french-expressions-translator': 'Traducteur Expressions Françaises',
   'tool.french-expressions-translator_desc': 'Comprenez les expressions idiomatiques françaises et leur usage',
+
+  // Expressions translator
+  'expressions.instructions': 'Tapez une expression idiomatique française (ex : "Donner sa langue au chat") ou un mot-clé, choisissez votre langue, puis cliquez sur les étoiles pour ajouter en favori.',
+  'expressions.search_placeholder': 'Chercher une expression...',
+  'expressions.translation': 'Traduction',
+  'expressions.example': 'Exemple',
+  'expressions.not_available': 'Non disponible',
+  'expressions.favorites': 'Favoris',
+  'expressions.show_all': 'Voir tous',
+  'expressions.no_expressions_found': 'Aucune expression trouvée...',
+  'expressions.added_to_favorites': 'Expression ajoutée aux favoris !',
+  'expressions.removed_from_favorites': 'Expression retirée des favoris !',
+  'expressions.footer_note': 'Plus de 500 expressions bientôt, suggestions possibles – Vos favoris sont stockés sur cet appareil.',
   
   // Tools - Transversal category
   'tool.emergency-assistant': 'Assistant Urgences',

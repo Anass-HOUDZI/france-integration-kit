@@ -13,17 +13,17 @@ export interface Language {
 
 export const SUPPORTED_LANGUAGES: Language[] = [
   {
-    code: 'en',
-    name: 'English',
-    nativeName: 'English',
-    flag: '🇬🇧',
-    direction: 'ltr'
-  },
-  {
     code: 'fr',
     name: 'French',
     nativeName: 'Français',
     flag: '🇫🇷',
+    direction: 'ltr'
+  },
+  {
+    code: 'en',
+    name: 'English',
+    nativeName: 'English',
+    flag: '🇬🇧',
     direction: 'ltr'
   },
   {
@@ -32,6 +32,27 @@ export const SUPPORTED_LANGUAGES: Language[] = [
     nativeName: 'العربية',
     flag: '🇸🇦',
     direction: 'rtl'
+  },
+  {
+    code: 'es',
+    name: 'Spanish',
+    nativeName: 'Español',
+    flag: '🇪🇸',
+    direction: 'ltr'
+  },
+  {
+    code: 'it',
+    name: 'Italian',
+    nativeName: 'Italiano',
+    flag: '🇮🇹',
+    direction: 'ltr'
+  },
+  {
+    code: 'de',
+    name: 'German',
+    nativeName: 'Deutsch',
+    flag: '🇩🇪',
+    direction: 'ltr'
   }
 ];
 
