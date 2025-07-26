@@ -310,6 +310,19 @@ export const arTranslations: Translations = {
   'expressions.removed_from_favorites': 'تم إزالة التعبير من المفضلة!',
   'expressions.footer_note': 'أكثر من 500 تعبير قريبًا، اقتراحات ممكنة - يتم حفظ مفضلاتك على هذا الجهاز.',
 
+  // Family allowances calculator
+  'family_allowances.title': 'حاسبة الإعانات العائلية',
+  'family_allowances.description': 'قدر استحقاقك للمزايا العائلية',
+  'family_allowances.family_situation': 'وضعك العائلي',
+  'family_allowances.situation': 'الحالة العائلية',
+  'family_allowances.select_situation': 'اختر',
+  'family_allowances.monthly_income': '(€) الدخل الشهري الصافي',
+  'family_allowances.children_count': 'عدد الأطفال',
+  'family_allowances.calculate': 'احسب إعاناتي €',
+  'family_allowances.single': 'أعزب',
+  'family_allowances.couple': 'زوجان',
+  'family_allowances.single_parent': 'والد وحيد',
+
   // Emergency Assistant specific
   'emergency.title': 'مساعد الطوارئ',
   'emergency.description': 'وصول سريع لأرقام الطوارئ والإجراءات في فرنسا',
