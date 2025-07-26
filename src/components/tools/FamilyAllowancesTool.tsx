@@ -5,8 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Calculator, Users, Euro, TrendingUp, AlertCircle, Gift, ArrowLeft } from 'lucide-react';
+import { Calculator, Users, Euro, TrendingUp, AlertCircle, Gift } from 'lucide-react';
 import { useUserProfile } from '@/hooks/useUserProfile';
+import { useI18n } from '@/hooks/useI18n';
+import ToolContainer from './ToolContainer';
 
 interface FamilyAllowancesProps {
   userProfile: any;
@@ -15,6 +17,7 @@ interface FamilyAllowancesProps {
 }
 
 const FamilyAllowancesTool: React.FC<FamilyAllowancesProps> = ({ userProfile, onBack }) => {
+  const { t } = useI18n();
   const { saveToolData } = useUserProfile();
   const [numberOfChildren, setNumberOfChildren] = useState('');
   const [monthlyIncome, setMonthlyIncome] = useState('');
@@ -23,9 +26,9 @@ const FamilyAllowancesTool: React.FC<FamilyAllowancesProps> = ({ userProfile, on
   const [simulation, setSimulation] = useState<any>(null);
 
   const situations = [
-    { id: 'couple', name: 'En couple' },
-    { id: 'single', name: 'Parent isolé' },
-    { id: 'separated', name: 'Séparé(e)' }
+    { id: 'couple', name: t('family_allowances.couple') },
+    { id: 'single', name: t('family_allowances.single_parent') },
+    { id: 'separated', name: t('family_allowances.separated') }
   ];
 
   const updateChildrenAges = (index: number, age: string) => {
@@ -40,7 +43,7 @@ const FamilyAllowancesTool: React.FC<FamilyAllowancesProps> = ({ userProfile, on
     const ages = childrenAges.map(age => parseInt(age)).filter(age => !isNaN(age));
 
     if (!income || !childCount || ages.length !== childCount) {
-      alert('Veuillez remplir tous les champs correctement');
+      alert(t('family_allowances.fill_all_fields'));
       return;
     }
 
@@ -144,230 +147,220 @@ const FamilyAllowancesTool: React.FC<FamilyAllowancesProps> = ({ userProfile, on
   };
 
   const getConditions = () => [
-    'Résider en France de manière stable',
-    'Avoir la charge effective de l\'enfant',
-    'Respecter les plafonds de ressources',
-    'Déclarer tout changement de situation'
+    t('family_allowances.condition_1'),
+    t('family_allowances.condition_2'),
+    t('family_allowances.condition_3'),
+    t('family_allowances.condition_4')
   ];
 
   const getTips = (situation: string, childCount: number) => {
     const tips = [
-      'Déclarez vos revenus annuellement à la CAF',
-      'Signalez immédiatement tout changement (naissance, déménagement...)',
-      'Vérifiez votre droit au complément familial si vous avez 3 enfants ou plus'
+      t('family_allowances.tip_1'),
+      t('family_allowances.tip_2'),
+      t('family_allowances.tip_3')
     ];
     
     if (situation === 'single') {
-      tips.push('En tant que parent isolé, vous pouvez bénéficier d\'aides majorées');
+      tips.push(t('family_allowances.tip_single_parent'));
     }
     
     if (childCount >= 3) {
-      tips.push('Explorez les aides locales de votre commune ou département');
+      tips.push(t('family_allowances.tip_three_children'));
     }
     
     return tips;
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center gap-4 mb-8">
-          <Button variant="outline" onClick={onBack}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Retour
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Calculateur Allocations Familiales
-            </h1>
-            <p className="text-gray-600 dark:text-gray-300">
-              Estimez vos droits aux prestations familiales
-            </p>
-          </div>
-        </div>
+    <ToolContainer
+      title={t('tool.family-allowances-calculator')}
+      description={t('tool.family-allowances-calculator_desc')}
+      icon={<Calculator className="h-7 w-7 text-purple-600" />}
+      onBack={onBack}
+      toolId="family-allowances-calculator"
+      categoryId="education"
+    >
+      <div className="max-w-6xl mx-auto space-y-6">
+        {/* Formulaire */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Calculator className="h-5 w-5" />
+              {t('family_allowances.family_situation')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <Label htmlFor="children">{t('family_allowances.children_count')}</Label>
+                <Input
+                  id="children"
+                  type="number"
+                  min="1"
+                  max="10"
+                  value={numberOfChildren}
+                  onChange={(e) => {
+                    setNumberOfChildren(e.target.value);
+                    const count = parseInt(e.target.value) || 0;
+                    setChildrenAges(new Array(count).fill(''));
+                  }}
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="income">{t('family_allowances.monthly_income')}</Label>
+                <Input
+                  id="income"
+                  type="number"
+                  placeholder="2500"
+                  value={monthlyIncome}
+                  onChange={(e) => setMonthlyIncome(e.target.value)}
+                />
+              </div>
+              
+              <div>
+                <Label>{t('family_allowances.situation')}</Label>
+                <Select value={familySituation} onValueChange={setFamilySituation}>
+                  <SelectTrigger>
+                    <SelectValue placeholder={t('family_allowances.select_situation')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {situations.map(sit => (
+                      <SelectItem key={sit.id} value={sit.id}>
+                        {sit.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
 
-        <div className="max-w-6xl mx-auto space-y-6">
-          {/* Formulaire */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calculator className="h-5 w-5" />
-                Votre situation familiale
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="children">Nombre d'enfants</Label>
-                  <Input
-                    id="children"
-                    type="number"
-                    min="1"
-                    max="10"
-                    value={numberOfChildren}
-                    onChange={(e) => {
-                      setNumberOfChildren(e.target.value);
-                      const count = parseInt(e.target.value) || 0;
-                      setChildrenAges(new Array(count).fill(''));
-                    }}
-                  />
-                </div>
-                
-                <div>
-                  <Label htmlFor="income">Revenus mensuels nets (€)</Label>
-                  <Input
-                    id="income"
-                    type="number"
-                    placeholder="2500"
-                    value={monthlyIncome}
-                    onChange={(e) => setMonthlyIncome(e.target.value)}
-                  />
-                </div>
-                
-                <div>
-                  <Label>Situation familiale</Label>
-                  <Select value={familySituation} onValueChange={setFamilySituation}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Sélectionnez" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {situations.map(sit => (
-                        <SelectItem key={sit.id} value={sit.id}>
-                          {sit.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+            {numberOfChildren && parseInt(numberOfChildren) > 0 && (
+              <div>
+                <Label className="text-base font-medium mb-3 block">
+                  {t('family_allowances.children_ages')}
+                </Label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {Array.from({ length: parseInt(numberOfChildren) }, (_, index) => (
+                    <div key={index}>
+                      <Label htmlFor={`age-${index}`}>{t('family_allowances.child')} {index + 1}</Label>
+                      <Input
+                        id={`age-${index}`}
+                        type="number"
+                        min="0"
+                        max="25"
+                        placeholder={t('family_allowances.age_placeholder')}
+                        value={childrenAges[index] || ''}
+                        onChange={(e) => updateChildrenAges(index, e.target.value)}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
+            )}
 
-              {numberOfChildren && parseInt(numberOfChildren) > 0 && (
-                <div>
-                  <Label className="text-base font-medium mb-3 block">
-                    Âges des enfants
-                  </Label>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    {Array.from({ length: parseInt(numberOfChildren) }, (_, index) => (
-                      <div key={index}>
-                        <Label htmlFor={`age-${index}`}>Enfant {index + 1}</Label>
-                        <Input
-                          id={`age-${index}`}
-                          type="number"
-                          min="0"
-                          max="25"
-                          placeholder="Âge"
-                          value={childrenAges[index] || ''}
-                          onChange={(e) => updateChildrenAges(index, e.target.value)}
-                        />
-                      </div>
-                    ))}
+            <Button 
+              onClick={calculateAllowances}
+              disabled={!numberOfChildren || !monthlyIncome || !familySituation}
+              className="w-full"
+            >
+              <Euro className="mr-2 h-4 w-4" />
+              {t('family_allowances.calculate')}
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Résultats */}
+        {simulation && (
+          <div className="space-y-6">
+            {/* Total */}
+            <Card className="border-green-200 bg-green-50 dark:bg-green-900/20 dark:border-green-800">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-green-800 dark:text-green-200">
+                  <TrendingUp className="h-5 w-5" />
+                  {t('family_allowances.monthly_total')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-green-600 dark:text-green-400">
+                  {simulation.total.toFixed(0)}€/{t('family_allowances.per_month')}
+                </div>
+                <p className="text-green-700 dark:text-green-300 mt-2">
+                  {t('family_allowances.yearly_total')} {(simulation.total * 12).toFixed(0)}€
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Détail des allocations */}
+            <Card>
+              <CardHeader>
+                <CardTitle>{t('family_allowances.allowances_detail')}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800 rounded">
+                    <span>{t('family_allowances.base_allowances')}</span>
+                    <Badge variant="outline">{simulation.allocations}€</Badge>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800 rounded">
+                    <span>{t('family_allowances.supplements')}</span>
+                    <Badge variant="outline">{simulation.supplements}€</Badge>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800 rounded">
+                    <span>{t('family_allowances.school_allowance')}</span>
+                    <Badge variant="outline">{simulation.schoolAllowance.toFixed(0)}€</Badge>
+                  </div>
+                  <div className="flex justify-between items-center p-3 bg-gray-50 dark:bg-gray-800 rounded">
+                    <span>{t('family_allowances.housing_allowance')}</span>
+                    <Badge variant="outline">{simulation.housingAllowance.toFixed(0)}€</Badge>
                   </div>
                 </div>
-              )}
+              </CardContent>
+            </Card>
 
-              <Button 
-                onClick={calculateAllowances}
-                disabled={!numberOfChildren || !monthlyIncome || !familySituation}
-                className="w-full"
-              >
-                <Euro className="mr-2 h-4 w-4" />
-                Calculer mes allocations
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Résultats */}
-          {simulation && (
-            <div className="space-y-6">
-              {/* Total */}
-              <Card className="border-green-200 bg-green-50">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-green-800">
-                    <TrendingUp className="h-5 w-5" />
-                    Total estimé mensuel
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-bold text-green-600">
-                    {simulation.total.toFixed(0)}€/mois
-                  </div>
-                  <p className="text-green-700 mt-2">
-                    Soit {(simulation.total * 12).toFixed(0)}€ par an
-                  </p>
-                </CardContent>
-              </Card>
-
-              {/* Détail des allocations */}
-              <Card>
-                <CardHeader>
-                  <CardTitle>Détail des prestations</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                      <span>Allocations familiales</span>
-                      <Badge variant="outline">{simulation.allocations}€</Badge>
+            {/* Conditions */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <AlertCircle className="h-5 w-5" />
+                  {t('family_allowances.conditions_title')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {simulation.conditions.map((condition: string, index: number) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
+                      <span className="text-sm">{condition}</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                      <span>Compléments et suppléments</span>
-                      <Badge variant="outline">{simulation.supplements}€</Badge>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                      <span>Allocation rentrée scolaire (mensuelle)</span>
-                      <Badge variant="outline">{simulation.schoolAllowance.toFixed(0)}€</Badge>
-                    </div>
-                    <div className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                      <span>Aide au logement (estimation)</span>
-                      <Badge variant="outline">{simulation.housingAllowance.toFixed(0)}€</Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
 
-              {/* Conditions */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <AlertCircle className="h-5 w-5" />
-                    Conditions d'attribution
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {simulation.conditions.map((condition: string, index: number) => (
-                      <div key={index} className="flex items-center gap-2">
-                        <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-                        <span className="text-sm">{condition}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Conseils */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Gift className="h-5 w-5" />
-                    Conseils pour optimiser vos droits
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    {simulation.tips.map((tip: string, index: number) => (
-                      <div key={index} className="flex items-start gap-2">
-                        <span className="text-blue-600">💡</span>
-                        <span className="text-sm">{tip}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          )}
-        </div>
+            {/* Conseils */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Gift className="h-5 w-5" />
+                  {t('family_allowances.tips_title')}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {simulation.tips.map((tip: string, index: number) => (
+                    <div key={index} className="flex items-start gap-2">
+                      <span className="text-blue-600">💡</span>
+                      <span className="text-sm">{tip}</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
-    </div>
+    </ToolContainer>
   );
 };
 
