@@ -72,7 +72,7 @@ const Index = () => {
 
       // Individual tool views
       case 'letter-generator':
-        return <LetterGenerator userProfile={null} diagnostic={null} />;
+        return <LetterGenerator userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       case 'fee-calculator':
         return <FeeCalculator userProfile={null} diagnostic={null} />;

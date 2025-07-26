@@ -283,7 +283,6 @@ export const frTranslations: Translations = {
   'letter.title': 'Générateur de Lettres Administratives',
   'letter.description': 'Créez des lettres officielles conformes aux standards français',
   'letter.form_title': 'Générateur de Lettres',
-  'letter.form_title': 'Générateur de Lettres',
   'letter.form_description': 'Créez des lettres administratives conformes aux standards français',
   'letter.template_label': 'Modèle de lettre',
   'letter.select_template': 'Sélectionnez un modèle',
