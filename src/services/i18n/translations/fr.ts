@@ -53,6 +53,7 @@ export const frTranslations: Translations = {
   'common.medium': 'Moyen',
   'common.moyen': 'Moyen',
   'common.advanced': 'Avancé',
+  'common.avancé': 'Avancé',
   'common.difficile': 'Difficile',
   'common.excellent': 'Excellent',
   'common.good': 'Bon',
@@ -60,6 +61,45 @@ export const frTranslations: Translations = {
   'common.popular': 'Populaire',
   'common.use_tool': 'Utiliser l\'outil',
   'common.no_tools_available': 'Aucun outil disponible',
+
+  // Forms
+  'form.save_draft': 'Sauvegarder le brouillon',
+  'form.load_draft': 'Charger le brouillon',
+  'form.clear_form': 'Effacer le formulaire',
+  'form.required_field': 'Champ requis',
+  'form.optional_field': 'Champ optionnel',
+  'form.choose_file': 'Choisir un fichier',
+  'form.upload': 'Télécharger',
+  'form.remove_file': 'Supprimer le fichier',
+
+  // Actions
+  'action.view': 'Voir',
+  'action.modify': 'Modifier',
+  'action.duplicate': 'Dupliquer',
+  'action.share': 'Partager',
+  'action.print': 'Imprimer',
+  'action.export_pdf': 'Exporter en PDF',
+  'action.copy_link': 'Copier le lien',
+  'action.full_screen': 'Plein écran',
+  'action.minimize': 'Réduire',
+  'action.refresh': 'Actualiser',
+  'action.settings': 'Paramètres',
+
+  // Tool common
+  'tool.form.title': 'Titre',
+  'tool.form.description': 'Description',
+  'tool.form.submit': 'Soumettre',
+  'tool.form.reset': 'Réinitialiser',
+  'tool.form.clear': 'Effacer',
+  'tool.form.placeholder': 'Tapez votre texte ici...',
+  'tool.result.success': 'Opération réussie',
+  'tool.result.error': 'Une erreur s\'est produite',
+  'tool.result.loading': 'Traitement en cours...',
+  'tool.result.no_data': 'Aucune donnée disponible',
+  'tool.instructions.title': 'Instructions d\'utilisation',
+  'tool.help.title': 'Aide',
+  'tool.help.contact': 'Nous contacter',
+  'tool.help.faq': 'Questions fréquemment posées',
   
   // Homepage
   'home.title': 'Outils d\'Intégration',
