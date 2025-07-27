@@ -54,6 +54,7 @@ export const arTranslations: Translations = {
   'common.medium': 'متوسط',
   'common.moyen': 'متوسط',
   'common.advanced': 'متقدم',
+  'common.avancé': 'متقدم',
   'common.difficile': 'صعب',
   'common.excellent': 'ممتاز',
   'common.good': 'جيد',
@@ -61,6 +62,45 @@ export const arTranslations: Translations = {
   'common.popular': 'شائع',
   'common.use_tool': 'استخدام الأداة',
   'common.no_tools_available': 'لا توجد أدوات متاحة',
+
+  // Forms
+  'form.save_draft': 'حفظ المسودة',
+  'form.load_draft': 'تحميل المسودة',
+  'form.clear_form': 'مسح النموذج',
+  'form.required_field': 'حقل مطلوب',
+  'form.optional_field': 'حقل اختياري',
+  'form.choose_file': 'اختر ملف',
+  'form.upload': 'رفع',
+  'form.remove_file': 'إزالة الملف',
+
+  // Actions
+  'action.view': 'عرض',
+  'action.modify': 'تعديل',
+  'action.duplicate': 'نسخ',
+  'action.share': 'مشاركة',
+  'action.print': 'طباعة',
+  'action.export_pdf': 'تصدير إلى PDF',
+  'action.copy_link': 'نسخ الرابط',
+  'action.full_screen': 'ملء الشاشة',
+  'action.minimize': 'تصغير',
+  'action.refresh': 'تحديث',
+  'action.settings': 'الإعدادات',
+
+  // Tool common
+  'tool.form.title': 'العنوان',
+  'tool.form.description': 'الوصف',
+  'tool.form.submit': 'إرسال',
+  'tool.form.reset': 'إعادة تعيين',
+  'tool.form.clear': 'مسح',
+  'tool.form.placeholder': 'اكتب نصك هنا...',
+  'tool.result.success': 'العملية نجحت',
+  'tool.result.error': 'حدث خطأ',
+  'tool.result.loading': 'معالجة...',
+  'tool.result.no_data': 'لا توجد بيانات متاحة',
+  'tool.instructions.title': 'تعليمات الاستخدام',
+  'tool.help.title': 'مساعدة',
+  'tool.help.contact': 'اتصل بنا',
+  'tool.help.faq': 'الأسئلة الشائعة',
   
   // Homepage
   'home.title': 'أدوات الاندماج',
