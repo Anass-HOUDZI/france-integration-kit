@@ -17,7 +17,7 @@ export const homepageTranslations = {
   'home.popular_tools_title': 'Popular Tools',
   'home.tools_count': 'tools',
   'home.stats_unlimited': 'Unlimited Use',
-  'home.stats_free': 'Total Cost',
-  'home.stats_client': 'Client Side',
-  'home.stats_tools': 'Available Tools',
+  'home.stats_free': '0€',
+  'home.stats_client': '100%',
+  'home.stats_tools': '+50',
 };
