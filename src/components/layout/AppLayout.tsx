@@ -1,10 +1,11 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import OnlineStatusIndicator from '@/components/OnlineStatusIndicator';
 import { View } from '@/hooks/useToolNavigation';
 import { useI18n } from '@/hooks/useI18n';
+import { useLocation } from 'react-router-dom';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -20,6 +21,12 @@ const AppLayout: React.FC<AppLayoutProps> = ({
   showHeader = true 
 }) => {
   const { t } = useI18n();
+  const location = useLocation();
+
+  // Scroll-to-top global à chaque changement de vue ou de route
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [currentView, location.pathname]);
 
   // Ne jamais montrer le header sur les pages d'outils - ToolContainer gère sa propre navigation
   const shouldShowHeader = showHeader && currentView === 'home';

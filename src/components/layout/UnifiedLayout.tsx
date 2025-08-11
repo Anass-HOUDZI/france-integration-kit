@@ -2,11 +2,12 @@
 /**
  * Layout unifié pour toute l'application
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import OnlineStatusIndicator from '@/components/OnlineStatusIndicator';
 import { useI18n } from '@/hooks/useI18n';
+import { useLocation } from 'react-router-dom';
 
 interface UnifiedLayoutProps {
   children: React.ReactNode;
@@ -22,6 +23,12 @@ const UnifiedLayout: React.FC<UnifiedLayoutProps> = ({
   containerClass = ""
 }) => {
   const { isRTL } = useI18n();
+  const location = useLocation();
+
+  // Scroll-to-top global sur changement de route
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [location.pathname]);
 
   return (
     <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex flex-col ${isRTL() ? 'rtl' : 'ltr'}`}>
