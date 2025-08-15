@@ -1,500 +1,218 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
-import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { 
-  FileText, Search, Download, AlertCircle, CheckCircle, HelpCircle, 
-  Save, Clock, Info, User, MapPin, Briefcase, Heart
-} from 'lucide-react';
-import { useUserProfile } from '@/hooks/useUserProfile';
-import { toast } from '@/hooks/use-toast';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { FileCheck, HelpCircle, Download, Save } from 'lucide-react';
+import { useI18n } from '@/hooks/useI18n';
+import ToolContainer from '@/components/tools/ToolContainer';
+import { toast } from 'sonner';
 
 interface FormAssistantToolProps {
   userProfile: any;
   diagnostic: any;
+  onBack?: () => void;
 }
 
-const FormAssistantTool: React.FC<FormAssistantToolProps> = ({ userProfile, diagnostic }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedForm, setSelectedForm] = useState<any>(null);
-  const [currentStep, setCurrentStep] = useState(0);
-  const [formProgress, setFormProgress] = useState(0);
-  const [savedData, setSavedData] = useState<any>({});
-  const { saveToolData, getToolData } = useUserProfile();
+const FormAssistantTool: React.FC<FormAssistantToolProps> = ({ userProfile, diagnostic, onBack }) => {
+  const { t } = useI18n();
+  const [selectedForm, setSelectedForm] = useState('');
+  const [formData, setFormData] = useState<Record<string, string>>({});
 
-  const forms = [
-    {
-      id: 'cerfa_15646',
-      number: 'CERFA 15646*01',
-      title: 'Demande de titre de séjour',
-      category: 'Séjour',
-      description: 'Pour renouveler ou obtenir un titre de séjour',
-      difficulty: 'Moyen',
-      estimatedTime: '30 min',
-      requiredDocs: ['Passeport', 'Justificatif de domicile', 'Photos d\'identité', 'Justificatifs de ressources'],
-      steps: [
-        {
-          title: 'État civil',
-          fields: ['nom', 'prenom', 'dateNaissance', 'lieuNaissance', 'nationalite'],
-          description: 'Renseignez vos informations personnelles'
-        },
-        {
-          title: 'Situation familiale',
-          fields: ['situationFamiliale', 'conjoint', 'enfants'],
-          description: 'Indiquez votre situation familiale actuelle'
-        },
-        {
-          title: 'Situation professionnelle',
-          fields: ['profession', 'employeur', 'revenus'],
-          description: 'Décrivez votre activité professionnelle'
-        },
-        {
-          title: 'Adresse et logement',
-          fields: ['adresse', 'typeLogement', 'justificatifDomicile'],
-          description: 'Votre lieu de résidence en France'
-        }
-      ]
-    },
-    {
-      id: 'cerfa_12100',
-      number: 'CERFA 12100*02',
-      title: 'Demande de nationalité française',
-      category: 'Naturalisation',
-      description: 'Pour demander la nationalité française par naturalisation',
-      difficulty: 'Difficile',
-      estimatedTime: '60 min',
-      requiredDocs: ['Acte de naissance', 'Justificatifs de revenus', 'Certificat de résidence', 'Diplômes'],
-      steps: [
-        {
-          title: 'Identité et origine',
-          fields: ['nom', 'prenom', 'dateNaissance', 'paysOrigine'],
-          description: 'Vos informations d\'identité et d\'origine'
-        },
-        {
-          title: 'Séjour en France',
-          fields: ['dateArrivee', 'titresSejour', 'dureeResidence'],
-          description: 'Votre parcours de résidence en France'
-        },
-        {
-          title: 'Intégration',
-          fields: ['niveauFrancais', 'diplomes', 'connaissancesRepublicaines'],
-          description: 'Votre niveau d\'intégration républicaine'
-        },
-        {
-          title: 'Situation professionnelle',
-          fields: ['profession', 'revenus', 'fiscalite'],
-          description: 'Votre situation économique et fiscale'
-        }
-      ]
-    }
+  const formTypes = [
+    { id: 'cerfa_10798', name: 'Demande de titre de séjour - CERFA 10798', category: 'Prefecture' },
+    { id: 'cerfa_11580', name: 'Déclaration de revenus - CERFA 11580', category: 'Impôts' },
+    { id: 'cerfa_11383', name: 'Demande RSA - CERFA 11383', category: 'CAF' },
+    { id: 'cerfa_12504', name: 'Demande de logement social - CERFA 12504', category: 'Logement' }
   ];
 
-  const formSchema = z.object({
-    nom: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
-    prenom: z.string().min(2, 'Le prénom doit contenir au moins 2 caractères'),
-    dateNaissance: z.string().min(1, 'La date de naissance est requise'),
-    lieuNaissance: z.string().min(1, 'Le lieu de naissance est requis'),
-    nationalite: z.string().min(1, 'La nationalité est requise'),
-    adresse: z.string().min(10, 'L\'adresse doit être complète'),
-    profession: z.string().optional(),
-    revenus: z.string().optional(),
-  });
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: savedData
-  });
-
-  useEffect(() => {
-    if (selectedForm) {
-      const saved = getToolData(`form_${selectedForm.id}`, {});
-      setSavedData(saved);
-      form.reset(saved);
-      
-      const totalFields = selectedForm.steps.reduce((acc: number, step: any) => acc + step.fields.length, 0);
-      const completedFields = Object.keys(saved).length;
-      setFormProgress((completedFields / totalFields) * 100);
-    }
-  }, [selectedForm]);
-
-  const saveProgress = (data: any) => {
-    if (selectedForm) {
-      saveToolData(`form_${selectedForm.id}`, data);
-      setSavedData(data);
-      
-      const totalFields = selectedForm.steps.reduce((acc: number, step: any) => acc + step.fields.length, 0);
-      const completedFields = Object.keys(data).filter(key => data[key] && data[key] !== '').length;
-      setFormProgress((completedFields / totalFields) * 100);
-      
-      toast({
-        title: "Progression sauvegardée",
-        description: "Vos données ont été sauvegardées automatiquement",
-      });
-    }
+  const handleFormSelect = (formId: string) => {
+    setSelectedForm(formId);
+    setFormData({});
+    toast.success('Formulaire sélectionné. Aide contextuelle activée.');
   };
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    saveProgress(data);
-    toast({
-      title: "Formulaire validé",
-      description: "Toutes les informations ont été vérifiées avec succès",
-    });
+  const handleSave = () => {
+    const savedData = JSON.stringify(formData);
+    localStorage.setItem(`form_${selectedForm}`, savedData);
+    toast.success('Progression sauvegardée');
   };
 
-  const exportToPDF = () => {
-    toast({
-      title: "Export en cours",
-      description: "Le formulaire sera téléchargé sous format PDF",
-    });
-  };
-
-  const filteredForms = forms.filter(form => 
-    form.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    form.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'Facile': return 'bg-green-100 text-green-800';
-      case 'Moyen': return 'bg-yellow-100 text-yellow-800';
-      case 'Difficile': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const getPersonalizedTips = (step: any) => {
-    const tips = [];
+  const handleExport = () => {
+    const exportData = {
+      form: selectedForm,
+      data: formData,
+      timestamp: new Date().toISOString()
+    };
     
-    if (userProfile?.status && step.title === 'Situation professionnelle') {
-      tips.push({
-        type: 'info',
-        message: `En tant que ${userProfile.status}, assurez-vous de bien préciser votre situation actuelle`
-      });
-    }
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `form_${selectedForm}_${Date.now()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
     
-    if (step.title === 'État civil' && userProfile?.country) {
-      tips.push({
-        type: 'warning',
-        message: 'Vérifiez que vos documents d\'état civil sont traduits par un traducteur assermenté'
-      });
-    }
-    
-    return tips;
+    toast.success('Données exportées');
   };
-
-  if (selectedForm) {
-    return (
-      <div className="space-y-6">
-        <div className="flex items-center gap-4">
-          <Button 
-            variant="ghost" 
-            onClick={() => setSelectedForm(null)}
-            className="text-blue-600"
-          >
-            ← Retour à la liste
-          </Button>
-          <h2 className="text-2xl font-bold">{selectedForm.title}</h2>
-          <Badge className={getDifficultyColor(selectedForm.difficulty)}>
-            {selectedForm.difficulty}
-          </Badge>
-        </div>
-
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                Progression du formulaire
-              </CardTitle>
-              <Button onClick={() => saveProgress(form.getValues())} variant="outline" size="sm">
-                <Save className="mr-2 h-4 w-4" />
-                Sauvegarder
-              </Button>
-            </div>
-            <Progress value={formProgress} className="w-full" />
-            <p className="text-sm text-gray-600">{Math.round(formProgress)}% complété</p>
-          </CardHeader>
-        </Card>
-
-        <Tabs defaultValue="form" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="form">Formulaire</TabsTrigger>
-            <TabsTrigger value="help">Aide</TabsTrigger>
-            <TabsTrigger value="docs">Documents</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="form" className="space-y-6">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                {selectedForm.steps.map((step: any, stepIndex: number) => (
-                  <Card key={stepIndex}>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm ${
-                          stepIndex <= currentStep ? 'bg-blue-600' : 'bg-gray-400'
-                        }`}>
-                          {stepIndex + 1}
-                        </div>
-                        {step.title}
-                      </CardTitle>
-                      <CardDescription>{step.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {getPersonalizedTips(step).map((tip, tipIndex) => (
-                        <div key={tipIndex} className={`flex items-start gap-2 p-3 rounded-lg ${
-                          tip.type === 'warning' ? 'bg-yellow-50 border-yellow-200' : 'bg-blue-50 border-blue-200'
-                        }`}>
-                          {tip.type === 'warning' ? (
-                            <AlertCircle className="h-5 w-5 text-yellow-600 mt-0.5" />
-                          ) : (
-                            <Info className="h-5 w-5 text-blue-600 mt-0.5" />
-                          )}
-                          <p className="text-sm">{tip.message}</p>
-                        </div>
-                      ))}
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {step.fields.includes('nom') && (
-                          <FormField
-                            control={form.control}
-                            name="nom"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Nom de famille *</FormLabel>
-                                <FormControl>
-                                  <Input 
-                                    placeholder="Votre nom de famille" 
-                                    {...field} 
-                                    onChange={(e) => {
-                                      field.onChange(e);
-                                      saveProgress({...form.getValues(), nom: e.target.value});
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormDescription>
-                                  Tel qu'il apparaît sur votre passeport
-                                </FormDescription>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        )}
-                        
-                        {step.fields.includes('prenom') && (
-                          <FormField
-                            control={form.control}
-                            name="prenom"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Prénom(s) *</FormLabel>
-                                <FormControl>
-                                  <Input 
-                                    placeholder="Vos prénoms" 
-                                    {...field}
-                                    onChange={(e) => {
-                                      field.onChange(e);
-                                      saveProgress({...form.getValues(), prenom: e.target.value});
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        )}
-                        
-                        {step.fields.includes('dateNaissance') && (
-                          <FormField
-                            control={form.control}
-                            name="dateNaissance"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Date de naissance *</FormLabel>
-                                <FormControl>
-                                  <Input 
-                                    type="date" 
-                                    {...field}
-                                    onChange={(e) => {
-                                      field.onChange(e);
-                                      saveProgress({...form.getValues(), dateNaissance: e.target.value});
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        )}
-                        
-                        {step.fields.includes('adresse') && (
-                          <FormField
-                            control={form.control}
-                            name="adresse"
-                            render={({ field }) => (
-                              <FormItem className="md:col-span-2">
-                                <FormLabel>Adresse complète *</FormLabel>
-                                <FormControl>
-                                  <Textarea 
-                                    placeholder="Numéro, rue, code postal, ville" 
-                                    {...field}
-                                    onChange={(e) => {
-                                      field.onChange(e);
-                                      saveProgress({...form.getValues(), adresse: e.target.value});
-                                    }}
-                                  />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-                
-                <div className="flex gap-4">
-                  <Button type="submit" className="flex-1">
-                    <CheckCircle className="mr-2 h-4 w-4" />
-                    Valider le formulaire
-                  </Button>
-                  <Button type="button" variant="outline" onClick={exportToPDF}>
-                    <Download className="mr-2 h-4 w-4" />
-                    Exporter PDF
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          </TabsContent>
-          
-          <TabsContent value="help">
-            <Card>
-              <CardHeader>
-                <CardTitle>Guide d'aide au remplissage</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-3">
-                  <h4 className="font-medium">Conseils généraux :</h4>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-green-600 mt-0.5" />
-                      Préparez tous vos documents avant de commencer
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-green-600 mt-0.5" />
-                      Vérifiez l'orthographe de vos noms et prénoms
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-green-600 mt-0.5" />
-                      Sauvegardez régulièrement votre progression
-                    </li>
-                  </ul>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="docs">
-            <Card>
-              <CardHeader>
-                <CardTitle>Documents requis</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  {selectedForm.requiredDocs.map((doc: string, index: number) => (
-                    <li key={index} className="flex items-center gap-2 text-sm">
-                      <CheckCircle className="h-4 w-4 text-green-600" />
-                      {doc}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
-    );
-  }
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <FileText className="h-5 w-5" />
-            Assistant Formulaires CERFA
-          </CardTitle>
-          <CardDescription>
-            Trouvez et remplissez facilement les formulaires administratifs français avec un guide pas à pas
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input
-              placeholder="Rechercher un formulaire..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-        </CardContent>
-      </Card>
+    <ToolContainer
+      title="Assistant Formulaires Français"
+      description="Aide au remplissage des formulaires administratifs français"
+      icon={<FileCheck className="h-8 w-8" />}
+      onBack={onBack}
+      categoryId="admin"
+    >
+      <div className="grid gap-6">
+        {/* Sélection du formulaire */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <FileCheck className="h-5 w-5" />
+              Sélection du formulaire
+            </CardTitle>
+            <CardDescription>
+              Choisissez le formulaire que vous souhaitez remplir avec assistance
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-3">
+              {formTypes.map((form) => (
+                <Card 
+                  key={form.id} 
+                  className={`cursor-pointer transition-colors ${
+                    selectedForm === form.id ? 'ring-2 ring-primary' : 'hover:bg-muted/50'
+                  }`}
+                  onClick={() => handleFormSelect(form.id)}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-medium">{form.name}</h4>
+                        <p className="text-sm text-muted-foreground">{form.category}</p>
+                      </div>
+                      {selectedForm === form.id && (
+                        <div className="w-2 h-2 bg-primary rounded-full" />
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredForms.map((form) => (
-          <Card 
-            key={form.id}
-            className="hover:shadow-lg transition-shadow cursor-pointer"
-            onClick={() => setSelectedForm(form)}
-          >
-            <CardHeader className="pb-3">
-              <div className="flex items-start justify-between">
-                <Badge variant="outline" className="mb-2">
-                  {form.category}
-                </Badge>
-                <Badge className={getDifficultyColor(form.difficulty)}>
-                  {form.difficulty}
-                </Badge>
-              </div>
-              <CardTitle className="text-lg">{form.title}</CardTitle>
-              <p className="text-sm text-gray-600 font-mono">{form.number}</p>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="mb-4">
-                {form.description}
+        {/* Assistant de remplissage */}
+        {selectedForm && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <HelpCircle className="h-5 w-5" />
+                Assistant de remplissage
+              </CardTitle>
+              <CardDescription>
+                Remplissez les champs avec nos conseils et exemples
               </CardDescription>
-              <div className="flex items-center justify-between text-sm text-gray-500">
-                <div className="flex items-center gap-1">
-                  <Clock className="h-4 w-4" />
-                  {form.estimatedTime}
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Exemple de champs avec aide contextuelle */}
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="nom">Nom de famille</Label>
+                  <Input
+                    id="nom"
+                    placeholder="Ex: DUPONT"
+                    value={formData.nom || ''}
+                    onChange={(e) => setFormData({...formData, nom: e.target.value})}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    💡 Saisissez votre nom tel qu'il apparaît sur vos documents officiels
+                  </p>
                 </div>
-                <span>{form.requiredDocs.length} documents</span>
+
+                <div className="space-y-2">
+                  <Label htmlFor="prenom">Prénom(s)</Label>
+                  <Input
+                    id="prenom"
+                    placeholder="Ex: Jean Pierre"
+                    value={formData.prenom || ''}
+                    onChange={(e) => setFormData({...formData, prenom: e.target.value})}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    💡 Indiquez tous vos prénoms dans l'ordre de l'état civil
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="nationalite">Nationalité</Label>
+                  <Select
+                    value={formData.nationalite || ''}
+                    onValueChange={(value) => setFormData({...formData, nationalite: value})}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Sélectionnez votre nationalité" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="algerienne">Algérienne</SelectItem>
+                      <SelectItem value="marocaine">Marocaine</SelectItem>
+                      <SelectItem value="tunisienne">Tunisienne</SelectItem>
+                      <SelectItem value="autre">Autre</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">
+                    💡 Choisissez votre nationalité actuelle, pas celle souhaitée
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="motif">Motif de la demande</Label>
+                  <Textarea
+                    id="motif"
+                    placeholder="Décrivez brièvement le motif de votre demande..."
+                    value={formData.motif || ''}
+                    onChange={(e) => setFormData({...formData, motif: e.target.value})}
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    💡 Soyez précis et factuel. Évitez les expressions subjectives.
+                  </p>
+                </div>
               </div>
-              
-              {savedData && getToolData(`form_${form.id}`) && (
-                <div className="mt-3 p-2 bg-blue-50 rounded-lg">
-                  <div className="flex items-center gap-2 text-sm text-blue-700">
-                    <Save className="h-4 w-4" />
-                    Progression sauvegardée
-                  </div>
-                </div>
-              )}
+
+              {/* Actions */}
+              <div className="flex gap-2 pt-4">
+                <Button onClick={handleSave} variant="outline">
+                  <Save className="h-4 w-4 mr-2" />
+                  Sauvegarder
+                </Button>
+                <Button onClick={handleExport}>
+                  <Download className="h-4 w-4 mr-2" />
+                  Exporter
+                </Button>
+              </div>
             </CardContent>
           </Card>
-        ))}
+        )}
+
+        {/* Conseils généraux */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Conseils pour bien remplir vos formulaires</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2 text-sm">
+              <li>• <strong>Écrivez en majuscules</strong> pour les noms et prénoms</li>
+              <li>• <strong>Utilisez l'encre noire</strong> pour les formulaires papier</li>
+              <li>• <strong>Ne laissez aucune case vide</strong> - écrivez "Néant" si nécessaire</li>
+              <li>• <strong>Photocopiez</strong> votre formulaire avant envoi</li>
+              <li>• <strong>Joignez tous les justificatifs</strong> demandés</li>
+            </ul>
+          </CardContent>
+        </Card>
       </div>
-    </div>
+    </ToolContainer>
   );
 };
 

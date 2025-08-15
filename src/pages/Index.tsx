@@ -36,6 +36,16 @@ import DelaySimulatorTool from '@/components/tools/DelaySimulatorTool';
 import MedicalTranslatorTool from '@/components/tools/MedicalTranslatorTool';
 import TrainingGuideTool from '@/components/tools/TrainingGuideTool';
 import PortfolioCreatorTool from '@/components/tools/PortfolioCreatorTool';
+// Nouveaux outils employement
+import CVTranslatorTool from '@/components/tools/CVTranslatorTool';
+import SalaryCalculatorTool from '@/components/tools/SalaryCalculatorTool';
+import MotivationLetterTool from '@/components/tools/MotivationLetterTool';
+import InterviewAssistantTool from '@/components/tools/InterviewAssistantTool';
+import DiplomaEquivalenceTool from '@/components/tools/DiplomaEquivalenceTool';
+import UnemploymentSimulatorTool from '@/components/tools/UnemploymentSimulatorTool';
+// Nouveaux outils admin
+import FormAssistantTool from '@/components/tools/FormAssistantTool';
+import DocumentCheckerTool from '@/components/tools/DocumentCheckerTool';
 import AppLayout from '@/components/layout/AppLayout';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 import { useToolNavigation } from '@/hooks/useToolNavigation';
@@ -151,6 +161,32 @@ const Index = () => {
       
       case 'portfolio_creator':
         return <PortfolioCreatorTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
+      
+      // Nouveaux outils d'emploi de useToolsData
+      case 'cv_translator':
+        return <CVTranslatorTool userProfile={null} diagnostic={null} />;
+      
+      case 'salaryCalculator':
+        return <SalaryCalculatorTool userProfile={null} diagnostic={null} />;
+      
+      case 'unemploymentSimulator':
+        return <UnemploymentSimulatorTool userProfile={null} diagnostic={null} />;
+      
+      case 'motivation_letter':
+        return <MotivationLetterTool userProfile={null} diagnostic={null} />;
+      
+      case 'interview_assistant':
+        return <InterviewAssistantTool userProfile={null} diagnostic={null} />;
+      
+      case 'diploma_equivalence':
+        return <DiplomaEquivalenceTool userProfile={null} diagnostic={null} />;
+      
+      // Nouveaux outils admin
+      case 'form-assistant':
+        return <FormAssistantTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
+      
+      case 'document-checker':
+        return <DocumentCheckerTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
       
       default:
         console.warn(`Vue non trouvée: ${currentView}, redirection vers l'accueil`);

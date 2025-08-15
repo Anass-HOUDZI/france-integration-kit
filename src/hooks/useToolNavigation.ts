@@ -42,7 +42,18 @@ export type View =
   | 'interview_assistant'
   | 'diploma_equivalence'
   | 'training_guide'
-  | 'portfolio_creator';
+  | 'portfolio_creator'
+  | 'form-assistant'
+  | 'document-checker'
+  | 'appointment-planner'
+  | 'neighborhood-comparator'
+  | 'moving-cost-calculator'
+  | 'health-reimbursement-calculator'
+  | 'mutual-insurance-assistant'
+  | 'higher-education-guide'
+  | 'school-enrollment-guide'
+  | 'school-report-translator'
+  | 'universal-converter';
 
 export function useToolNavigation() {
   const [currentView, setCurrentView] = useState<View>('home');
@@ -93,7 +104,10 @@ function isValidView(view: string): view is View {
     'french-expressions-translator', 'emergency-assistant', 'planning-generator',
     'family-budget-assistant', 'rights-guide', 'medical-translator', 'cv_translator',
     'salaryCalculator', 'unemploymentSimulator', 'motivation_letter', 'interview_assistant',
-    'diploma_equivalence', 'training_guide', 'portfolio_creator'
+    'diploma_equivalence', 'training_guide', 'portfolio_creator', 'form-assistant',
+    'document-checker', 'appointment-planner', 'neighborhood-comparator', 'moving-cost-calculator',
+    'health-reimbursement-calculator', 'mutual-insurance-assistant', 'higher-education-guide',
+    'school-enrollment-guide', 'school-report-translator', 'universal-converter'
   ];
   
   return validViews.includes(view as View);
