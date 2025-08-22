@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { FileText, Home, Briefcase, Heart, GraduationCap, Globe, Settings } from 'lucide-react';
 import { useI18n } from '@/hooks/useI18n';
+import { useResponsive } from '@/hooks/useResponsive';
 
 interface Category {
   id: string;
@@ -23,6 +24,7 @@ interface CategoriesSectionProps {
 
 const CategoriesSection: React.FC<CategoriesSectionProps> = ({ onSelectCategory }) => {
   const { t, isRTL } = useI18n();
+  const { isMobile, isTablet } = useResponsive();
 
   const categories: Category[] = [
     {
@@ -92,50 +94,73 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({ onSelectCategory 
 
   return (
     <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <div className="container mx-auto px-4 py-20 lg:py-32">
-        {/* Section Header */}
-        <div className="text-center mb-16 lg:mb-20">
-          <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-700 rounded-full px-6 py-3 mb-6">
-            <Sparkles className="h-5 w-5" />
-            <span className="text-sm font-medium">{t('home.categories_subtitle')}</span>
+      <div className={`container mx-auto ${isMobile ? 'px-4 py-12' : 'px-4 py-20 lg:py-32'}`}>
+        {/* Section Header - Mobile Optimized */}
+        <div className={`text-center ${isMobile ? 'mb-8' : 'mb-16 lg:mb-20'}`}>
+          <div className={`inline-flex items-center gap-2 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded-full ${isMobile ? 'px-4 py-2 mb-4' : 'px-6 py-3 mb-6'}`}>
+            <Sparkles className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'}`} />
+            <span className={`${isMobile ? 'text-xs' : 'text-sm'} font-medium`}>{t('home.categories_subtitle')}</span>
           </div>
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+          <h2 className={`font-bold text-gray-900 dark:text-gray-100 ${isMobile ? 'text-2xl mb-4' : 'text-4xl lg:text-5xl mb-6'}`}>
             {t('home.categories_title')}
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className={`text-gray-600 dark:text-gray-300 max-w-3xl mx-auto ${isMobile ? 'text-base' : 'text-xl'}`}>
             {t('home.categories_subtitle')}
           </p>
         </div>
 
-        {/* Categories Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
+        {/* Categories Grid - Mobile First Responsive */}
+        <div className={`grid gap-6 max-w-6xl mx-auto ${
+          isMobile 
+            ? 'grid-cols-1' 
+            : isTablet 
+              ? 'grid-cols-1 md:grid-cols-2 gap-8' 
+              : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8 lg:gap-12'
+        }`}>
           {categories.map((category) => {
             const IconComponent = category.icon;
             return (
-              <Card key={category.id} className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:scale-105 bg-white/90 backdrop-blur-sm hover:bg-white min-h-[280px]">
-                <CardHeader className="pb-6">
-                  <div className={`flex items-start justify-between mb-6 ${isRTL() ? 'flex-row-reverse' : ''}`}>
-                    <div className={`p-6 rounded-3xl bg-gradient-to-br ${category.gradient} text-white shadow-xl group-hover:shadow-2xl transition-all duration-300`}>
-                      <IconComponent className="h-12 w-12" />
+              <Card 
+                key={category.id} 
+                className={`group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:scale-105 active:scale-95 bg-white/90 backdrop-blur-sm hover:bg-white dark:bg-gray-800/90 dark:hover:bg-gray-800 ${
+                  isMobile ? 'min-h-[240px]' : 'min-h-[280px]'
+                }`}
+              >
+                <CardHeader className={`${isMobile ? 'pb-4' : 'pb-6'}`}>
+                  <div className={`flex items-start justify-between ${isMobile ? 'mb-4' : 'mb-6'} ${isRTL() ? 'flex-row-reverse' : ''}`}>
+                    <div className={`rounded-3xl bg-gradient-to-br ${category.gradient} text-white shadow-xl group-hover:shadow-2xl transition-all duration-300 ${
+                      isMobile ? 'p-4' : 'p-6'
+                    }`}>
+                      <IconComponent className={`${isMobile ? 'h-8 w-8' : 'h-12 w-12'}`} />
                     </div>
-                    <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200 text-lg px-4 py-2">
+                    <Badge className={`bg-purple-100 text-purple-800 hover:bg-purple-200 dark:bg-purple-900 dark:text-purple-300 ${
+                      isMobile ? 'text-sm px-3 py-1' : 'text-lg px-4 py-2'
+                    }`}>
                       {category.toolCount} {t('home.tools_count')}
                     </Badge>
                   </div>
-                  <CardTitle className="text-2xl leading-tight group-hover:text-purple-600 transition-colors mb-3">
+                  <CardTitle className={`leading-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors ${
+                    isMobile ? 'text-lg mb-2' : 'text-2xl mb-3'
+                  }`}>
                     {t(category.titleKey)}
                   </CardTitle>
-                  <CardDescription className="text-gray-600 text-base leading-relaxed">
+                  <CardDescription className={`text-gray-600 dark:text-gray-300 leading-relaxed ${
+                    isMobile ? 'text-sm' : 'text-base'
+                  }`}>
                     {t(category.descriptionKey)}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="pt-0">
                   <Button 
                     onClick={() => onSelectCategory(category.id)} 
-                    className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 transition-all duration-300 text-white font-medium py-4 rounded-xl shadow-lg hover:shadow-xl group-hover:scale-105 text-lg"
+                    className={`w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 transition-all duration-300 text-white font-medium rounded-xl shadow-lg hover:shadow-xl group-hover:scale-105 active:scale-95 ${
+                      isMobile ? 'py-3 text-base min-h-[48px]' : 'py-4 text-lg'
+                    }`}
                   >
                     {t('common.use_tool')}
-                    <ArrowRight className={`h-6 w-6 group-hover:translate-x-1 transition-transform ${isRTL() ? 'mr-3 rotate-180' : 'ml-3'}`} />
+                    <ArrowRight className={`group-hover:translate-x-1 transition-transform ${
+                      isMobile ? 'h-5 w-5' : 'h-6 w-6'
+                    } ${isRTL() ? 'mr-2 rotate-180' : 'ml-2'}`} />
                   </Button>
                 </CardContent>
               </Card>

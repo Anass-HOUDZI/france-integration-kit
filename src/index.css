@@ -236,6 +236,88 @@ body:not(.rtl) {
   .rtl .rtl-flip {
     transform: scaleX(1);
   }
+  
+  /* Mobile-first utility classes */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .touch-hover:hover {
+    @apply scale-105;
+  }
+
+  .touch-hover:active {
+    @apply scale-95;
+  }
+
+  /* Mobile-specific utilities */
+  .mobile-safe-area {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  .mobile-container {
+    @apply px-4 mx-auto max-w-screen-xl;
+  }
+  
+  .mobile-grid {
+    @apply grid gap-4;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  .mobile-card {
+    @apply rounded-xl shadow-lg border-0 bg-white/90 backdrop-blur-sm;
+    @apply hover:shadow-xl transition-all duration-300;
+    @apply active:scale-95 active:shadow-md;
+  }
+  
+  .mobile-button {
+    @apply min-h-[44px] px-6 py-3 text-base font-medium;
+    @apply rounded-xl shadow-lg hover:shadow-xl;
+    @apply transition-all duration-200 active:scale-95;
+  }
+  
+  .mobile-text-lg {
+    @apply text-lg sm:text-xl;
+  }
+  
+  .mobile-text-xl {
+    @apply text-xl sm:text-2xl;
+  }
+  
+  .mobile-text-2xl {
+    @apply text-2xl sm:text-3xl md:text-4xl;
+  }
+  
+  .mobile-text-3xl {
+    @apply text-3xl sm:text-4xl md:text-5xl;
+  }
+  
+  .mobile-spacing {
+    @apply p-4 sm:p-6 lg:p-8;
+  }
+  
+  .mobile-gap {
+    @apply gap-4 sm:gap-6 lg:gap-8;
+  }
+}
+
+/* Responsive breakpoints helpers */
+@media (max-width: 640px) {
+  .mobile-hide {
+    display: none;
+  }
+  
+  .mobile-full {
+    width: 100%;
+  }
+  
+  .mobile-center {
+    text-align: center;
+  }
 }
 
 /* Amélioration de l'accessibilité */
@@ -258,5 +340,32 @@ body:not(.rtl) {
 @media (prefers-color-scheme: dark) {
   .dark-auto {
     color-scheme: dark;
+  }
+}
+
+/* Focus management for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  button:hover,
+  .hover\:scale-105:hover {
+    transform: none;
+  }
+  
+  button:active,
+  .active\:scale-95:active {
+    transform: scale(0.95);
+  }
+  
+  /* Touch feedback for cards and interactive elements */
+  .group:active {
+    transform: scale(0.98);
+  }
+  
+  /* Ensure touch targets are accessible */
+  .touch-accessible {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

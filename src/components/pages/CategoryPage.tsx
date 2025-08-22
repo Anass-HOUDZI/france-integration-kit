@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { useHomePageData } from '@/hooks/useHomePageData';
 import { useI18n } from '@/hooks/useI18n';
+import { useResponsive } from '@/hooks/useResponsive';
 import Header from '@/components/Header';
 
 interface CategoryPageProps {
@@ -17,6 +18,7 @@ interface CategoryPageProps {
 const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onSelectTool, onBack }) => {
   const tools = useHomePageData();
   const { t, isRTL } = useI18n();
+  const { isMobile, isTablet } = useResponsive();
   
   const categoryTools = tools.filter(tool => {
     const toolCategory = tool.category.toLowerCase();
@@ -59,49 +61,64 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onSelectTool, o
     <div className={`min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 ${isRTL() ? 'rtl' : 'ltr'}`}>
       <Header onSelectTool={onSelectTool} showHomeButton={true} toolTitle={t(`category.${categoryId}`)} />
       
-      <div className="container mx-auto px-4 py-12">
-        {/* Header Section */}
-        <div className="mb-12">
+      <div className={`container mx-auto ${isMobile ? 'px-4 py-6' : 'px-4 py-12'}`}>
+        {/* Header Section - Mobile Optimized */}
+        <div className={`${isMobile ? 'mb-6' : 'mb-12'}`}>
           <Button 
             onClick={onBack}
             variant="ghost" 
-            className="mb-6 text-purple-600 hover:bg-purple-50 flex items-center gap-2"
+            className={`text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 flex items-center gap-2 ${isMobile ? 'mb-4 min-h-[44px]' : 'mb-6'}`}
           >
-            <ArrowLeft className={`h-4 w-4 ${isRTL() ? 'rotate-180' : ''}`} />
+            <ArrowLeft className={`${isMobile ? 'h-4 w-4' : 'h-4 w-4'} ${isRTL() ? 'rotate-180' : ''}`} />
             {t('nav.back_home')}
           </Button>
           
-          <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+          <h1 className={`font-bold text-gray-900 dark:text-gray-100 ${isMobile ? 'text-2xl mb-3' : 'text-4xl lg:text-5xl mb-4'}`}>
             {t(`category.${categoryId}`)}
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">
+          <p className={`text-gray-600 dark:text-gray-300 ${isMobile ? 'text-base mb-4' : 'text-xl mb-6'}`}>
             {categoryTools.length} {t('home.tools_count')}
           </p>
         </div>
 
-        {/* Tools Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+        {/* Tools Grid - Mobile First Responsive */}
+        <div className={`grid gap-6 ${
+          isMobile 
+            ? 'grid-cols-1' 
+            : isTablet 
+              ? 'grid-cols-2 gap-6' 
+              : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-8'
+        }`}>
           {categoryTools.map(tool => {
             const IconComponent = tool.icon;
             return (
-              <Card key={tool.id} className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:scale-105 bg-white/90 backdrop-blur-sm hover:bg-white dark:bg-gray-800/90 dark:hover:bg-gray-800">
-                <CardHeader className="pb-4">
-                  <div className={`flex items-start justify-between mb-4 ${isRTL() ? 'flex-row-reverse' : ''}`}>
-                    <div className={`p-4 rounded-2xl bg-gradient-to-br ${tool.gradient} text-white shadow-lg group-hover:shadow-xl transition-all duration-300`}>
-                      <IconComponent className="h-8 w-8" />
+              <Card 
+                key={tool.id} 
+                className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg hover:scale-105 active:scale-95 bg-white/90 backdrop-blur-sm hover:bg-white dark:bg-gray-800/90 dark:hover:bg-gray-800"
+              >
+                <CardHeader className={`${isMobile ? 'pb-3' : 'pb-4'}`}>
+                  <div className={`flex items-start justify-between ${isMobile ? 'mb-3' : 'mb-4'} ${isRTL() ? 'flex-row-reverse' : ''}`}>
+                    <div className={`rounded-2xl bg-gradient-to-br ${tool.gradient} text-white shadow-lg group-hover:shadow-xl transition-all duration-300 ${
+                      isMobile ? 'p-3' : 'p-4'
+                    }`}>
+                      <IconComponent className={`${isMobile ? 'h-6 w-6' : 'h-8 w-8'}`} />
                     </div>
                   </div>
-                  <CardTitle className="text-xl leading-tight group-hover:text-purple-600 transition-colors dark:text-gray-100">
+                  <CardTitle className={`leading-tight group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors dark:text-gray-100 ${
+                    isMobile ? 'text-lg' : 'text-xl'
+                  }`}>
                     {t(`tool.${tool.id}`)}
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="pt-0 space-y-4">
-                  <CardDescription className="text-gray-600 dark:text-gray-300 text-base leading-relaxed">
+                <CardContent className={`pt-0 space-y-${isMobile ? '3' : '4'}`}>
+                  <CardDescription className={`text-gray-600 dark:text-gray-300 leading-relaxed ${
+                    isMobile ? 'text-sm' : 'text-base'
+                  }`}>
                     {t(`tool.${tool.id}_desc`)}
                   </CardDescription>
                   
                   <div className="flex flex-wrap gap-2">
-                    <Badge className={getDifficultyColor(tool.difficulty)}>
+                    <Badge className={`${getDifficultyColor(tool.difficulty)} ${isMobile ? 'text-xs px-2 py-1' : ''}`}>
                       {t(`common.${tool.difficulty.toLowerCase()}`)}
                     </Badge>
                     {getAccessibilityBadge(tool.accessibility)}
@@ -109,10 +126,14 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onSelectTool, o
                   
                   <Button 
                     onClick={() => onSelectTool(tool.id)} 
-                    className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 transition-all duration-300 text-white font-medium py-3 rounded-xl shadow-lg hover:shadow-xl group-hover:scale-105"
+                    className={`w-full bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 transition-all duration-300 text-white font-medium rounded-xl shadow-lg hover:shadow-xl group-hover:scale-105 active:scale-95 ${
+                      isMobile ? 'py-3 text-sm min-h-[44px]' : 'py-3 text-base'
+                    }`}
                   >
                     {t('common.use_tool')}
-                    <ArrowRight className={`h-5 w-5 group-hover:translate-x-1 transition-transform ${isRTL() ? 'mr-2 rotate-180' : 'ml-2'}`} />
+                    <ArrowRight className={`group-hover:translate-x-1 transition-transform ${
+                      isMobile ? 'h-4 w-4' : 'h-5 w-5'
+                    } ${isRTL() ? 'mr-2 rotate-180' : 'ml-2'}`} />
                   </Button>
                 </CardContent>
               </Card>
@@ -121,8 +142,8 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ categoryId, onSelectTool, o
         </div>
 
         {categoryTools.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-xl text-gray-500 dark:text-gray-400">{t('common.no_tools_available')}</p>
+          <div className={`text-center ${isMobile ? 'py-8' : 'py-12'}`}>
+            <p className={`text-gray-500 dark:text-gray-400 ${isMobile ? 'text-lg' : 'text-xl'}`}>{t('common.no_tools_available')}</p>
           </div>
         )}
       </div>

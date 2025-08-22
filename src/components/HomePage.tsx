@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import HeroSection from '@/components/home/HeroSection';
 import CategoriesSection from '@/components/home/CategoriesSection';
 import { useI18n } from '@/hooks/useI18n';
+import { useResponsive } from '@/hooks/useResponsive';
 
 interface HomePageProps {
   onSelectTool: (toolId: string) => void;
@@ -12,6 +13,7 @@ interface HomePageProps {
 const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
   const categoriesSectionRef = useRef<HTMLDivElement>(null);
   const { isRTL } = useI18n();
+  const { isMobile } = useResponsive();
 
   const scrollToCategories = () => {
     categoriesSectionRef.current?.scrollIntoView({ 
@@ -25,7 +27,7 @@ const HomePage: React.FC<HomePageProps> = ({ onSelectTool }) => {
   };
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 ${isRTL() ? 'rtl' : 'ltr'}`}>
+    <div className={`min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 ${isRTL() ? 'rtl' : 'ltr'}`}>
       <Header onSelectTool={onSelectTool} />
       <HeroSection onScrollToTools={scrollToCategories} />
       <div ref={categoriesSectionRef}>
