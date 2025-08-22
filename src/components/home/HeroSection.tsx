@@ -25,10 +25,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToTools }) => {
       <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${isMobile ? 'w-40 h-40' : 'w-64 h-64'} bg-purple-400/20 rounded-full blur-3xl animate-pulse delay-500`}></div>
 
       {/* Content */}
-      <div className={`relative z-10 container mx-auto ${isMobile ? 'px-4 py-8' : 'px-4'} flex items-center justify-center min-h-screen`}>
+      <div className={`relative z-10 container mx-auto ${isMobile ? 'px-4 py-4' : 'px-4'} flex items-center justify-center min-h-screen`}>
         <div className="text-center max-w-5xl mx-auto">
           {/* Badge */}
-          <div className={`inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white rounded-full ${isMobile ? 'px-4 py-2 mb-6' : 'px-6 py-3 mb-8'} border border-white/30`}>
+          <div className={`inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white rounded-full ${isMobile ? 'px-4 py-2 mb-4' : 'px-6 py-3 mb-8'} border border-white/30`}>
             <Sparkles className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'}`} />
             <span className={`${isMobile ? 'text-xs' : 'text-sm'} font-medium`}>{t('home.hero_subtitle')}</span>
           </div>
@@ -43,7 +43,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToTools }) => {
           </h1>
 
           {/* Description - Mobile Optimized */}
-          <p className={`text-white/90 max-w-4xl mx-auto leading-relaxed ${isMobile ? 'text-base mb-8' : isTablet ? 'text-lg mb-10' : 'text-xl md:text-2xl mb-12'}`}>
+          <p className={`text-white/90 max-w-4xl mx-auto leading-relaxed ${isMobile ? 'text-base mb-6' : isTablet ? 'text-lg mb-10' : 'text-xl md:text-2xl mb-12'}`}>
             {t('home.hero_description')}
           </p>
 
@@ -58,7 +58,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollToTools }) => {
           </Button>
 
           {/* Stats - Mobile Grid */}
-          <div className={`grid ${isMobile ? 'grid-cols-2 gap-4 mt-12' : 'grid-cols-2 md:grid-cols-4 gap-8 mt-20'} max-w-4xl mx-auto`}>
+          <div className={`grid ${isMobile ? 'grid-cols-2 gap-3 mt-8' : 'grid-cols-2 md:grid-cols-4 gap-8 mt-20'} max-w-4xl mx-auto`}>
             <div className="text-center">
               <div className={`font-bold text-yellow-300 mb-2 ${isMobile ? 'text-2xl' : 'text-4xl md:text-5xl'}`}>∞</div>
               <div className={`text-white/80 ${isMobile ? 'text-xs' : 'text-sm md:text-base'}`}>{t('home.stats_unlimited')}</div>
