@@ -84,23 +84,87 @@ export default defineConfig(({ mode }) => ({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          ui: ['@radix-ui/react-dialog', '@radix-ui/react-tabs', '@radix-ui/react-accordion'],
-          router: ['react-router-dom'],
-          query: ['@tanstack/react-query'],
-          icons: ['lucide-react'],
-          pdf: ['jspdf'], // Separate chunk for jsPDF
-          tools: [
-            // Group similar tools together
-            './src/components/tools/StateOfPlayTool',
-            './src/components/tools/InsuranceAssistantComplete',
-            './src/components/tools/ChildcareAssistantTool',
-            './src/components/tools/RentNegotiator'
-          ]
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'vendor-react';
+            }
+            if (id.includes('@radix-ui')) {
+              return 'vendor-ui';
+            }
+            if (id.includes('lucide-react')) {
+              return 'vendor-icons';
+            }
+            if (id.includes('jspdf')) {
+              return 'vendor-pdf';
+            }
+            if (id.includes('@tanstack/react-query')) {
+              return 'vendor-query';
+            }
+            if (id.includes('react-router')) {
+              return 'vendor-router';
+            }
+            return 'vendor-other';
+          }
+          
+          // Group tools by category
+          if (id.includes('/tools/')) {
+            if (id.includes('Admin') || id.includes('Letter') || id.includes('Fee') || id.includes('Receipt') || id.includes('Delay') || id.includes('Form') || id.includes('Document')) {
+              return 'tools-admin';
+            }
+            if (id.includes('Budget') || id.includes('Rent') || id.includes('Moving') || id.includes('Insurance') || id.includes('StateOfPlay')) {
+              return 'tools-logement';
+            }
+            if (id.includes('CV') || id.includes('Salary') || id.includes('Interview') || id.includes('Diploma') || id.includes('Training') || id.includes('Portfolio') || id.includes('Motivation') || id.includes('Unemployment')) {
+              return 'tools-emploi';
+            }
+            if (id.includes('Social') || id.includes('Medical') || id.includes('Health') || id.includes('Mutual')) {
+              return 'tools-sante';
+            }
+            if (id.includes('Family') || id.includes('Education') || id.includes('School') || id.includes('Childcare')) {
+              return 'tools-education';
+            }
+            if (id.includes('Culture') || id.includes('French') || id.includes('Naturalization') || id.includes('Expression') || id.includes('Tradition')) {
+              return 'tools-culture';
+            }
+            if (id.includes('Emergency') || id.includes('Planning') || id.includes('Rights') || id.includes('Universal')) {
+              return 'tools-transversal';
+            }
+            return 'tools-other';
+          }
+          
+          // Group modules
+          if (id.includes('/modules/')) {
+            return 'modules';
+          }
+          
+          // Group mobile components
+          if (id.includes('/mobile/')) {
+            return 'mobile';
+          }
+          
+          // Group UI components
+          if (id.includes('/ui/')) {
+            return 'ui-components';
+          }
         }
       }
     },
-    chunkSizeWarningLimit: 2000, // Increase warning limit to 2MB
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug'],
+      },
+      mangle: {
+        safari10: true
+      },
+      format: {
+        comments: false
+      }
+    },
+    cssMinify: true,
+    chunkSizeWarningLimit: 1000,
   },
 }));

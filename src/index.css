@@ -320,6 +320,65 @@ body:not(.rtl) {
   }
 }
 
+/* Optimisations de performance */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-contents {
+  will-change: contents;
+}
+
+.contain-layout {
+  contain: layout;
+}
+
+.contain-paint {
+  contain: paint;
+}
+
+.contain-style {
+  contain: style;
+}
+
+/* Lazy loading des images */
+.lazy {
+  filter: blur(5px);
+  transition: filter 0.3s;
+}
+
+.lazy-loaded {
+  filter: blur(0);
+}
+
+/* Critical CSS pour le fold */
+.critical-above-fold {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  color: hsl(var(--foreground));
+}
+
+/* Préchargement des gradients */
+.gradient-preload {
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--secondary) / 0.1));
+}
+
+/* Animations performantes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
 /* Amélioration de l'accessibilité */
 @media (prefers-reduced-motion: reduce) {
   * {

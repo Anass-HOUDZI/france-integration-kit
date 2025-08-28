@@ -1,54 +1,48 @@
 
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import HomePage from '@/components/HomePage';
 import CategoryPage from '@/components/pages/CategoryPage';
-import AdminModule from '@/components/modules/AdminModule';
-import LogementModule from '@/components/modules/LogementModule';
-import EmploiModule from '@/components/modules/EmploiModule';
-import SanteModule from '@/components/modules/SanteModule';
-import EducationModule from '@/components/modules/EducationModule';
-import CultureModule from '@/components/modules/CultureModule';
-import TransversalModule from '@/components/modules/TransversalModule';
-import LetterGenerator from '@/components/tools/LetterGenerator';
-import FeeCalculator from '@/components/tools/FeeCalculator';
-import BudgetCalculator from '@/components/tools/BudgetCalculator';
-import CVTranslator from '@/components/tools/CVTranslator';
-import ChildcareAssistantTool from '@/components/tools/ChildcareAssistantTool';
-import StateOfPlayTool from '@/components/tools/StateOfPlayTool';
-import RentNegotiator from '@/components/tools/RentNegotiator';
-import InsuranceAssistantComplete from '@/components/tools/InsuranceAssistantComplete';
-import MovingPlannerTool from '@/components/tools/MovingPlannerTool';
-import SocialSecurityGuideTool from '@/components/tools/SocialSecurityGuideTool';
-import SocialServicesLocatorTool from '@/components/tools/SocialServicesLocatorTool';
-import FamilyAllowancesTool from '@/components/tools/FamilyAllowancesTool';
-import EducationCostsTool from '@/components/tools/EducationCostsTool';
-import CultureQuizTool from '@/components/tools/CultureQuizTool';
-import TraditionsGuideTool from '@/components/tools/TraditionsGuideTool';
-import FrenchLearningAssistantTool from '@/components/tools/FrenchLearningAssistantTool';
-import NaturalizationTestSimulatorTool from '@/components/tools/NaturalizationTestSimulatorTool';
-import ExpressionsTranslatorTool from '@/components/tools/ExpressionsTranslatorTool';
-import EmergencyAssistantTool from '@/components/tools/EmergencyAssistantTool';
-import PlanningGeneratorTool from '@/components/tools/PlanningGeneratorTool';
-import BudgetAssistantTool from '@/components/tools/BudgetAssistantTool';
-import RightsGuideTool from '@/components/tools/RightsGuideTool';
-import ReceiptGeneratorTool from '@/components/tools/ReceiptGeneratorTool';
-import DelaySimulatorTool from '@/components/tools/DelaySimulatorTool';
-import MedicalTranslatorTool from '@/components/tools/MedicalTranslatorTool';
-import TrainingGuideTool from '@/components/tools/TrainingGuideTool';
-import PortfolioCreatorTool from '@/components/tools/PortfolioCreatorTool';
-// Nouveaux outils employement
-import CVTranslatorTool from '@/components/tools/CVTranslatorTool';
-import SalaryCalculatorTool from '@/components/tools/SalaryCalculatorTool';
-import MotivationLetterTool from '@/components/tools/MotivationLetterTool';
-import InterviewAssistantTool from '@/components/tools/InterviewAssistantTool';
-import DiplomaEquivalenceTool from '@/components/tools/DiplomaEquivalenceTool';
-import UnemploymentSimulatorTool from '@/components/tools/UnemploymentSimulatorTool';
-// Nouveaux outils admin
-import FormAssistantTool from '@/components/tools/FormAssistantTool';
-import DocumentCheckerTool from '@/components/tools/DocumentCheckerTool';
 import AppLayout from '@/components/layout/AppLayout';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
+import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { useToolNavigation } from '@/hooks/useToolNavigation';
+
+// Lazy load tool components for better performance
+const LetterGenerator = lazy(() => import('@/components/tools/LetterGenerator'));
+const FeeCalculator = lazy(() => import('@/components/tools/FeeCalculator'));
+const BudgetCalculator = lazy(() => import('@/components/tools/BudgetCalculator'));
+const CVTranslator = lazy(() => import('@/components/tools/CVTranslator'));
+const ChildcareAssistantTool = lazy(() => import('@/components/tools/ChildcareAssistantTool'));
+const StateOfPlayTool = lazy(() => import('@/components/tools/StateOfPlayTool'));
+const RentNegotiator = lazy(() => import('@/components/tools/RentNegotiator'));
+const InsuranceAssistantComplete = lazy(() => import('@/components/tools/InsuranceAssistantComplete'));
+const MovingPlannerTool = lazy(() => import('@/components/tools/MovingPlannerTool'));
+const SocialSecurityGuideTool = lazy(() => import('@/components/tools/SocialSecurityGuideTool'));
+const SocialServicesLocatorTool = lazy(() => import('@/components/tools/SocialServicesLocatorTool'));
+const FamilyAllowancesTool = lazy(() => import('@/components/tools/FamilyAllowancesTool'));
+const EducationCostsTool = lazy(() => import('@/components/tools/EducationCostsTool'));
+const CultureQuizTool = lazy(() => import('@/components/tools/CultureQuizTool'));
+const TraditionsGuideTool = lazy(() => import('@/components/tools/TraditionsGuideTool'));
+const FrenchLearningAssistantTool = lazy(() => import('@/components/tools/FrenchLearningAssistantTool'));
+const NaturalizationTestSimulatorTool = lazy(() => import('@/components/tools/NaturalizationTestSimulatorTool'));
+const ExpressionsTranslatorTool = lazy(() => import('@/components/tools/ExpressionsTranslatorTool'));
+const EmergencyAssistantTool = lazy(() => import('@/components/tools/EmergencyAssistantTool'));
+const PlanningGeneratorTool = lazy(() => import('@/components/tools/PlanningGeneratorTool'));
+const BudgetAssistantTool = lazy(() => import('@/components/tools/BudgetAssistantTool'));
+const RightsGuideTool = lazy(() => import('@/components/tools/RightsGuideTool'));
+const ReceiptGeneratorTool = lazy(() => import('@/components/tools/ReceiptGeneratorTool'));
+const DelaySimulatorTool = lazy(() => import('@/components/tools/DelaySimulatorTool'));
+const MedicalTranslatorTool = lazy(() => import('@/components/tools/MedicalTranslatorTool'));
+const TrainingGuideTool = lazy(() => import('@/components/tools/TrainingGuideTool'));
+const PortfolioCreatorTool = lazy(() => import('@/components/tools/PortfolioCreatorTool'));
+const CVTranslatorTool = lazy(() => import('@/components/tools/CVTranslatorTool'));
+const SalaryCalculatorTool = lazy(() => import('@/components/tools/SalaryCalculatorTool'));
+const MotivationLetterTool = lazy(() => import('@/components/tools/MotivationLetterTool'));
+const InterviewAssistantTool = lazy(() => import('@/components/tools/InterviewAssistantTool'));
+const DiplomaEquivalenceTool = lazy(() => import('@/components/tools/DiplomaEquivalenceTool'));
+const UnemploymentSimulatorTool = lazy(() => import('@/components/tools/UnemploymentSimulatorTool'));
+const FormAssistantTool = lazy(() => import('@/components/tools/FormAssistantTool'));
+const DocumentCheckerTool = lazy(() => import('@/components/tools/DocumentCheckerTool'));
 
 const Index = () => {
   const { currentView, navigateToTool, navigateHome } = useToolNavigation();
@@ -82,10 +76,18 @@ const Index = () => {
 
       // Individual tool views
       case 'letter-generator':
-        return <LetterGenerator userProfile={null} diagnostic={null} onBack={navigateHome} />;
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <LetterGenerator userProfile={null} diagnostic={null} onBack={navigateHome} />
+          </Suspense>
+        );
       
       case 'fee-calculator':
-        return <FeeCalculator userProfile={null} diagnostic={null} />;
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <FeeCalculator userProfile={null} diagnostic={null} />
+          </Suspense>
+        );
       
       case 'receipt-generator':
         return <ReceiptGeneratorTool userProfile={null} diagnostic={null} onBack={navigateHome} />;
